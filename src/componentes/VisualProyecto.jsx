@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import './VisualProyecto.css'
 
 /**
@@ -55,6 +56,8 @@ export function VisualProyecto({ proyecto }) {
   const [c1, c2, c3] = proyecto.paleta
   const Forma = FORMAS[proyecto.forma] ?? Reticula
   const rotulo = proyecto.enlace ? new URL(proyecto.enlace).hostname : proyecto.id
+  const piezas = proyecto.videos ?? []
+  const hayMedio = piezas.length > 0 || Boolean(proyecto.imagen)
 
   return (
     <figure className="visual" style={{ '--c1': c1, '--c2': c2, '--c3': c3 }}>
@@ -64,13 +67,111 @@ export function VisualProyecto({ proyecto }) {
         <span />
         <em>{rotulo}</em>
       </div>
-      <div className="visual-lienzo">
-        {proyecto.imagen ? (
+      <div className={`visual-lienzo ${hayMedio ? 'con-medio' : ''}`}>
+        {piezas.length > 0 ? (
+          <VideoProyecto piezas={piezas} titulo={proyecto.titulo} />
+        ) : proyecto.imagen ? (
           <img src={proyecto.imagen} alt={`Vista del proyecto ${proyecto.titulo}`} loading="lazy" />
         ) : (
           <Forma />
         )}
       </div>
     </figure>
+  )
+}
+
+/**
+ * Video de portafolio: arranca solo cuando entra en pantalla y se pausa al
+ * salir, para no gastar batería reproduciendo lo que nadie está viendo.
+ * Empieza en silencio porque un video que suena sin permiso espanta; el botón
+ * deja escuchar el diseño sonoro, que en motion es la mitad del trabajo.
+ * Con prefers-reduced-motion no se reproduce nada: se muestran los controles.
+ */
+function VideoProyecto({ piezas, titulo }) {
+  const video = useRef(null)
+  const [activa, setActiva] = useState(0)
+  const [conSonido, setConSonido] = useState(false)
+
+  const pieza = piezas[activa]
+
+  useEffect(() => {
+    const el = video.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) el.play().catch(() => {})
+        else el.pause()
+      },
+      { threshold: 0.25 },
+    )
+
+    observador.observe(el)
+    return () => observador.disconnect()
+  }, [activa])
+
+  const cambiar = (i) => {
+    setActiva(i)
+    // El sonido no se hereda entre piezas: si estabas oyendo una, la siguiente
+    // arranca callada, que es lo que espera cualquiera.
+    setConSonido(false)
+  }
+
+  const alternarSonido = () => {
+    const el = video.current
+    if (!el) return
+    el.muted = !el.muted
+    setConSonido(!el.muted)
+    if (!el.muted) el.play().catch(() => {})
+  }
+
+  const sinMovimiento =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  return (
+    <div className="visual-video">
+      <div className="visual-marco">
+        <video
+          key={pieza.src}
+          ref={video}
+          src={pieza.src}
+          poster={pieza.poster ?? undefined}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          controls={sinMovimiento}
+          aria-label={`${titulo}: ${pieza.titulo}`}
+        />
+        {!sinMovimiento && (
+          <button type="button" className="visual-sonido" onClick={alternarSonido}>
+            {conSonido ? 'Silenciar' : 'Con sonido'}
+          </button>
+        )}
+      </div>
+
+      {piezas.length > 1 && (
+        <>
+          <p className="visual-pieza-nombre">{pieza.titulo}</p>
+          <ul className="visual-piezas">
+            {piezas.map((p, i) => (
+              <li key={p.src}>
+                <button
+                  type="button"
+                  className={i === activa ? 'activa' : ''}
+                  onClick={() => cambiar(i)}
+                  style={p.poster ? { backgroundImage: `url(${p.poster})` } : undefined}
+                  aria-current={i === activa}
+                >
+                  <span className="solo-lectores">{p.titulo}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
   )
 }

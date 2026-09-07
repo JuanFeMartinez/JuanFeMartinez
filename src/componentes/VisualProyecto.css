@@ -47,6 +47,126 @@
   padding: clamp(1rem, 3vw, 2rem);
 }
 
+/* Con un video o una imagen real, el lienzo cede todo el espacio y deja que el
+   medio imponga su propia proporción: así un video vertical de redes no queda
+   recortado dentro de una caja horizontal. */
+.visual-lienzo.con-medio {
+  aspect-ratio: auto;
+  display: block;
+  padding: 0;
+}
+
+.visual-video {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  line-height: 0;
+  background: var(--tinta);
+}
+
+.visual-marco {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.visual-pieza-nombre {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--apagado);
+  text-align: center;
+  padding-inline: 0.75rem;
+}
+
+/* Miniaturas para saltar entre las piezas del mismo proyecto. */
+.visual-piezas {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.visual-piezas button {
+  width: 2.75rem;
+  height: 3.75rem;
+  padding: 0;
+  border: 1px solid var(--linea);
+  border-radius: 5px;
+  background-color: var(--tinta-2);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.45;
+  transition: opacity 0.35s var(--curva), border-color 0.35s var(--curva);
+}
+
+.visual-piezas button:hover {
+  opacity: 0.8;
+}
+
+.visual-piezas button.activa {
+  opacity: 1;
+  border-color: var(--acento);
+}
+
+/* El video conserva su proporción real y se centra: un vertical de redes se
+   queda alto y angosto en vez de estirarse hasta salirse de la pantalla, y un
+   horizontal ocupa todo el ancho de la columna. El tope de altura es lo que
+   permite que el panel siga siendo fijo mientras el texto pasa al lado. */
+.visual-video video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  /* Deja aire para el nombre de la pieza y la fila de miniaturas: entre los
+     tres tienen que caber en pantalla sin romper el panel fijo. */
+  max-height: 54vh;
+}
+
+.visual-sonido {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hueso);
+  background: rgba(8, 8, 10, 0.65);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity 0.35s var(--curva), border-color 0.35s;
+}
+
+.capitulo:hover .visual-sonido,
+.visual-sonido:focus-visible {
+  opacity: 1;
+}
+
+.visual-sonido:hover {
+  border-color: var(--acento);
+}
+
+/* Sin hover (táctil) el botón no puede aparecer al pasar el mouse. */
+@media (hover: none) {
+  .visual-sonido {
+    opacity: 1;
+  }
+}
+
+.visual-lienzo.con-medio img {
+  width: 100%;
+  height: auto;
+}
+
 .visual-lienzo img {
   width: 100%;
   height: 100%;

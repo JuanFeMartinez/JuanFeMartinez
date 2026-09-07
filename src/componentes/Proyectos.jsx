@@ -58,6 +58,7 @@ export function Proyectos() {
               <a href={`#${proyecto.id}`}>
                 <span className="indice-numero">{numero(i)}</span>
                 <span className="indice-titulo">{proyecto.titulo}</span>
+                <span className="indice-disciplina">{proyecto.disciplina}</span>
                 <span className="indice-anio">{proyecto.anio}</span>
               </a>
             </li>
@@ -85,6 +86,10 @@ export function Proyectos() {
               <span className="capitulo-numero" aria-hidden="true">
                 {numero(i)}
               </span>
+
+              <p className="capitulo-disciplina" data-revelar>
+                {proyecto.disciplina}
+              </p>
 
               <h3 className="capitulo-titulo mascara">
                 <span>{proyecto.titulo}</span>

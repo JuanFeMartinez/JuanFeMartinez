@@ -17,7 +17,7 @@
 
 .proyectos-indice a {
   display: grid;
-  grid-template-columns: 3rem 1fr auto;
+  grid-template-columns: 3rem 1fr auto auto;
   align-items: center;
   gap: 1rem;
   padding-block: 1.1rem;
@@ -41,6 +41,40 @@
 .indice-titulo {
   font-family: var(--display);
   font-size: var(--t-l);
+}
+
+.indice-disciplina {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+}
+
+.capitulo-disciplina {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--acento);
+  border: 1px solid color-mix(in oklab, var(--acento) 40%, transparent);
+  border-radius: 999px;
+}
+
+/* En pantallas estrechas la etiqueta del índice sobra: el capítulo ya la trae. */
+@media (max-width: 40rem) {
+  .proyectos-indice a {
+    grid-template-columns: 2.5rem 1fr auto;
+  }
+
+  .indice-disciplina {
+    display: none;
+  }
 }
 
 /* Capítulos ------------------------------------------------------------- */

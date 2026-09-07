@@ -1,0 +1,10 @@
+.barra-progreso {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 200;
+  background: linear-gradient(90deg, var(--acento), var(--acento-2));
+  transform: scaleX(var(--progreso, 0));
+  transform-origin: left;
+  will-change: transform;
+}

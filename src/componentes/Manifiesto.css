@@ -1,0 +1,50 @@
+.manifiesto {
+  --p: 0;
+  height: 240vh;
+  position: relative;
+}
+
+.manifiesto-fijo {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.manifiesto-texto {
+  font-weight: 500;
+  /* Cuántas palabras van encendidas en este punto del scroll. */
+  --encendidas: calc(var(--p) * var(--total) * 1.15);
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 1rem + 3.4vw, 4rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  max-width: 22ch;
+  margin-top: clamp(1.5rem, 4vh, 3rem);
+}
+
+.palabra {
+  opacity: clamp(0.16, calc((var(--encendidas) - var(--i)) * 0.42 + 0.16), 1);
+  transition: opacity 0.12s linear;
+}
+
+.palabra.destacada {
+  color: var(--acento);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manifiesto {
+    height: auto;
+  }
+
+  .manifiesto-fijo {
+    position: static;
+    height: auto;
+    padding-block: var(--aire);
+  }
+
+  .palabra {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,82 @@
+.cursor-anillo,
+.cursor-punto {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+}
+
+.cursor-anillo.dentro,
+.cursor-punto.dentro {
+  opacity: 1;
+}
+
+.cursor-punto {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--acento);
+  transition: opacity 0.3s;
+}
+
+.cursor-anillo {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: -1.25rem 0 0 -1.25rem;
+  border: 1px solid rgba(244, 241, 234, 0.5);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition:
+    width 0.4s var(--curva),
+    height 0.4s var(--curva),
+    margin 0.4s var(--curva),
+    background-color 0.4s var(--curva),
+    border-color 0.4s var(--curva),
+    opacity 0.3s;
+}
+
+.cursor-anillo.crecido {
+  width: 4rem;
+  height: 4rem;
+  margin: -2rem 0 0 -2rem;
+  border-color: transparent;
+  background: rgba(244, 241, 234, 0.12);
+  backdrop-filter: blur(2px);
+}
+
+.cursor-anillo.con-texto {
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: -2.75rem 0 0 -2.75rem;
+  background: var(--acento);
+}
+
+.cursor-anillo.presionado {
+  transform-origin: center;
+  border-color: var(--acento);
+}
+
+.cursor-anillo span {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.cursor-anillo.con-texto span {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-anillo,
+  .cursor-punto {
+    display: none;
+  }
+}

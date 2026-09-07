@@ -1,0 +1,41 @@
+.marquesina {
+  overflow: hidden;
+  border-block: 1px solid var(--linea);
+  padding-block: 1.4rem;
+  background: var(--tinta-2);
+  transform: skewY(calc(var(--velocidad, 0) * -1deg));
+  transition: transform 0.6s var(--curva-suave);
+}
+
+.marquesina-pista {
+  display: flex;
+  width: max-content;
+  gap: 2.5rem;
+  animation: correr 42s linear infinite;
+  translate: calc(var(--progreso, 0) * -12vw) 0;
+}
+
+.marquesina-pista span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  white-space: nowrap;
+  color: rgba(244, 241, 234, 0.55);
+}
+
+.marquesina-pista i {
+  font-style: normal;
+  color: var(--acento);
+  font-size: 0.75em;
+}
+
+@keyframes correr {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquesina { transform: none; }
+  .marquesina-pista { animation: none; translate: none; }
+}

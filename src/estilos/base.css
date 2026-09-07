@@ -1,0 +1,221 @@
+/* Sistema base: tokens, reset y utilidades compartidas. -------------------- */
+
+:root {
+  /* Color */
+  --tinta: #08080a;
+  --tinta-2: #101014;
+  --tinta-3: #191920;
+  --hueso: #f4f1ea;
+  --apagado: #8f8c85;
+  --linea: rgba(244, 241, 234, 0.12);
+  --acento: #ff4d2e;
+  --acento-2: #7c8cff;
+
+  /* Tipografía */
+  --display: 'Outfit', 'Poppins', system-ui, sans-serif;
+  --texto: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  /* Escala fluida */
+  --t-xs: 0.75rem;
+  --t-s: 0.875rem;
+  --t-m: 1rem;
+  --t-l: clamp(1.125rem, 0.9rem + 0.9vw, 1.5rem);
+  --t-xl: clamp(1.75rem, 1.1rem + 2.6vw, 3rem);
+  --t-2xl: clamp(2.5rem, 1rem + 6.2vw, 6rem);
+  --t-3xl: clamp(3rem, 0.5rem + 10vw, 9.5rem);
+
+  /* Ritmo */
+  --ancho: 78rem;
+  --margen: clamp(1.25rem, 5vw, 5rem);
+  --aire: clamp(6rem, 14vh, 12rem);
+
+  /* Movimiento */
+  --curva: cubic-bezier(0.16, 1, 0.3, 1);
+  --curva-suave: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--tinta);
+  color: var(--hueso);
+  font-family: var(--texto);
+  font-size: var(--t-m);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* El cursor propio reemplaza al del sistema solo en punteros finos. */
+@media (hover: hover) and (pointer: fine) {
+  body.cursor-propio,
+  body.cursor-propio * {
+    cursor: none;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--acento);
+  color: var(--hueso);
+}
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Utilidades ------------------------------------------------------------- */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--margen);
+}
+
+.seccion {
+  padding-block: var(--aire);
+  position: relative;
+}
+
+.etiqueta {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--apagado);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.etiqueta::before {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: var(--acento);
+  flex: none;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+
+/* Titulares display: el carácter de una geométrica pesada está en el peso
+   máximo con el tracking cerrado. El relleno deja aire para las tildes,
+   que con interlineado tan corto quedarían cortadas por la máscara. */
+.titular-apretado {
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+}
+
+.titular-apretado.mascara,
+.titular-apretado .mascara {
+  padding-block: 0.12em 0.06em;
+  margin-block: -0.12em -0.06em;
+}
+
+/* Textos display chicos: sin algo de peso extra se pierden contra el fondo. */
+.indice-titulo,
+.proceso-lista h3,
+.marquesina-pista span {
+  font-weight: 600;
+}
+/* Revelado al hacer scroll: lo activa el hook useRevelar. */
+[data-revelar] {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition:
+    opacity 0.9s var(--curva) var(--retraso, 0s),
+    transform 0.9s var(--curva) var(--retraso, 0s);
+}
+
+[data-revelar].visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Texto que sube desde una máscara, línea por línea. */
+.mascara {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.08em;
+  margin-block: -0.08em;
+}
+
+.mascara > span {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 1.1s var(--curva) var(--retraso, 0s);
+}
+
+.mascara.visible > span {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-revelar],
+  .mascara > span {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,47 @@
+.proceso-titulo {
+  font-size: var(--t-xl);
+  margin-block: 1.5rem 3.5rem;
+  max-width: 22ch;
+}
+
+.proceso-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.proceso-lista li {
+  /* El contorno propio de cada tarjeta evita que una celda vacía de la reja
+     se pinte como un bloque suelto cuando los pasos no llenan la fila. */
+  box-shadow: 0 0 0 1px var(--linea);
+  background: var(--tinta-2);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  transition: background-color 0.5s var(--curva);
+}
+
+.proceso-lista li:hover {
+  background: var(--tinta-3);
+}
+
+.proceso-numero {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.16em;
+  color: var(--acento);
+}
+
+.proceso-lista h3 {
+  font-size: var(--t-l);
+  margin-block: 1.25rem 0.9rem;
+}
+
+.proceso-lista p {
+  color: var(--apagado);
+  font-size: var(--t-s);
+  line-height: 1.7;
+}

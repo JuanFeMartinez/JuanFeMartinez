@@ -1,0 +1,230 @@
+.proyectos {
+  position: relative;
+  padding-block: var(--aire) 0;
+}
+
+.proyectos-titulo {
+  font-size: clamp(2.5rem, 1rem + 6.4vw, 6.5rem);
+  margin-block: 1.5rem 3rem;
+}
+
+.proyectos-indice {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--linea);
+}
+
+.proyectos-indice a {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--linea);
+  color: var(--apagado);
+  transition: color 0.35s var(--curva), padding-left 0.45s var(--curva);
+}
+
+.proyectos-indice a:hover {
+  color: var(--hueso);
+  padding-left: 1rem;
+}
+
+.indice-numero,
+.indice-anio {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
+}
+
+.indice-titulo {
+  font-family: var(--display);
+  font-size: var(--t-l);
+}
+
+/* Capítulos ------------------------------------------------------------- */
+
+.capitulo {
+  --pc: 0;
+  border-top: 1px solid var(--linea);
+}
+
+.capitulo:first-of-type {
+  margin-top: var(--aire);
+}
+
+.capitulo-reja {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+  padding-block: clamp(4rem, 12vh, 9rem);
+}
+
+.capitulo.alterno .capitulo-columna-visual {
+  order: 2;
+}
+
+.capitulo-fijo {
+  position: sticky;
+  top: 20vh;
+  transform: translateY(calc(var(--pc) * -1.75rem));
+  will-change: transform;
+}
+
+.capitulo-texto {
+  position: relative;
+  padding-top: 0.5rem;
+}
+
+.capitulo-numero {
+  position: absolute;
+  top: -1.5rem;
+  right: 0;
+  font-family: var(--display);
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.14);
+  pointer-events: none;
+  transform: translateY(calc(var(--pc) * 3rem));
+  will-change: transform;
+}
+
+.capitulo-titulo {
+  font-size: var(--t-xl);
+  position: relative;
+}
+
+.capitulo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--apagado);
+}
+
+.capitulo-meta .punto {
+  color: var(--acento);
+}
+
+.capitulo-resumen {
+  margin-top: 1.75rem;
+  font-size: var(--t-l);
+  color: rgba(244, 241, 234, 0.86);
+  max-width: 46ch;
+}
+
+.capitulo-detalles {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+  max-width: 52ch;
+}
+
+.capitulo-detalles li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--apagado);
+  font-size: var(--t-s);
+  line-height: 1.65;
+}
+
+.capitulo-detalles li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.7rem;
+  height: 1px;
+  background: var(--acento);
+}
+
+.capitulo-metricas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin: 2.25rem 0 0;
+  padding: 1.5rem 0;
+  border-block: 1px solid var(--linea);
+}
+
+.capitulo-metricas dt {
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1;
+}
+
+.capitulo-metricas dd {
+  margin: 0.35rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--apagado);
+}
+
+.capitulo-stack {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+}
+
+.capitulo-stack li {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  color: var(--apagado);
+}
+
+.capitulo-enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--acento);
+  font-size: var(--t-s);
+  transition: gap 0.35s var(--curva);
+}
+
+.capitulo-enlace:hover {
+  gap: 0.9rem;
+}
+
+@media (max-width: 56rem) {
+  .capitulo-reja {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .capitulo.alterno .capitulo-columna-visual {
+    order: 0;
+  }
+
+  .capitulo-fijo {
+    position: static;
+    transform: none;
+  }
+
+  .capitulo-numero {
+    position: static;
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    transform: none;
+  }
+}

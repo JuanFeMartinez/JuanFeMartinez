@@ -1,0 +1,184 @@
+.hero {
+  --salida: 0;
+  --px: 0;
+  --py: 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-block: 8rem 6rem;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Todo el contenido se desvanece y se aleja al bajar. */
+.hero-interior {
+  opacity: calc(1 - var(--salida) * 1.25);
+  transform: translateY(calc(var(--salida) * -6vh)) scale(calc(1 - var(--salida) * 0.06));
+  will-change: transform, opacity;
+}
+
+.hero-atmosfera {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  filter: blur(80px);
+  opacity: calc(0.5 - var(--salida) * 0.5);
+}
+
+.mancha {
+  position: absolute;
+  border-radius: 50%;
+  display: block;
+}
+
+.mancha-a {
+  width: 46vw;
+  height: 46vw;
+  top: 2%;
+  right: 4%;
+  background: radial-gradient(circle, rgba(255, 77, 46, 0.55), transparent 70%);
+  transform: translate3d(calc(var(--px) * -40px), calc(var(--py) * -40px), 0);
+  animation: deriva 18s ease-in-out infinite alternate;
+}
+
+.mancha-b {
+  width: 38vw;
+  height: 38vw;
+  bottom: 4%;
+  left: 0%;
+  background: radial-gradient(circle, rgba(124, 140, 255, 0.45), transparent 70%);
+  transform: translate3d(calc(var(--px) * 60px), calc(var(--py) * 60px), 0);
+  animation: deriva 24s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes deriva {
+  to { translate: 6% -8%; }
+}
+
+.hero-etiqueta {
+  margin-bottom: clamp(1.5rem, 4vh, 3rem);
+}
+
+/* La línea más larga del titular ("Construyo sitios") mide 7.08 veces el
+   cuerpo de la letra en Outfit 900 con este tracking. 12vw la deja entrar
+   entera hasta en una pantalla de 320px; si escribes una línea más larga no
+   se corta, simplemente baja de renglón. */
+.hero-titular {
+  font-size: min(12vw, 9.5rem);
+}
+
+.hero-titular .mascara > span {
+  display: inline-block;
+}
+
+.hero-titular .mascara:last-child > span::after {
+  content: '.';
+  color: var(--acento);
+}
+
+.hero-pie {
+  margin-top: clamp(2rem, 6vh, 4rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.hero-entrada {
+  max-width: 42ch;
+  color: var(--apagado);
+  font-size: var(--t-l);
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  font-size: var(--t-s);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s var(--curva), border-color 0.4s var(--curva);
+}
+
+.hero-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--hueso);
+  transform: translateY(101%);
+  transition: transform 0.5s var(--curva);
+  z-index: -1;
+}
+
+.hero-cta:hover {
+  color: var(--tinta);
+  border-color: var(--hueso);
+}
+
+.hero-cta:hover::before {
+  transform: none;
+}
+
+.hero-cta svg {
+  transition: transform 0.4s var(--curva);
+}
+
+.hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+.hero-guia {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: calc(1 - var(--salida) * 3);
+}
+
+.hero-guia-texto {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--apagado);
+}
+
+.hero-guia-linea {
+  width: 1px;
+  height: 3.5rem;
+  background: linear-gradient(var(--linea), transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-guia-linea::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1px;
+  height: 40%;
+  background: var(--acento);
+  animation: bajar 2.2s var(--curva-suave) infinite;
+}
+
+@keyframes bajar {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(350%); }
+}
+
+@media (max-width: 48rem) {
+  .hero-pie {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

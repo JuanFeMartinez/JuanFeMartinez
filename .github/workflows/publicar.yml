@@ -32,6 +32,10 @@ jobs:
       - name: Configurar Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Activa Pages en el repositorio si todavía no lo está, para no
+          # tener que ir a Settings a mano la primera vez.
+          enablement: true
 
       - name: Construir
         run: npm run build

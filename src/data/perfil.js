@@ -5,7 +5,7 @@
 // ---------------------------------------------------------------------------
 
 export const perfil = {
-  nombre: 'JuanFe Martínez', // ← sacado del nombre de tu repo; corrígelo si va completo
+  nombre: 'Juan Felipe Martínez Villate',
   rol: 'Diseño y desarrollo digital',
   ubicacion: 'Bucaramanga, Colombia', // ←
   correo: 'redessociales@curacao.com.co',

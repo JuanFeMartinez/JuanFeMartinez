@@ -1,28 +1,6 @@
-import { useEffect, useState } from 'react'
 import { perfil } from '../data/perfil'
 import { useMagnetico } from '../hooks/useMagnetico'
 import './Contacto.css'
-
-/** Hora real de donde trabajas: detalle chico, dice que el sitio está vivo. */
-function Reloj() {
-  const [hora, setHora] = useState('')
-
-  useEffect(() => {
-    const formato = new Intl.DateTimeFormat('es-CO', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-      timeZone: 'America/Bogota',
-    })
-    const marcar = () => setHora(formato.format(new Date()))
-    marcar()
-    const reloj = setInterval(marcar, 1000)
-    return () => clearInterval(reloj)
-  }, [])
-
-  return <time className="pie-reloj">{hora} — hora local</time>
-}
 
 export function Contacto() {
   const boton = useMagnetico(0.25)
@@ -69,8 +47,7 @@ export function Contacto() {
           <span>
             © {new Date().getFullYear()} {perfil.nombre}
           </span>
-          <Reloj />
-          <span className="pie-hecho">Hecho a mano con React</span>
+          <span className="pie-hecho">Made in Colombia</span>
         </div>
       </footer>
     </section>

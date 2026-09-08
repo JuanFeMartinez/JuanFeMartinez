@@ -87,9 +87,10 @@ export const proyectos = [
       'Elijo la música antes que el primer corte: el ritmo del montaje sale de ahí, no al revés.',
       'La edición carga con la explicación: el texto en pantalla marca el ritmo y la imagen hace el resto.', // ←
       'Formato vertical y duración corta, pensados para cómo se ve de verdad en el celular.',
-      'Montaje en Premiere y DaVinci Resolve según lo que pida la pieza.', // ←
+      'Montaje en Premiere y DaVinci Resolve según lo que pida la pieza, o CapCut cuando lo que manda es la velocidad de entrega.',
+      'Con apoyo de herramientas de IA como Captions para lo mecánico: subtítulos y limpieza, que es donde se va el tiempo sin aportar nada.',
     ],
-    stack: ['Premiere Pro', 'DaVinci Resolve', 'After Effects'],
+    stack: ['Premiere Pro', 'DaVinci Resolve', 'CapCut', 'After Effects', 'Captions'],
     metricas: [],
     enlace: null,
     videos: [
@@ -288,7 +289,8 @@ export const capacidades = [
   'Photoshop',
   'Illustrator',
   'Worldbuilding',
-  'IA generativa',
+  'IA en el flujo de trabajo',
+  'Automatización de procesos',
   'Three.js',
   'Diseño web',
 ]
@@ -306,8 +308,8 @@ export const proceso = [
       'Las anotaciones del cliente no son una lista de tareas: son un síntoma. Mi trabajo es entender qué molesta de verdad y resolver eso, no tapar lo que señalaron.',
   },
   {
-    titulo: 'La herramienta es lo de menos',
+    titulo: 'Automatizo lo que se repite',
     texto:
-      'After Effects, una línea de código o una IA generativa: todas hacen lo que les pidas y ninguna decide por ti. Sé usarlas, pero lo que entrego es el criterio.',
+      'Meto la IA dentro del flujo de trabajo, no como adorno: automatizo lo mecánico para llegar antes a lo que sí pide criterio. La herramienta cambia cada seis meses; saber qué se delega y qué no, no cambia.',
   },
 ]

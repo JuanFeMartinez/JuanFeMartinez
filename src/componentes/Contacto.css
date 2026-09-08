@@ -87,13 +87,3 @@
   color: var(--texto-suave);
 }
 
-.pie-reloj {
-  font-variant-numeric: tabular-nums;
-  color: var(--texto);
-}
-
-@media (max-width: 40rem) {
-  .pie-hecho {
-    display: none;
-  }
-}

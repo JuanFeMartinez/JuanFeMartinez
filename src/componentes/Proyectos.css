@@ -129,11 +129,15 @@
   position: absolute;
   top: -1.5rem;
   right: 0;
-  font-family: var(--display);
-  font-size: clamp(4rem, 12vw, 9rem);
+  font-family: var(--numero);
+  /* Los dígitos de la Bodoni son más estrechos que los de la Outfit, así que
+     el mismo cuerpo se ve más pequeño: sube un punto para compensar. */
+  font-size: clamp(4.5rem, 13.5vw, 10.5rem);
+  font-weight: 500;
+  letter-spacing: 0;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(0, 43, 91, 0.22);
+  -webkit-text-stroke: 1px rgba(0, 43, 91, 0.28);
   pointer-events: none;
   transform: translateY(calc(var(--pc) * 3rem));
   will-change: transform;

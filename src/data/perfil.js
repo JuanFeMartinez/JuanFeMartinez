@@ -27,7 +27,7 @@ export const perfil = {
 // Manifiesto: se ilumina palabra por palabra mientras haces scroll.
 // *Entre asteriscos* se pinta con el color de acento.
 export const manifiesto =
-  'Un personaje no es un dibujo bonito. Es una decisión sobre *quién es*, qué quiere y cómo se le nota en la silueta antes de que abra la boca. Lo mismo da si después vive en un cómic, en un videojuego o en el logo animado de una marca: alguien tiene que decidir. Por eso dirijo igual un trazo, una línea de tiempo o una *inteligencia artificial*: la herramienta cambia, *el criterio no*.'
+  'Un corte a tiempo hace más que un efecto caro. Un personaje bueno se reconoce *por la silueta*, antes de que abra la boca. Y una interfaz se entiende en tres segundos o no se entiende. Son oficios distintos que se reducen a lo mismo: *decidir qué ve la gente*, en qué orden y por cuánto rato. Lo demás son herramientas, y las manejo todas: After Effects, un lápiz o una inteligencia artificial. *El criterio es el mismo*.'
 
 // Cada proyecto es un capítulo del scroll. El orden aquí es el orden en pantalla.
 //
@@ -47,6 +47,7 @@ export const proyectos = [
     resumen:
       'Una marca de 1919 tiene que verse igual de vigente en una capacitación técnica que en una pieza del Mundial. El logo no se anima una vez: se anima para cada contexto, y en todos tiene que seguir siendo el mismo.',
     detalles: [
+      'Estilo simple pero fluido: prefiero pocas cosas moviéndose bien a muchas moviéndose a la vez.',
       'Versión neón, versión institucional y versión en capas de color, todas reconocibles como la misma marca.', // ←
       'Animadas en After Effects desde el vector, sin rasterizar: sirven igual para redes o para pantalla grande.', // ←
       'Piezas de cinco a siete segundos, hechas para abrir y cerrar video.',
@@ -78,6 +79,7 @@ export const proyectos = [
     resumen:
       'Piezas verticales sobre equipos profesionales de video: qué son, cómo llegan y cómo se cuidan. Explicar una cámara de broadcast en treinta segundos no es cuestión de hablar rápido, es cuestión de montaje.',
     detalles: [
+      'Elijo la música antes que el primer corte: el ritmo del montaje sale de ahí, no al revés.',
       'La edición carga con la explicación: el texto en pantalla marca el ritmo y la imagen hace el resto.', // ←
       'Formato vertical y duración corta, pensados para cómo se ve de verdad en el celular.',
       'Montaje en Premiere y DaVinci Resolve según lo que pida la pieza.', // ←

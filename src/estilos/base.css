@@ -25,6 +25,10 @@
   --display: 'Outfit', 'Poppins', system-ui, sans-serif;
   --cuerpo: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+  /* Solo para los numeros de capitulo. Una didona junto a una geometrica
+     pesada es un contraste clasico, y en contorno los digitos quedan como
+     un adorno editorial en vez de repetir la fuente del titulo. */
+  --numero: 'Bodoni Moda', 'Didot', Georgia, serif;
 
   /* Escala fluida */
   --t-xs: 0.75rem;

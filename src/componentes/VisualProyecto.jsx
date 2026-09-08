@@ -57,7 +57,7 @@ export function VisualProyecto({ proyecto }) {
   const Forma = FORMAS[proyecto.forma] ?? Reticula
   const rotulo = proyecto.enlace ? new URL(proyecto.enlace).hostname : proyecto.id
   const piezas = proyecto.videos ?? []
-  const hayMedio = piezas.length > 0 || Boolean(proyecto.imagen)
+  const hayMedio = piezas.length > 0 || Boolean(proyecto.imagen) || Boolean(proyecto.embed)
 
   return (
     <figure className="visual" style={{ '--c1': c1, '--c2': c2, '--c3': c3 }}>
@@ -72,6 +72,18 @@ export function VisualProyecto({ proyecto }) {
           <VideoProyecto piezas={piezas} titulo={proyecto.titulo} />
         ) : proyecto.imagen ? (
           <img src={proyecto.imagen} alt={`Vista del proyecto ${proyecto.titulo}`} loading="lazy" />
+        ) : proyecto.embed ? (
+          // loading="lazy" es lo que hace viable meter cinco de estos: el
+          // iframe no se descarga hasta que el capítulo entra en pantalla.
+          <iframe
+            className="visual-embed"
+            src={proyecto.embed}
+            title={`${proyecto.titulo} en Behance`}
+            loading="lazy"
+            allowFullScreen
+            allow="clipboard-write"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
         ) : (
           <Forma />
         )}

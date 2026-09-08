@@ -178,6 +178,17 @@
   height: auto;
 }
 
+/* El embed de Behance viene con medidas fijas de 404x316. Aquí se estira al
+   ancho de la columna conservando esa proporción, que es la que espera su
+   maquetación interna. */
+.visual-embed {
+  display: block;
+  width: 100%;
+  aspect-ratio: 404 / 316;
+  border: 0;
+  background: var(--superficie);
+}
+
 .visual-lienzo img {
   width: 100%;
   height: 100%;

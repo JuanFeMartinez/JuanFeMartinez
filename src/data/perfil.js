@@ -41,7 +41,7 @@ export const proyectos = [
     id: 'identidad-animada',
     titulo: 'Identidad en movimiento',
     subtitulo: 'Motion graphics · La Curaçao',
-    disciplina: 'Motion',
+    disciplina: 'Edición',
     anio: '2026', // ←
     rol: 'Animación y dirección',
     resumen:
@@ -69,10 +69,37 @@ export const proyectos = [
     forma: 'capas',
   },
   {
+    id: 'redes-curacao',
+    titulo: 'Contenido para redes',
+    subtitulo: 'Edición · La Curaçao',
+    disciplina: 'Edición',
+    anio: '2025 — hoy', // ←
+    rol: 'Edición y post',
+    resumen:
+      'Piezas verticales sobre equipos profesionales de video: qué son, cómo llegan y cómo se cuidan. Explicar una cámara de broadcast en treinta segundos no es cuestión de hablar rápido, es cuestión de montaje.',
+    detalles: [
+      'La edición carga con la explicación: el texto en pantalla marca el ritmo y la imagen hace el resto.', // ←
+      'Formato vertical y duración corta, pensados para cómo se ve de verdad en el celular.',
+      'Montaje en Premiere y DaVinci Resolve según lo que pida la pieza.', // ←
+    ],
+    stack: ['Premiere Pro', 'DaVinci Resolve', 'After Effects'],
+    metricas: [],
+    enlace: null,
+    videos: [
+      { src: '/video/broadcast.mp4', poster: '/img/broadcast.jpg', titulo: 'Cámaras y equipos de broadcast' },
+      { src: '/video/mantenimiento.mp4', poster: '/img/mantenimiento.jpg', titulo: 'Así recibes tu equipo' },
+      { src: '/video/sargento-box.mp4', poster: '/img/sargento-box.jpg', titulo: 'Línea táctica: dotación' },
+      { src: '/video/mundial.mp4', poster: '/img/mundial.jpg', titulo: 'El Mundial en la oficina' },
+    ],
+    imagen: null,
+    paleta: ['#3d1f1f', '#ff8a5b', '#f4f1ea'],
+    forma: 'columnas',
+  },
+  {
     id: 'baskiat',
     titulo: 'BASKIAT',
     subtitulo: 'Diseño de personaje',
-    disciplina: 'Personajes',
+    disciplina: 'Videojuegos y personajes',
     anio: '2024',
     rol: 'Diseño e ilustración',
     resumen:
@@ -93,7 +120,7 @@ export const proyectos = [
     id: 'casa-corallo',
     titulo: 'La Casa Corallo',
     subtitulo: 'Cómic · K.O Media',
-    disciplina: 'Cómic',
+    disciplina: 'Videojuegos y personajes',
     anio: '2025',
     rol: 'Ilustración y worldbuilding',
     resumen:
@@ -115,7 +142,7 @@ export const proyectos = [
     id: 'luckydip',
     titulo: 'Lucky Dip',
     subtitulo: 'Videojuego · K.O Media',
-    disciplina: 'Juegos',
+    disciplina: 'Videojuegos y personajes',
     anio: '2025',
     rol: 'Arte y personajes',
     resumen:
@@ -136,7 +163,7 @@ export const proyectos = [
     id: 'find-fih',
     titulo: 'FIND FIH',
     subtitulo: 'Game jam',
-    disciplina: 'Juegos',
+    disciplina: 'Videojuegos y personajes',
     anio: '2025',
     rol: 'Arte y dirección',
     resumen:
@@ -157,7 +184,7 @@ export const proyectos = [
     id: 'ko-media',
     titulo: 'K.O Media',
     subtitulo: 'Sitio web del estudio',
-    disciplina: 'Web',
+    disciplina: 'UX y UI',
     anio: '2025',
     rol: 'Diseño y frontend',
     resumen:
@@ -178,7 +205,7 @@ export const proyectos = [
     id: 'curacao-sitio',
     titulo: 'La Curaçao',
     subtitulo: 'Sitio corporativo',
-    disciplina: 'Web',
+    disciplina: 'UX y UI',
     anio: '2026',
     rol: 'Diseño y dirección',
     resumen:

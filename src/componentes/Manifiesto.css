@@ -10,18 +10,27 @@
   height: 100svh;
   display: flex;
   align-items: center;
+  /* El relleno de arriba deja libre la franja del nav, que es fija y flota
+     sobre todo: sin él, el primer renglón queda debajo de la barra. El de
+     abajo evita que el texto toque el borde inferior de la pantalla. */
+  padding-block: 5.5rem 2.5rem;
 }
 
 .manifiesto-texto {
-  font-weight: 500;
   /* Cuántas palabras van encendidas en este punto del scroll. */
   --encendidas: calc(var(--p) * var(--total) * 1.15);
   font-family: var(--display);
-  font-size: clamp(1.75rem, 1rem + 3.4vw, 4rem);
-  line-height: 1.18;
+  font-weight: 500;
+  /* El tamaño depende también de la altura de la ventana, no solo del ancho.
+     El texto vive dentro de una caja fija de un alto de pantalla: si solo
+     mirara el ancho, en una pantalla ancha y baja crecería hasta desbordarse
+     por arriba, colándose bajo el nav y encima del carrusel. La medida en vh
+     es la que garantiza que siempre quepa. */
+  font-size: min(3.6vw, 6.4vh, 3.25rem);
+  line-height: 1.2;
   letter-spacing: -0.015em;
-  max-width: 22ch;
-  margin-top: clamp(2.25rem, 5vh, 3.75rem);
+  max-width: 30ch;
+  margin-top: clamp(1.5rem, 3.5vh, 2.5rem);
 }
 
 .palabra {
@@ -33,7 +42,9 @@
   color: var(--acento);
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* En pantalla angosta el texto encadenado no cabe en una pantalla por mucho
+   que se encoja, y fijarlo solo estorba: pasa a fluir con el resto. */
+@media (max-width: 48rem), (prefers-reduced-motion: reduce) {
   .manifiesto {
     height: auto;
   }
@@ -42,6 +53,11 @@
     position: static;
     height: auto;
     padding-block: var(--aire);
+  }
+
+  .manifiesto-texto {
+    font-size: clamp(1.5rem, 5.5vw, 2.25rem);
+    max-width: 24ch;
   }
 
   .palabra {

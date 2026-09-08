@@ -8,9 +8,9 @@
      mínimo de 4.5:1. Los dos cálidos casi no aparecen, y justo por eso
      golpean cuando aparecen: lo vibrante no viene de usar mucho color, viene
      de guardarlo. */
-  --fondo: #f6eeda; /* crema cálida: el papel */
-  --superficie: #fdf8ec; /* crema clara: tarjetas y superficies elevadas */
-  --superficie-2: #ebe0c6; /* crema honda: estados al pasar el mouse */
+  --fondo: #faf5e6; /* crema clara: el papel, discreto */
+  --superficie: #fffdf6; /* casi blanco: tarjetas y superficies elevadas */
+  --superficie-2: #f0e8d3; /* crema honda: estados al pasar el mouse */
   --texto: #002b5b; /* azul profundo: la tinta */
   --texto-suave: #4a5a70; /* azul desaturado: texto secundario */
   --linea: rgba(0, 43, 91, 0.18);

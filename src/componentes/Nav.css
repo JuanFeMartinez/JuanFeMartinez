@@ -22,12 +22,12 @@
 .nav:not(.compacto) {
   --texto: #f6eeda;
   --texto-suave: #b9c4d4;
-  --linea: rgba(246, 238, 218, 0.22);
+  --linea: rgba(250, 245, 230, 0.22);
   color: var(--texto);
 }
 
 .nav.compacto {
-  background: rgba(246, 238, 218, 0.82);
+  background: rgba(250, 245, 230, 0.82);
   backdrop-filter: blur(14px) saturate(1.4);
   border-bottom-color: var(--linea);
 }

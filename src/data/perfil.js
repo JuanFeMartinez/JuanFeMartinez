@@ -5,16 +5,16 @@
 
 export const perfil = {
   nombre: 'Juan Felipe Martínez Villate',
-  rol: 'Dirección de arte · Diseño de personajes · Motion',
+  rol: 'Dirección de arte · Motion · Juegos e interfaces',
   ubicacion: 'Bogotá, Colombia',
   correo: 'juanfemvc@gmail.com',
   disponible: true,
   disponibilidad: 'Autónomo y tiempo completo',
 
   // El titular del hero se parte en líneas: cada línea se revela por separado.
-  titular: ['Diseño', 'personajes', 'y los pongo', 'a moverse'],
+  titular: ['Diseño', 'mundos', 'y los pongo', 'a moverse'],
   entrada:
-    'Dirección de arte, diseño de personajes y motion graphics. Cómics, videojuegos y marcas: mundos que hay que inventar primero y hacer creíbles después. Cuando la herramienta es una inteligencia artificial, también sé dirigirla.',
+    'Dirección de arte para cosas que se ven y se mueven: videojuegos, cómics, video y producto digital. Invento el mundo primero y me encargo de que se sostenga después, cuadro por cuadro o pantalla por pantalla. Cuando la herramienta es una inteligencia artificial, también sé dirigirla.',
 
   redes: [
     { nombre: 'Behance', url: 'https://www.behance.net/juanfemartinez' },

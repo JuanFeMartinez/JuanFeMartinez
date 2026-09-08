@@ -2,6 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 import './VisualProyecto.css'
 
 /**
+ * Antepone la ruta base del sitio a las rutas absolutas de perfil.js.
+ *
+ * Vite reescribe solo las rutas que pasan por un import o por un url() de CSS;
+ * las que van escritas como texto en los datos las deja intactas. Cuando el
+ * sitio se publica en un subdirectorio, '/video/x.mp4' apunta a la raíz del
+ * dominio, donde no hay nada. En local no se nota, porque ahí la base es la
+ * raíz: por eso este fallo solo aparecía en producción.
+ */
+const conBase = (ruta) =>
+  ruta?.startsWith('/') ? import.meta.env.BASE_URL.replace(/\/$/, '') + ruta : ruta
+
+/**
  * Cada proyecto se dibuja con CSS en vez de usar una captura: se ve intencional
  * mientras no haya imágenes. En cuanto pongas `imagen` en el proyecto, esta
  * composición se reemplaza por la foto real sin tocar nada más.
@@ -71,7 +83,11 @@ export function VisualProyecto({ proyecto }) {
         {piezas.length > 0 ? (
           <VideoProyecto piezas={piezas} titulo={proyecto.titulo} />
         ) : proyecto.imagen ? (
-          <img src={proyecto.imagen} alt={`Vista del proyecto ${proyecto.titulo}`} loading="lazy" />
+          <img
+            src={conBase(proyecto.imagen)}
+            alt={`Vista del proyecto ${proyecto.titulo}`}
+            loading="lazy"
+          />
         ) : proyecto.embed ? (
           // loading="lazy" es lo que hace viable meter cinco de estos: el
           // iframe no se descarga hasta que el capítulo entra en pantalla.
@@ -148,8 +164,8 @@ function VideoProyecto({ piezas, titulo }) {
         <video
           key={pieza.src}
           ref={video}
-          src={pieza.src}
-          poster={pieza.poster ?? undefined}
+          src={conBase(pieza.src)}
+          poster={conBase(pieza.poster) ?? undefined}
           loop
           muted
           playsInline
@@ -174,7 +190,7 @@ function VideoProyecto({ piezas, titulo }) {
                   type="button"
                   className={i === activa ? 'activa' : ''}
                   onClick={() => cambiar(i)}
-                  style={p.poster ? { backgroundImage: `url(${p.poster})` } : undefined}
+                  style={p.poster ? { backgroundImage: `url(${conBase(p.poster)})` } : undefined}
                   aria-current={i === activa}
                 >
                   <span className="solo-lectores">{p.titulo}</span>

@@ -363,6 +363,26 @@ function VideoProyecto({ piezas, titulo }) {
           onError={() => setCargando(false)}
         />
         {cargando && <Cargando />}
+
+        {piezas.length > 1 && (
+          <>
+            <button
+              type="button"
+              className="visual-flecha visual-flecha-anterior"
+              onClick={() => cambiar((activa - 1 + piezas.length) % piezas.length)}
+            >
+              <span className="solo-lectores">Pieza anterior</span>‹
+            </button>
+            <button
+              type="button"
+              className="visual-flecha visual-flecha-siguiente"
+              onClick={() => cambiar((activa + 1) % piezas.length)}
+            >
+              <span className="solo-lectores">Pieza siguiente</span>›
+            </button>
+          </>
+        )}
+
         {!sinMovimiento && (
           <button type="button" className="visual-sonido" onClick={alternarSonido}>
             {conSonido ? 'Silenciar' : 'Con sonido'}

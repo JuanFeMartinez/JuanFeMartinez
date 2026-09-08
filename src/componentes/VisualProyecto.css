@@ -615,3 +615,50 @@
     animation: girar-carga 1.2s linear infinite;
   }
 }
+
+/* Flechas para pasar de pieza dentro del panel de video. Mismo lenguaje que
+   las del visor ampliado, para que se reconozcan sin pensarlo. */
+.visual-flecha {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--texto);
+  background: rgba(0, 18, 40, 0.7);
+  border: 1px solid var(--linea);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  /* Visibles siempre, no solo al pasar el mouse: un control de navegacion
+     que hay que descubrir no lo usa nadie. El hover solo las resalta. */
+  opacity: 0.55;
+  transition:
+    opacity 0.35s var(--curva),
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+.visual-flecha-anterior { left: 0.75rem; }
+.visual-flecha-siguiente { right: 0.75rem; }
+
+.capitulo:hover .visual-flecha,
+.visual-flecha:hover,
+.visual-flecha:focus-visible {
+  opacity: 1;
+}
+
+.visual-flecha:hover {
+  background: var(--acento);
+  border-color: var(--acento);
+}
+
+@media (hover: none) {
+  .visual-flecha {
+    opacity: 1;
+  }
+}

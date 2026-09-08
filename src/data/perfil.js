@@ -193,27 +193,6 @@ export const proyectos = [
     paleta: ['#0d3b66', '#3aa0ff', '#f4f1ea'],
     forma: 'reticula',
   },
-  {
-    id: 'ordenes-servicio',
-    titulo: 'Órdenes de servicio',
-    subtitulo: 'Sistema interno y portal público',
-    disciplina: 'Web',
-    anio: '2026',
-    rol: 'Dirección de producto',
-    resumen:
-      'El sistema que ordena la operación diaria: se crean, asignan y siguen órdenes de servicio. Partido a propósito en dos proyectos separados para que el portal público de seguimiento nunca toque la data interna.',
-    detalles: [
-      'Dos proyectos independientes en lugar de uno: la separación es la medida de seguridad.',
-      'El cliente consulta el estado de su orden desde un enlace público sin ver nada más.',
-      'Corre sobre la infraestructura que la empresa ya paga: cero servidores nuevos.',
-    ],
-    stack: ['Google Apps Script', 'Sheets'],
-    metricas: [{ valor: '2', etiqueta: 'proyectos aislados' }],
-    enlace: null,
-    imagen: null,
-    paleta: ['#1b3a2f', '#4ade80', '#f4f1ea'],
-    forma: 'flujo',
-  },
 ]
 
 // Marquesina inferior: se mueve sola y acelera con el scroll.

@@ -5,7 +5,7 @@
 
 .proyectos-titulo {
   font-size: clamp(2.5rem, 1rem + 6.4vw, 6.5rem);
-  margin-block: 1.5rem 3rem;
+  margin-block: 2.5rem 3.25rem;
 }
 
 .proyectos-indice {
@@ -55,7 +55,7 @@
 
 .capitulo-disciplina {
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.6rem;
   padding: 0.3rem 0.7rem;
   font-family: var(--mono);
   font-size: 0.625rem;
@@ -135,7 +135,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.9rem;
+  margin-top: 1.6rem;
   font-family: var(--mono);
   font-size: var(--t-xs);
   letter-spacing: 0.08em;

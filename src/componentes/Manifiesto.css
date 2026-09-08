@@ -21,7 +21,7 @@
   line-height: 1.18;
   letter-spacing: -0.015em;
   max-width: 22ch;
-  margin-top: clamp(1.5rem, 4vh, 3rem);
+  margin-top: clamp(2.25rem, 5vh, 3.75rem);
 }
 
 .palabra {

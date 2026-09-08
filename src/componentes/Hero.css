@@ -187,8 +187,11 @@
   background: var(--linea);
 }
 
+/* El margen negativo de la mascara sirve para el ritmo entre lineas, pero
+   tambien se come el aire del borde exterior del bloque. Estos margenes lo
+   devuelven: sin ellos el titular queda pegado a la etiqueta de arriba. */
 .hero-etiqueta {
-  margin-bottom: clamp(1.5rem, 4vh, 3rem);
+  margin-bottom: clamp(2.5rem, 6vh, 4.25rem);
 }
 
 /* Mayúsculas como en la referencia: es su rasgo más reconocible después del

@@ -1,4 +1,14 @@
+/* La portada es la tercera isla oscura del sitio, y la más caliente: entra el
+   golpe de color y después el resto se lee tranquilo sobre papel. Como en las
+   otras dos, basta dar la vuelta a los tokens aquí dentro. */
 .hero {
+  --fondo: #001a3a;
+  --superficie: #0a3466;
+  --texto: #f6eeda;
+  --texto-suave: #b9c4d4;
+  --linea: rgba(246, 238, 218, 0.22);
+  --acento-texto: #ffa26b;
+
   --salida: 0;
   --px: 0;
   --py: 0;
@@ -9,6 +19,39 @@
   padding-block: 8rem 6rem;
   isolation: isolate;
   overflow: hidden;
+  color: var(--texto);
+  /* El degradado base va aquí y no solo en las manchas: apilar tres radiales
+     grandes da una malla de color sólida y estable, y las manchas de encima
+     solo aportan el movimiento. Confiar todo al desenfoque dejaba el fondo
+     casi plano.
+
+     El velo de la primera línea es obligatorio, no decorativo: sin él, donde el
+     rojo y el naranja se solapan el texto crema baja a 2.8:1 de contraste y el
+     párrafo a 1.8:1, o sea ilegible. El velo es más denso a la izquierda, que
+     es donde va el texto, y se abre a la derecha para que el color siga vivo
+     justo donde no estorba. */
+  --velo: linear-gradient(
+    105deg,
+    rgba(0, 18, 40, 0.9) 0%,
+    rgba(0, 18, 40, 0.62) 52%,
+    rgba(0, 18, 40, 0.34) 100%
+  );
+  background:
+    var(--velo),
+    radial-gradient(115% 85% at 82% 0%, rgba(234, 84, 85, 0.9), transparent 58%),
+    radial-gradient(100% 80% at 10% 100%, rgba(240, 123, 63, 0.75), transparent 55%),
+    radial-gradient(95% 75% at 48% 52%, rgba(150, 45, 125, 0.8), transparent 62%),
+    var(--fondo);
+}
+
+/* El borde inferior corta en seco contra el papel, sin degradado de salida:
+   el cambio de mundo tiene que notarse. */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--acento);
 }
 
 /* Todo el contenido se desvanece y se aleja al bajar. */
@@ -18,12 +61,15 @@
   will-change: transform, opacity;
 }
 
+/* Malla de color: tres manchas muy desenfocadas que se mueven despacio y se
+   corren con el mouse. El desenfoque grande es lo que las funde en un degradado
+   continuo en vez de tres círculos sueltos. */
 .hero-atmosfera {
   position: absolute;
-  inset: -20%;
-  z-index: -1;
-  filter: blur(80px);
-  opacity: calc(0.5 - var(--salida) * 0.5);
+  inset: -25%;
+  z-index: -2;
+  filter: blur(90px);
+  opacity: calc(1 - var(--salida));
 }
 
 .mancha {
@@ -33,39 +79,124 @@
 }
 
 .mancha-a {
-  width: 46vw;
-  height: 46vw;
-  top: 2%;
-  right: 4%;
-  background: radial-gradient(circle, rgba(234, 84, 85, 0.4), transparent 70%);
+  width: 58vw;
+  height: 58vw;
+  top: -6%;
+  right: 0%;
+  background: radial-gradient(circle, rgba(234, 84, 85, 0.9), transparent 68%);
   transform: translate3d(calc(var(--px) * -40px), calc(var(--py) * -40px), 0);
   animation: deriva 18s ease-in-out infinite alternate;
 }
 
 .mancha-b {
-  width: 38vw;
-  height: 38vw;
-  bottom: 4%;
-  left: 0%;
-  background: radial-gradient(circle, rgba(240, 123, 63, 0.34), transparent 70%);
+  width: 46vw;
+  height: 46vw;
+  bottom: -8%;
+  left: -4%;
+  background: radial-gradient(circle, rgba(240, 123, 63, 0.75), transparent 68%);
   transform: translate3d(calc(var(--px) * 60px), calc(var(--py) * 60px), 0);
   animation: deriva 24s ease-in-out infinite alternate-reverse;
+}
+
+.mancha-c {
+  width: 44vw;
+  height: 44vw;
+  top: 28%;
+  left: 34%;
+  background: radial-gradient(circle, rgba(160, 60, 130, 0.7), transparent 66%);
+  transform: translate3d(calc(var(--px) * -80px), calc(var(--py) * 30px), 0);
+  animation: deriva 30s ease-in-out infinite alternate;
 }
 
 @keyframes deriva {
   to { translate: 6% -8%; }
 }
 
+/* Trama de puntos sobre el degradado: es lo que le da grano de impresión y lo
+   saca del aspecto de plantilla. Se desvanece hacia abajo para no competir con
+   el texto de la parte baja. */
+.hero-trama {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle, rgba(246, 238, 218, 0.32) 1px, transparent 1.2px);
+  background-size: 7px 7px;
+  mask-image: linear-gradient(160deg, #000 5%, transparent 55%);
+  opacity: calc(1 - var(--salida));
+  pointer-events: none;
+}
+
+/* Estrellas de puntas: el sticker de la referencia. Van detrás del texto y con
+   poca opacidad, para que decoren sin robar la lectura. */
+.hero-estrella {
+  position: absolute;
+  z-index: -1;
+  fill: var(--texto);
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.hero-estrella-a {
+  width: clamp(7rem, 16vw, 15rem);
+  top: 12%;
+  right: 6%;
+  animation: girar 40s linear infinite;
+}
+
+.hero-estrella-b {
+  width: clamp(4rem, 8vw, 7rem);
+  bottom: 14%;
+  right: 22%;
+  opacity: 0.1;
+  animation: girar 28s linear infinite reverse;
+}
+
+@keyframes girar {
+  to { rotate: 360deg; }
+}
+
+/* Adorno de esquina: tres puntos y una línea que cruza. */
+.hero-adorno {
+  position: absolute;
+  top: 5.5rem;
+  left: var(--margen);
+  right: var(--margen);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: calc(0.65 - var(--salida));
+}
+
+.hero-adorno span {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--linea);
+  border-radius: 50%;
+  flex: none;
+}
+
+.hero-adorno span:first-child {
+  background: var(--acento);
+  border-color: transparent;
+}
+
+.hero-adorno i {
+  flex: 1;
+  height: 1px;
+  margin-left: 0.6rem;
+  background: var(--linea);
+}
+
 .hero-etiqueta {
   margin-bottom: clamp(1.5rem, 4vh, 3rem);
 }
 
-/* La línea más larga del titular ("Construyo sitios") mide 7.08 veces el
-   cuerpo de la letra en Outfit 900 con este tracking. 12vw la deja entrar
-   entera hasta en una pantalla de 320px; si escribes una línea más larga no
-   se corta, simplemente baja de renglón. */
+/* Mayúsculas como en la referencia: es su rasgo más reconocible después del
+   degradado. El tamaño se recalcula abajo, porque en caja alta la línea más
+   larga crece bastante. */
 .hero-titular {
-  font-size: min(12vw, 9.5rem);
+  text-transform: uppercase;
+  font-size: min(11vw, 8.5rem);
 }
 
 .hero-titular .mascara > span {
@@ -180,5 +311,11 @@
   .hero-pie {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  /* En pantalla angosta el texto ocupa todo el ancho, así que el velo no puede
+     abrirse hacia la derecha: se vuelve parejo y baja de arriba abajo. */
+  .hero {
+    --velo: linear-gradient(rgba(0, 18, 40, 0.84), rgba(0, 18, 40, 0.72));
   }
 }

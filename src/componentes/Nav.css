@@ -16,6 +16,16 @@
   border-bottom: 1px solid transparent;
 }
 
+/* Mientras no está compacto, el nav flota sobre la portada oscura: hereda los
+   tokens claros del sitio y quedaría tinta azul sobre azul, ilegible. Aquí se
+   invierte, y al hacer scroll vuelve al papel. */
+.nav:not(.compacto) {
+  --texto: #f6eeda;
+  --texto-suave: #b9c4d4;
+  --linea: rgba(246, 238, 218, 0.22);
+  color: var(--texto);
+}
+
 .nav.compacto {
   background: rgba(246, 238, 218, 0.82);
   backdrop-filter: blur(14px) saturate(1.4);
@@ -102,5 +112,14 @@
 @media (max-width: 34rem) {
   .nav-lista li:not(:last-child) {
     display: none;
+  }
+
+  /* El nombre completo con este espaciado no cabe y partía en dos líneas,
+     estirando la barra. Se aprieta en vez de recortarse: el nombre entero
+     importa más que el espaciado. */
+  .nav-nombre {
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 }

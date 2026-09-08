@@ -2,6 +2,26 @@ import { useEffect, useRef } from 'react'
 import { perfil } from '../data/perfil'
 import './Hero.css'
 
+/**
+ * Estrella de puntas, el recurso gráfico que sostiene toda la portada.
+ * Se dibuja alternando dos radios alrededor del centro: cuanto más chico el
+ * radio interior, más afiladas salen las puntas.
+ */
+function Estrella({ puntas = 12, className }) {
+  const vertices = []
+  for (let i = 0; i < puntas * 2; i++) {
+    const angulo = (Math.PI * i) / puntas - Math.PI / 2
+    const radio = i % 2 ? 19 : 50
+    vertices.push(`${(50 + radio * Math.cos(angulo)).toFixed(1)},${(50 + radio * Math.sin(angulo)).toFixed(1)}`)
+  }
+
+  return (
+    <svg className={className} viewBox="0 0 100 100" aria-hidden="true">
+      <polygon points={vertices.join(' ')} />
+    </svg>
+  )
+}
+
 export function Hero() {
   const seccion = useRef(null)
 
@@ -42,6 +62,21 @@ export function Hero() {
       <div className="hero-atmosfera" aria-hidden="true">
         <span className="mancha mancha-a" />
         <span className="mancha mancha-b" />
+        <span className="mancha mancha-c" />
+      </div>
+
+      {/* La trama de puntos es lo que evita que el degradado se vea a plantilla:
+          le pone grano de impresión encima. */}
+      <div className="hero-trama" aria-hidden="true" />
+
+      <Estrella className="hero-estrella hero-estrella-a" />
+      <Estrella className="hero-estrella hero-estrella-b" puntas={10} />
+
+      <div className="hero-adorno" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <i />
       </div>
 
       <div className="contenedor hero-interior">

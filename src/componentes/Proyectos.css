@@ -8,6 +8,19 @@
   margin-block: 2.5rem 3.25rem;
 }
 
+/* El chiste está en la diferencia de tamaño, no en la fuente: la misma Outfit,
+   a menos de un tercio del cuerpo del titular, se lee como un comentario dicho
+   por lo bajo. El peso baja de 900 a 600 porque a ese tamaño el negro máximo
+   se ve como un grito, no como un aparte. */
+.proyectos-coletilla {
+  font-size: 0.28em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-left: 0.6em;
+  color: var(--texto-suave);
+  white-space: nowrap;
+}
+
 .proyectos-indice {
   list-style: none;
   margin: 0;

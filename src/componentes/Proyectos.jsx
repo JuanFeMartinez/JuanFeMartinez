@@ -55,7 +55,9 @@ export function Proyectos() {
           Trabajo seleccionado
         </p>
         <h2 className="proyectos-titulo titular-apretado mascara">
-          <span>Mis proyectos! (hasta ahora)</span>
+          <span>
+            Mis proyectos!<small className="proyectos-coletilla">(hasta ahora)</small>
+          </span>
         </h2>
         <ol className="proyectos-indice">
           {proyectos.map((proyecto, i) => (

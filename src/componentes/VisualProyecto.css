@@ -187,16 +187,17 @@
    se detiene, la baraja se detiene con él. */
 .baraja {
   --avance: clamp(0, calc((var(--pc, 0) + 0.85) * 1.3), 1);
-  /* Más desplazamiento que giro: cada sección del sitio tiene su propio color,
-     y lo que hay que dejar ver es una franja de cada una. Con mucho ángulo las
-     cartas de atrás se esconden detrás de la primera y la baraja se lee como
-     un montón. */
-  --abanico: calc(var(--avance) * 4deg);
-  --corrimiento: calc(var(--avance) * 16%);
+  /* Poco giro: cada grado hace crecer la caja envolvente de la carta, y con
+     seis en cascada eso es lo que hacia que la ultima se saliera del marco. */
+  --abanico: calc(var(--avance) * 1.5deg);
+  --paso-x: calc(var(--avance) * 6%);
+  --paso-y: calc(var(--avance) * 22%);
 
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  /* Cuadrada, no apaisada: el panel tiene que pesar lo mismo que la columna
+     de texto que lleva al lado, y en 4/3 se quedaba corto. */
+  aspect-ratio: 1 / 1;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -205,36 +206,55 @@
 
 .baraja-carta {
   position: absolute;
-  /* Todo se mide desde el borde izquierdo y en porcentaje del ancho de la
-     propia carta: con seis cartas, un corrimiento de 16% y un ancho de 46%,
-     la ultima queda dentro de la caja. Antes se salia y la recortaba el
-     overflow, que es lo que dejaba la baraja cortada a la derecha. */
+  top: 3%;
   left: 0;
-  bottom: 14%;
-  width: 46%;
-  /* La primera carta queda al frente y el resto asoma detrás, hacia la
-     derecha: se lee como una baraja abierta, no como un montón. */
+  /* Cartas grandes y en cascada diagonal: aprovechan el alto de la caja y
+     dejan ver una franja de cada seccion sin encogerlas. */
+  width: 70%;
   z-index: calc(var(--total) - var(--n));
-  transform-origin: 50% 125%;
-  transform: translateX(calc(6% + var(--n) * var(--corrimiento)))
+  transform-origin: 50% 130%;
+  /* Ojo: en translate, el porcentaje horizontal se mide sobre el ancho de la
+     carta y el vertical sobre su alto. No son la misma escala. */
+  transform: translate(
+      calc(2% + var(--n) * var(--paso-x)),
+      calc(var(--n) * var(--paso-y))
+    )
     rotate(calc(var(--n) * var(--abanico)));
   transition: transform 0.7s var(--curva);
+}
+
+.baraja-carta button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 8px;
+  transition: transform 0.4s var(--curva);
+}
+
+/* Solo la carta de delante se levanta al pasar el mouse: las de atras estan
+   tapadas y moverlas seria movimiento que nadie pidio. */
+.baraja-carta button:hover,
+.baraja-carta button:focus-visible {
+  transform: translateY(-6px);
 }
 
 .baraja-carta img {
   width: 100%;
   height: auto;
+  display: block;
   border-radius: 8px;
   border: 1px solid rgba(249, 245, 235, 0.22);
   box-shadow: 0 18px 30px -18px rgba(0, 0, 0, 0.75);
 }
 
-/* El nombre solo aparece en la carta de delante: en las de atrás sería ruido
+/* El nombre solo aparece en la carta de delante: en las de atras seria ruido
    ilegible sobre una imagen girada. */
 .baraja-carta span {
   position: absolute;
-  left: 0;
-  bottom: -1.6rem;
+  left: 0.2rem;
+  bottom: -1.5rem;
   font-family: var(--mono);
   font-size: 0.625rem;
   letter-spacing: 0.14em;
@@ -248,23 +268,24 @@
   opacity: var(--avance);
 }
 
-/* Al pasar el mouse el abanico se abre del todo: premia al que se acerca. */
 .capitulo:hover .baraja {
-  --abanico: 5.5deg;
-  --corrimiento: 19%;
+  --abanico: 2deg;
+  --paso-x: 6.6%;
+  --paso-y: 24%;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .baraja {
-    --abanico: 4deg;
-    --corrimiento: 16%;
+    --abanico: 1.5deg;
+    --paso-x: 6%;
+    --paso-y: 22%;
   }
 
-  .baraja-carta {
+  .baraja-carta,
+  .baraja-carta button {
     transition: none;
   }
 }
-
 /* Vista previa de un sitio en vivo. El iframe se carga a 1280px de ancho, que
    es donde el sitio muestra su maquetación de escritorio, y se reduce con una
    escala que calcula el componente según el ancho del panel. La altura de
@@ -414,4 +435,101 @@
 
 @media (prefers-reduced-motion: reduce) {
   .reticula span { animation: none; opacity: 0.8; }
+}
+
+/* Visor ampliado ---------------------------------------------------------
+   Se monta en el body con un portal, no dentro del panel: el panel del
+   capítulo lleva un transform, y un transform convierte a su elemento en el
+   marco de referencia de todo lo que tenga position: fixed. Montado ahí
+   dentro, el visor habría quedado encerrado en el panel. */
+.lupa {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 5vw, 4rem);
+  animation: aparecer 0.35s var(--curva);
+}
+
+@keyframes aparecer {
+  from { opacity: 0; }
+}
+
+/* El fondo es un botón de verdad y no un div con onClick: así cerrar haciendo
+   clic fuera también funciona con teclado y lo anuncian los lectores. */
+.lupa-fondo {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 18, 40, 0.92);
+  backdrop-filter: blur(6px);
+}
+
+.lupa-marco {
+  position: relative;
+  margin: 0;
+  max-width: min(96rem, 100%);
+  animation: acercar 0.4s var(--curva);
+}
+
+@keyframes acercar {
+  from { transform: scale(0.96); opacity: 0; }
+}
+
+.lupa-marco img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid rgba(249, 245, 235, 0.2);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9);
+}
+
+.lupa-marco figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b9c4d4;
+}
+
+.lupa-boton {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #f6eeda;
+  background: rgba(0, 18, 40, 0.7);
+  border: 1px solid rgba(249, 245, 235, 0.24);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.lupa-boton:hover {
+  background: var(--acento);
+  border-color: var(--acento);
+}
+
+.lupa-anterior { left: clamp(0.5rem, 2vw, 2rem); top: 50%; translate: 0 -50%; }
+.lupa-siguiente { right: clamp(0.5rem, 2vw, 2rem); top: 50%; translate: 0 -50%; }
+.lupa-cerrar { top: clamp(0.5rem, 2vw, 2rem); right: clamp(0.5rem, 2vw, 2rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lupa,
+  .lupa-marco {
+    animation: none;
+  }
 }

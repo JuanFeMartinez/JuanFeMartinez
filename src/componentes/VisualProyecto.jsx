@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import './VisualProyecto.css'
 
 /**
@@ -125,15 +126,81 @@ export function VisualProyecto({ proyecto }) {
  * la baraja para con él.
  */
 function BarajaProyecto({ cartas, titulo }) {
+  const [ampliada, setAmpliada] = useState(null)
+
+  const mover = (paso) => setAmpliada((i) => (i + paso + cartas.length) % cartas.length)
+
+  useEffect(() => {
+    if (ampliada === null) return
+
+    // El salto va escrito aquí en vez de llamar a `mover`: esa función se
+    // recrea en cada render, y como dependencia del efecto lo relanzaría sin
+    // parar, quitando y poniendo el listener a cada rato.
+    const alTeclear = (evento) => {
+      if (evento.key === 'Escape') setAmpliada(null)
+      if (evento.key === 'ArrowRight') setAmpliada((i) => (i + 1) % cartas.length)
+      if (evento.key === 'ArrowLeft') setAmpliada((i) => (i - 1 + cartas.length) % cartas.length)
+    }
+
+    // Con el visor abierto, el fondo no debe moverse: si no, al cerrarlo el
+    // capítulo quedó en otro sitio y se pierde el hilo de la lectura.
+    const desbordePrevio = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', alTeclear)
+
+    return () => {
+      document.body.style.overflow = desbordePrevio
+      document.removeEventListener('keydown', alTeclear)
+    }
+  }, [ampliada, cartas.length])
+
   return (
-    <ul className="baraja" style={{ '--total': cartas.length }}>
-      {cartas.map((carta, i) => (
-        <li className="baraja-carta" key={carta.src} style={{ '--n': i }}>
-          <img src={conBase(carta.src)} alt={`${titulo}: ${carta.titulo}`} loading="lazy" />
-          <span>{carta.titulo}</span>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="baraja" style={{ '--total': cartas.length }}>
+        {cartas.map((carta, i) => (
+          <li className="baraja-carta" key={carta.src} style={{ '--n': i }}>
+            <button type="button" onClick={() => setAmpliada(i)} data-cursor="Ampliar">
+              <img src={conBase(carta.src)} alt={`${titulo}: ${carta.titulo}`} loading="lazy" />
+            </button>
+            <span>{carta.titulo}</span>
+          </li>
+        ))}
+      </ul>
+
+      {ampliada !== null &&
+        createPortal(
+          // Va montado en el body, no aquí dentro. El panel del capítulo lleva
+          // un transform, y un transform convierte a su elemento en el marco de
+          // referencia de todo lo que tenga position: fixed: el visor habría
+          // quedado encerrado dentro del panel en vez de cubrir la pantalla.
+          <div className="lupa" role="dialog" aria-modal="true" aria-label={`${titulo}, ampliada`}>
+            <button className="lupa-fondo" type="button" onClick={() => setAmpliada(null)}>
+              <span className="solo-lectores">Cerrar</span>
+            </button>
+
+            <figure className="lupa-marco">
+              <img src={conBase(cartas[ampliada].src)} alt={`${titulo}: ${cartas[ampliada].titulo}`} />
+              <figcaption>
+                <span>{cartas[ampliada].titulo}</span>
+                <span>
+                  {ampliada + 1} / {cartas.length}
+                </span>
+              </figcaption>
+            </figure>
+
+            <button className="lupa-boton lupa-anterior" type="button" onClick={() => mover(-1)}>
+              <span className="solo-lectores">Anterior</span>‹
+            </button>
+            <button className="lupa-boton lupa-siguiente" type="button" onClick={() => mover(1)}>
+              <span className="solo-lectores">Siguiente</span>›
+            </button>
+            <button className="lupa-boton lupa-cerrar" type="button" onClick={() => setAmpliada(null)}>
+              <span className="solo-lectores">Cerrar</span>×
+            </button>
+          </div>,
+          document.body,
+        )}
+    </>
   )
 }
 

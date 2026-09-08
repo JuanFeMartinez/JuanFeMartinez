@@ -25,7 +25,7 @@
 }
 
 .palabra {
-  opacity: clamp(0.16, calc((var(--encendidas) - var(--i)) * 0.42 + 0.16), 1);
+  opacity: clamp(0.22, calc((var(--encendidas) - var(--i)) * 0.42 + 0.22), 1);
   transition: opacity 0.12s linear;
 }
 

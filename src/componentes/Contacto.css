@@ -1,6 +1,6 @@
 .contacto {
   padding-bottom: 0;
-  background: linear-gradient(180deg, var(--tinta), var(--tinta-2));
+  background: linear-gradient(180deg, var(--fondo), var(--superficie));
 }
 
 .contacto-titulo {
@@ -58,14 +58,14 @@
 }
 
 .contacto-redes a {
-  color: var(--apagado);
+  color: var(--texto-suave);
   padding-bottom: 0.3rem;
   border-bottom: 1px solid transparent;
   transition: color 0.35s, border-color 0.35s;
 }
 
 .contacto-redes a:hover {
-  color: var(--hueso);
+  color: var(--texto);
   border-bottom-color: var(--acento);
 }
 
@@ -84,12 +84,12 @@
   font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--apagado);
+  color: var(--texto-suave);
 }
 
 .pie-reloj {
   font-variant-numeric: tabular-nums;
-  color: var(--hueso);
+  color: var(--texto);
 }
 
 @media (max-width: 40rem) {

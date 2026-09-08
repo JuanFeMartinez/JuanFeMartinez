@@ -5,6 +5,11 @@ import './Proyectos.css'
 
 const numero = (i) => String(i + 1).padStart(2, '0')
 
+// El enlace tiene que decir a dónde lleva: "ver el sitio" mandando a Behance
+// es una promesa que no se cumple.
+const textoEnlace = (url) =>
+  new URL(url).hostname.endsWith('behance.net') ? 'Ver el proyecto en Behance' : 'Ver el sitio en vivo'
+
 export function Proyectos() {
   const capitulos = useRef([])
 
@@ -141,7 +146,7 @@ export function Proyectos() {
                   data-cursor="Abrir"
                   data-revelar
                 >
-                  Ver el sitio en vivo
+                  {textoEnlace(proyecto.enlace)}
                   <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
                     <path
                       d="M7 17 17 7M9 7h8v8"

@@ -37,7 +37,7 @@
   height: 46vw;
   top: 2%;
   right: 4%;
-  background: radial-gradient(circle, rgba(234, 84, 85, 0.55), transparent 70%);
+  background: radial-gradient(circle, rgba(234, 84, 85, 0.4), transparent 70%);
   transform: translate3d(calc(var(--px) * -40px), calc(var(--py) * -40px), 0);
   animation: deriva 18s ease-in-out infinite alternate;
 }
@@ -47,7 +47,7 @@
   height: 38vw;
   bottom: 4%;
   left: 0%;
-  background: radial-gradient(circle, rgba(240, 123, 63, 0.45), transparent 70%);
+  background: radial-gradient(circle, rgba(240, 123, 63, 0.34), transparent 70%);
   transform: translate3d(calc(var(--px) * 60px), calc(var(--py) * 60px), 0);
   animation: deriva 24s ease-in-out infinite alternate-reverse;
 }
@@ -88,7 +88,7 @@
 
 .hero-entrada {
   max-width: 42ch;
-  color: var(--apagado);
+  color: var(--texto-suave);
   font-size: var(--t-l);
 }
 
@@ -110,15 +110,15 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--hueso);
+  background: var(--texto);
   transform: translateY(101%);
   transition: transform 0.5s var(--curva);
   z-index: -1;
 }
 
 .hero-cta:hover {
-  color: var(--tinta);
-  border-color: var(--hueso);
+  color: var(--fondo);
+  border-color: var(--texto);
 }
 
 .hero-cta:hover::before {
@@ -150,7 +150,7 @@
   font-size: 0.625rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--apagado);
+  color: var(--texto-suave);
 }
 
 .hero-guia-linea {

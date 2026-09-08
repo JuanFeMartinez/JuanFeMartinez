@@ -27,7 +27,7 @@
   width: 2.5rem;
   height: 2.5rem;
   margin: -1.25rem 0 0 -1.25rem;
-  border: 1px solid rgba(249, 245, 235, 0.5);
+  border: 1px solid rgba(0, 43, 91, 0.55);
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -45,7 +45,7 @@
   height: 4rem;
   margin: -2rem 0 0 -2rem;
   border-color: transparent;
-  background: rgba(249, 245, 235, 0.12);
+  background: rgba(0, 43, 91, 0.1);
   backdrop-filter: blur(2px);
 }
 

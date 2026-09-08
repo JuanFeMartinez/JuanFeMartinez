@@ -2,28 +2,28 @@
 
 :root {
   /* Color -----------------------------------------------------------------
-     Cinco colores. Los dos azules hacen el trabajo callado: son el fondo y
-     las superficies, y por eso ocupan el 90% de la pantalla. Los dos cálidos
-     casi no aparecen, y justo por eso golpean cuando aparecen. La crema no es
-     blanco: sobre azul profundo, el blanco puro vibra y cansa la vista.
-     Lo vibrante no viene de usar mucho color, viene de guardarlo. */
-  --tinta: #002b5b; /* azul profundo: el fondo de todo */
-  --tinta-2: #0a3466; /* un peldaño arriba: tarjetas y superficies */
-  --tinta-3: #2d4059; /* pizarra: estados al pasar el mouse */
-  --hueso: #f9f5eb; /* crema: el texto */
-  --apagado: #93a4bc; /* crema apagada hacia el azul: texto secundario */
-  --linea: rgba(249, 245, 235, 0.16);
+     Papel crema, tinta azul. La crema es cálida a propósito: un blanco casi
+     puro se siente a pantalla, y una crema con amarillo se siente a papel.
+     El azul profundo hace de tinta y da 13:1 de contraste, muy por encima del
+     mínimo de 4.5:1. Los dos cálidos casi no aparecen, y justo por eso
+     golpean cuando aparecen: lo vibrante no viene de usar mucho color, viene
+     de guardarlo. */
+  --fondo: #f6eeda; /* crema cálida: el papel */
+  --superficie: #fdf8ec; /* crema clara: tarjetas y superficies elevadas */
+  --superficie-2: #ebe0c6; /* crema honda: estados al pasar el mouse */
+  --texto: #002b5b; /* azul profundo: la tinta */
+  --texto-suave: #4a5a70; /* azul desaturado: texto secundario */
+  --linea: rgba(0, 43, 91, 0.18);
   --acento: #ea5455; /* rojo: lo que hay que mirar */
   --acento-2: #f07b3f; /* naranja: acompaña al rojo, nunca solo */
-  /* El rojo es precioso en grande y falla en chico: sobre el azul solo llega a
-     3.9:1 de contraste, por debajo del mínimo legible (4.5:1). Así que el texto
-     pequeño usa el naranja, que llega a 5.1:1. En la sección crema se invierte:
-     ahí el naranja se pierde y hay que oscurecer el rojo. */
-  --acento-texto: #f07b3f;
+  /* El rojo es precioso en grande y falla en chico: sobre la crema solo llega
+     a 3.3:1, por debajo del mínimo legible. Para texto pequeño se oscurece
+     hasta 5.2:1. En las secciones invertidas este token cambia solo. */
+  --acento-texto: #b83a3b;
 
   /* Tipografía */
   --display: 'Outfit', 'Poppins', system-ui, sans-serif;
-  --texto: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --cuerpo: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
 
   /* Escala fluida */
@@ -44,7 +44,7 @@
   --curva: cubic-bezier(0.16, 1, 0.3, 1);
   --curva-suave: cubic-bezier(0.4, 0, 0.2, 1);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -60,9 +60,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--tinta);
-  color: var(--hueso);
-  font-family: var(--texto);
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--cuerpo);
   font-size: var(--t-m);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -103,7 +103,7 @@ img {
 
 ::selection {
   background: var(--acento);
-  color: var(--hueso);
+  color: var(--texto);
 }
 
 :focus-visible {
@@ -131,7 +131,7 @@ img {
   font-size: var(--t-xs);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--apagado);
+  color: var(--texto-suave);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -166,10 +166,15 @@ img {
   letter-spacing: -0.035em;
 }
 
+/* La máscara recorta con overflow, y con interlineado de 0.88 la caja de línea
+   mide menos que la tinta real de la letra: en Outfit 900 el glifo ocupa 0.98em
+   (0.75 sobre la base y 0.23 bajo ella), y una Ñ mayúscula sube hasta 0.94.
+   Sin este relleno se comen las tildes y las colas de la g, la p y la y.
+   El margen negativo devuelve el espacio, así que el ritmo vertical no cambia. */
 .titular-apretado.mascara,
 .titular-apretado .mascara {
-  padding-block: 0.12em 0.06em;
-  margin-block: -0.12em -0.06em;
+  padding-block: 0.3em 0.28em;
+  margin-block: -0.3em -0.28em;
 }
 
 /* Textos display chicos: sin algo de peso extra se pierden contra el fondo. */
@@ -196,8 +201,10 @@ img {
 .mascara {
   display: block;
   overflow: hidden;
-  padding-block: 0.08em;
-  margin-block: -0.08em;
+  /* Mismo motivo que arriba: los encabezados van a 0.92 de interlineado y la
+     tinta de la Outfit 800 ocupa 0.95em, así que la caja se queda corta. */
+  padding-block: 0.26em;
+  margin-block: -0.26em;
 }
 
 .mascara > span {

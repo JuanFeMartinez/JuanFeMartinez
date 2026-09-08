@@ -17,7 +17,7 @@
 }
 
 .nav.compacto {
-  background: rgba(0, 43, 91, 0.72);
+  background: rgba(246, 238, 218, 0.82);
   backdrop-filter: blur(14px) saturate(1.4);
   border-bottom-color: var(--linea);
 }
@@ -51,15 +51,15 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+  background: #16a34a;
+  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
   animation: latido 2.4s infinite;
 }
 
 @keyframes latido {
-  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
-  70% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.6); }
+  70% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
 }
 
 .nav-lista {
@@ -73,7 +73,7 @@
 
 .nav-lista a {
   position: relative;
-  color: var(--apagado);
+  color: var(--texto-suave);
   transition: color 0.3s;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .nav-lista a:hover {
-  color: var(--hueso);
+  color: var(--texto);
 }
 
 .nav-lista a:hover::after {

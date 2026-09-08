@@ -19,13 +19,13 @@
   /* El contorno propio de cada tarjeta evita que una celda vacía de la reja
      se pinte como un bloque suelto cuando los pasos no llenan la fila. */
   box-shadow: 0 0 0 1px var(--linea);
-  background: var(--tinta-2);
+  background: var(--superficie);
   padding: clamp(1.75rem, 3vw, 2.5rem);
   transition: background-color 0.5s var(--curva);
 }
 
 .proceso-lista li:hover {
-  background: var(--tinta-3);
+  background: var(--superficie-2);
 }
 
 .proceso-numero {
@@ -41,49 +41,30 @@
 }
 
 .proceso-lista p {
-  color: var(--apagado);
+  color: var(--texto-suave);
   font-size: var(--t-s);
   line-height: 1.7;
 }
 
 /* Sección invertida ------------------------------------------------------
-   La única en crema de todo el sitio. Después de tanto azul, invertir el fondo
-   funciona como un respiro y marca el corte entre lo que hice y cómo lo hago.
-   Es el recurso más llamativo de la página justamente porque pasa una sola vez.
+   La única sección oscura de todo el sitio. Después de tanto papel, el corte a
+   azul funciona como un respiro y marca el paso de lo que hice a cómo lo hago.
+   Es el recurso más llamativo de la página justamente porque pasa una sola vez:
+   si se repitiera, dejaría de notarse.
 
-   Va al final del archivo a propósito: estas reglas tienen la misma
-   especificidad que las de arriba, así que solo ganan por venir después. */
-
+   No hace falta reescribir ninguna regla de arriba. Basta con dar la vuelta a
+   los tokens aquí dentro y todo lo que vive en la sección se adapta solo: ese
+   es justamente el motivo de tener tokens y no colores sueltos por el archivo. */
 .proceso {
-  /* Fondo claro: aquí el naranja se pierde y el rojo hay que oscurecerlo. */
-  --acento-texto: #b83a3b;
-  background: var(--hueso);
-  color: var(--tinta);
-}
+  --fondo: #002b5b;
+  --superficie: #0a3466;
+  --superficie-2: #2d4059;
+  --texto: #f6eeda;
+  --texto-suave: #93a4bc;
+  --linea: rgba(249, 245, 235, 0.16);
+  /* Sobre azul, el rojo oscuro se apaga; aquí el que rinde es el naranja. */
+  --acento-texto: #f07b3f;
 
-.proceso .etiqueta {
-  color: #5c6b80;
-}
-
-.proceso-titulo {
-  color: var(--tinta);
-}
-
-.proceso-lista li {
-  /* Tarjetas de papel: el contorno basta, el relleno sobra. */
-  background: transparent;
-  box-shadow: 0 0 0 1px rgba(0, 43, 91, 0.16);
-}
-
-.proceso-lista li:hover {
-  background: rgba(0, 43, 91, 0.05);
-}
-
-.proceso-lista h3 {
-  color: var(--tinta);
-}
-
-.proceso-lista p {
-  /* Azul desaturado en vez de gris: sobre crema, el gris ensucia. */
-  color: #4a5a70;
+  background: var(--fondo);
+  color: var(--texto);
 }

@@ -1,9 +1,20 @@
 .visual {
+  /* Isla oscura sobre el papel: el trabajo se ve mejor enmarcado en azul,
+     y el contraste con la crema hace de foco. Al redefinir los tokens aqui,
+     todo lo que va dentro del panel se adapta sin tocar una regla mas. */
+  --fondo: #002b5b;
+  --superficie: #0a3466;
+  --superficie-2: #2d4059;
+  --texto: #f6eeda;
+  --texto-suave: #93a4bc;
+  --linea: rgba(249, 245, 235, 0.16);
+  --acento-texto: #f07b3f;
+
   margin: 0;
   border: 1px solid var(--linea);
   border-radius: 14px;
   overflow: hidden;
-  background: linear-gradient(150deg, var(--c1), var(--tinta-2) 70%);
+  background: linear-gradient(150deg, var(--c1), var(--superficie) 70%);
   box-shadow:
     0 1px 0 rgba(249, 245, 235, 0.06) inset,
     0 30px 60px -30px rgba(0, 0, 0, 0.8);
@@ -62,7 +73,7 @@
   gap: 0.75rem;
   padding-bottom: 0.75rem;
   line-height: 0;
-  background: var(--tinta);
+  background: var(--fondo);
 }
 
 .visual-marco {
@@ -78,7 +89,7 @@
   line-height: 1.4;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--apagado);
+  color: var(--texto-suave);
   text-align: center;
   padding-inline: 0.75rem;
 }
@@ -98,7 +109,7 @@
   padding: 0;
   border: 1px solid var(--linea);
   border-radius: 5px;
-  background-color: var(--tinta-2);
+  background-color: var(--superficie);
   background-size: cover;
   background-position: center;
   opacity: 0.45;
@@ -137,7 +148,7 @@
   font-size: 0.625rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--hueso);
+  color: var(--texto);
   background: rgba(0, 43, 91, 0.65);
   backdrop-filter: blur(6px);
   border: 1px solid var(--linea);
@@ -216,7 +227,7 @@
 }
 
 .flujo-nodo {
-  fill: var(--tinta-2);
+  fill: var(--superficie);
   stroke: rgba(249, 245, 235, 0.3);
   stroke-width: 1.5;
 }

@@ -6,8 +6,8 @@
 export const perfil = {
   nombre: 'Juan Felipe Martínez Villate',
   rol: 'Dirección de arte · Diseño de personajes · Motion',
-  ubicacion: 'Tunja, Colombia',
-  correo: 'redessociales@curacao.com.co', // ← ¿un correo personal en vez del del trabajo?
+  ubicacion: 'Bogotá, Colombia',
+  correo: 'juanfemvc@gmail.com',
   disponible: true,
   disponibilidad: 'Autónomo y tiempo completo',
 
@@ -18,7 +18,7 @@ export const perfil = {
 
   redes: [
     { nombre: 'Behance', url: 'https://www.behance.net/juanfemartinez' },
-    { nombre: 'Correo', url: 'mailto:redessociales@curacao.com.co' },
+    { nombre: 'Correo', url: 'mailto:juanfemvc@gmail.com' },
     { nombre: 'LinkedIn', url: '#' }, // ←
     { nombre: 'Instagram', url: '#' }, // ←
   ],
@@ -218,19 +218,21 @@ export const proyectos = [
 
 // Marquesina inferior: se mueve sola y acelera con el scroll.
 export const capacidades = [
+  'Diseño de personajes',
+  'Dirección de arte',
+  'Ilustración',
+  'Adobe Fresco',
+  'Blender',
   'After Effects',
+  'Motion graphics',
   'Premiere Pro',
   'DaVinci Resolve',
-  'Motion graphics',
-  'Edición',
-  'Diseño de personajes',
-  'Ilustración',
   'Photoshop',
   'Illustrator',
-  'Dirección de arte',
+  'Worldbuilding',
   'IA generativa',
+  'Three.js',
   'Diseño web',
-  'Identidad visual',
 ]
 
 // Bloques de "cómo trabajo".

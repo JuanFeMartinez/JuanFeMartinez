@@ -22,12 +22,12 @@
   gap: 1rem;
   padding-block: 1.1rem;
   border-bottom: 1px solid var(--linea);
-  color: var(--apagado);
+  color: var(--texto-suave);
   transition: color 0.35s var(--curva), padding-left 0.45s var(--curva);
 }
 
 .proyectos-indice a:hover {
-  color: var(--hueso);
+  color: var(--texto);
   padding-left: 1rem;
 }
 
@@ -120,7 +120,7 @@
   font-size: clamp(4rem, 12vw, 9rem);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(249, 245, 235, 0.14);
+  -webkit-text-stroke: 1px rgba(0, 43, 91, 0.22);
   pointer-events: none;
   transform: translateY(calc(var(--pc) * 3rem));
   will-change: transform;
@@ -140,7 +140,7 @@
   font-size: var(--t-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--apagado);
+  color: var(--texto-suave);
 }
 
 .capitulo-meta .punto {
@@ -150,7 +150,7 @@
 .capitulo-resumen {
   margin-top: 1.75rem;
   font-size: var(--t-l);
-  color: rgba(249, 245, 235, 0.86);
+  color: rgba(0, 43, 91, 0.85);
   max-width: 46ch;
 }
 
@@ -166,7 +166,7 @@
 .capitulo-detalles li {
   position: relative;
   padding-left: 1.6rem;
-  color: var(--apagado);
+  color: var(--texto-suave);
   font-size: var(--t-s);
   line-height: 1.65;
 }
@@ -202,7 +202,7 @@
   font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--apagado);
+  color: var(--texto-suave);
 }
 
 .capitulo-stack {
@@ -221,7 +221,7 @@
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--linea);
   border-radius: 999px;
-  color: var(--apagado);
+  color: var(--texto-suave);
 }
 
 .capitulo-enlace {

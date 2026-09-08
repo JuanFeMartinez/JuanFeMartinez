@@ -129,14 +129,25 @@
    queda alto y angosto en vez de estirarse hasta salirse de la pantalla, y un
    horizontal ocupa todo el ancho de la columna. El tope de altura es lo que
    permite que el panel siga siendo fijo mientras el texto pasa al lado. */
+/* La caja manda el tamano y el video la llena. Asi el hueco esta reservado
+   antes de saber cuanto mide el video, y el panel no se encoge mientras carga.
+
+   El ancho sale del menor de dos limites: el que deja el panel descontando los
+   pasillos de las flechas, y el que cabe de alto en pantalla (31vh de ancho es
+   55vh de alto en formato vertical). Los margenes laterales son lo que mantiene
+   las flechas sobre el marco azul y nunca encima del video. */
+.visual-caja {
+  --proporcion: 9 / 16;
+  position: relative;
+  width: min(calc(100% - 7rem), 31vh);
+  aspect-ratio: var(--proporcion);
+}
+
 .visual-video video {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  /* Deja aire para el nombre de la pieza y la fila de miniaturas: entre los
-     tres tienen que caber en pantalla sin romper el panel fijo. */
-  max-height: 54vh;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .visual-sonido {
@@ -643,8 +654,8 @@
     border-color 0.3s;
 }
 
-.visual-flecha-anterior { left: 0.75rem; }
-.visual-flecha-siguiente { right: 0.75rem; }
+.visual-flecha-anterior { left: 0.6rem; }
+.visual-flecha-siguiente { right: 0.6rem; }
 
 .capitulo:hover .visual-flecha,
 .visual-flecha:hover,

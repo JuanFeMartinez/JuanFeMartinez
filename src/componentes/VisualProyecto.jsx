@@ -14,6 +14,31 @@ import './VisualProyecto.css'
 const conBase = (ruta) =>
   ruta?.startsWith('/') ? import.meta.env.BASE_URL.replace(/\/$/, '') + ruta : ruta
 
+/**
+ * Iconos dibujados en vez de caracteres tipográficos. Los glifos ‹ › × no
+ * están centrados dentro de su propia caja de texto —cada fuente les da los
+ * márgenes laterales que quiere— y por eso se veían descuadrados dentro del
+ * botón redondo. Un trazo en un lienzo de 24x24 sí es simétrico de verdad.
+ */
+const TRAZOS = {
+  anterior: 'M15 5l-7 7 7 7',
+  siguiente: 'M9 5l7 7-7 7',
+  cerrar: 'M6 6l12 12M18 6L6 18',
+}
+
+const Icono = ({ nombre }) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+    <path
+      d={TRAZOS[nombre]}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
 /** Indicador de carga. Aparece con retraso: ver un spinner parpadear en algo
  *  que tardó 80ms se siente peor que no ver nada. */
 const Cargando = () => (
@@ -234,13 +259,16 @@ function BarajaProyecto({ cartas, titulo }) {
             </figure>
 
             <button className="lupa-boton lupa-anterior" type="button" onClick={() => mover(-1)}>
-              <span className="solo-lectores">Anterior</span>‹
+              <span className="solo-lectores">Anterior</span>
+              <Icono nombre="anterior" />
             </button>
             <button className="lupa-boton lupa-siguiente" type="button" onClick={() => mover(1)}>
-              <span className="solo-lectores">Siguiente</span>›
+              <span className="solo-lectores">Siguiente</span>
+              <Icono nombre="siguiente" />
             </button>
             <button className="lupa-boton lupa-cerrar" type="button" onClick={() => setAmpliada(null)}>
-              <span className="solo-lectores">Cerrar</span>×
+              <span className="solo-lectores">Cerrar</span>
+              <Icono nombre="cerrar" />
             </button>
           </div>,
           document.body,
@@ -346,23 +374,30 @@ function VideoProyecto({ piezas, titulo }) {
   return (
     <div className="visual-video">
       <div className={`visual-marco ${cargando ? 'cargando-aun' : ''}`}>
-        <video
-          key={pieza.src}
-          ref={video}
-          src={conBase(pieza.src)}
-          poster={conBase(pieza.poster) ?? undefined}
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          controls={sinMovimiento}
-          aria-label={`${titulo}: ${pieza.titulo}`}
-          // canplay es el momento en que el video ya puede empezar: antes de
-          // eso solo hay un rectángulo vacío donde antes había una pieza.
-          onCanPlay={() => setCargando(false)}
-          onError={() => setCargando(false)}
-        />
-        {cargando && <Cargando />}
+        {/* Esta caja reserva el sitio del video. Sin ella, mientras no hay ni
+            poster ni metadatos el navegador le da al video su tamaño por
+            defecto de 300x150, y el panel entero se encoge y luego pega un
+            salto al cargar. Se notaba sobre todo en móvil, donde el panel no
+            es fijo y el brinco arrastra todo lo que viene debajo. */}
+        <div className="visual-caja">
+          <video
+            key={pieza.src}
+            ref={video}
+            src={conBase(pieza.src)}
+            poster={conBase(pieza.poster) ?? undefined}
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            controls={sinMovimiento}
+            aria-label={`${titulo}: ${pieza.titulo}`}
+            // canplay es el momento en que el video ya puede empezar: antes de
+            // eso solo hay un rectángulo vacío donde antes había una pieza.
+            onCanPlay={() => setCargando(false)}
+            onError={() => setCargando(false)}
+          />
+          {cargando && <Cargando />}
+        </div>
 
         {piezas.length > 1 && (
           <>
@@ -371,14 +406,16 @@ function VideoProyecto({ piezas, titulo }) {
               className="visual-flecha visual-flecha-anterior"
               onClick={() => cambiar((activa - 1 + piezas.length) % piezas.length)}
             >
-              <span className="solo-lectores">Pieza anterior</span>‹
+              <span className="solo-lectores">Pieza anterior</span>
+              <Icono nombre="anterior" />
             </button>
             <button
               type="button"
               className="visual-flecha visual-flecha-siguiente"
               onClick={() => cambiar((activa + 1) % piezas.length)}
             >
-              <span className="solo-lectores">Pieza siguiente</span>›
+              <span className="solo-lectores">Pieza siguiente</span>
+              <Icono nombre="siguiente" />
             </button>
           </>
         )}

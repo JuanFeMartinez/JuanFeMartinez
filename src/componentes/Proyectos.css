@@ -61,7 +61,7 @@
   font-size: 0.625rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.3rem 0.65rem;
+  padding: 0.325rem 0.65rem 0.275rem;
   border: 1px solid var(--linea);
   border-radius: 999px;
 }
@@ -69,7 +69,10 @@
 .capitulo-disciplina {
   display: inline-block;
   margin-bottom: 1.6rem;
-  padding: 0.3rem 0.7rem;
+  /* Reparto desigual a proposito: en la monoespaciada, la caja de linea deja
+     mas hueco debajo que encima, y con relleno simetrico el texto queda 0.8px
+     alto dentro de la pildora. */
+  padding: 0.325rem 0.7rem 0.275rem;
   font-family: var(--mono);
   font-size: 0.625rem;
   letter-spacing: 0.14em;

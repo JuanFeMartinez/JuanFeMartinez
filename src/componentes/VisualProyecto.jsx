@@ -14,6 +14,14 @@ import './VisualProyecto.css'
 const conBase = (ruta) =>
   ruta?.startsWith('/') ? import.meta.env.BASE_URL.replace(/\/$/, '') + ruta : ruta
 
+/** Indicador de carga. Aparece con retraso: ver un spinner parpadear en algo
+ *  que tardó 80ms se siente peor que no ver nada. */
+const Cargando = () => (
+  <span className="cargando" role="status">
+    <span className="solo-lectores">Cargando</span>
+  </span>
+)
+
 /**
  * Cada proyecto se dibuja con CSS en vez de usar una captura: se ve intencional
  * mientras no haya imágenes. En cuanto pongas `imagen` en el proyecto, esta
@@ -127,8 +135,33 @@ export function VisualProyecto({ proyecto }) {
  */
 function BarajaProyecto({ cartas, titulo }) {
   const [ampliada, setAmpliada] = useState(null)
+  const [direccion, setDireccion] = useState(1)
+  const [cargando, setCargando] = useState(false)
 
-  const mover = (paso) => setAmpliada((i) => (i + paso + cartas.length) % cartas.length)
+  const mover = (paso) => {
+    setDireccion(paso)
+    setCargando(true)
+    setAmpliada((i) => (i + paso + cartas.length) % cartas.length)
+  }
+
+  const abrir = (i) => {
+    setDireccion(1)
+    setCargando(true)
+    setAmpliada(i)
+  }
+
+  // Adelanta las cartas vecinas: cuando se pulsa la flecha, la siguiente ya
+  // está en la caché del navegador y el salto se siente instantáneo en vez de
+  // quedarse esperando la descarga.
+  useEffect(() => {
+    if (ampliada === null) return
+
+    for (const paso of [1, -1]) {
+      const vecina = cartas[(ampliada + paso + cartas.length) % cartas.length]
+      const previa = new Image()
+      previa.src = conBase(vecina.src)
+    }
+  }, [ampliada, cartas])
 
   useEffect(() => {
     if (ampliada === null) return
@@ -159,7 +192,7 @@ function BarajaProyecto({ cartas, titulo }) {
       <ul className="baraja" style={{ '--total': cartas.length }}>
         {cartas.map((carta, i) => (
           <li className="baraja-carta" key={carta.src} style={{ '--n': i }}>
-            <button type="button" onClick={() => setAmpliada(i)} data-cursor="Ampliar">
+            <button type="button" onClick={() => abrir(i)} data-cursor="Ampliar">
               <img src={conBase(carta.src)} alt={`${titulo}: ${carta.titulo}`} loading="lazy" />
             </button>
             <span>{carta.titulo}</span>
@@ -178,8 +211,20 @@ function BarajaProyecto({ cartas, titulo }) {
               <span className="solo-lectores">Cerrar</span>
             </button>
 
-            <figure className="lupa-marco">
-              <img src={conBase(cartas[ampliada].src)} alt={`${titulo}: ${cartas[ampliada].titulo}`} />
+            {/* La clave fuerza a React a rehacer el bloque en cada cambio, que
+                es lo que hace que la animación de entrada vuelva a dispararse. */}
+            <figure
+              className={`lupa-marco ${cargando ? 'cargando-aun' : ''}`}
+              key={ampliada}
+              style={{ '--dir': direccion }}
+            >
+              <img
+                src={conBase(cartas[ampliada].src)}
+                alt={`${titulo}: ${cartas[ampliada].titulo}`}
+                onLoad={() => setCargando(false)}
+                onError={() => setCargando(false)}
+              />
+              {cargando && <Cargando />}
               <figcaption>
                 <span>{cartas[ampliada].titulo}</span>
                 <span>
@@ -256,6 +301,7 @@ function VideoProyecto({ piezas, titulo }) {
   const video = useRef(null)
   const [activa, setActiva] = useState(0)
   const [conSonido, setConSonido] = useState(false)
+  const [cargando, setCargando] = useState(true)
 
   const pieza = piezas[activa]
 
@@ -277,7 +323,9 @@ function VideoProyecto({ piezas, titulo }) {
   }, [activa])
 
   const cambiar = (i) => {
+    if (i === activa) return
     setActiva(i)
+    setCargando(true)
     // El sonido no se hereda entre piezas: si estabas oyendo una, la siguiente
     // arranca callada, que es lo que espera cualquiera.
     setConSonido(false)
@@ -297,7 +345,7 @@ function VideoProyecto({ piezas, titulo }) {
 
   return (
     <div className="visual-video">
-      <div className="visual-marco">
+      <div className={`visual-marco ${cargando ? 'cargando-aun' : ''}`}>
         <video
           key={pieza.src}
           ref={video}
@@ -309,7 +357,12 @@ function VideoProyecto({ piezas, titulo }) {
           preload="metadata"
           controls={sinMovimiento}
           aria-label={`${titulo}: ${pieza.titulo}`}
+          // canplay es el momento en que el video ya puede empezar: antes de
+          // eso solo hay un rectángulo vacío donde antes había una pieza.
+          onCanPlay={() => setCargando(false)}
+          onError={() => setCargando(false)}
         />
+        {cargando && <Cargando />}
         {!sinMovimiento && (
           <button type="button" className="visual-sonido" onClick={alternarSonido}>
             {conSonido ? 'Silenciar' : 'Con sonido'}

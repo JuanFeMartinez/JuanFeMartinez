@@ -533,3 +533,85 @@
     animation: none;
   }
 }
+
+/* Carga y transiciones ---------------------------------------------------
+   Dos problemas distintos con la misma cara: cambiar de pieza era un corte
+   seco, y mientras la nueva se descargaba no había nada que mirar. */
+
+.cargando {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid rgba(249, 245, 235, 0.22);
+  border-top-color: var(--acento);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  /* El retraso negativo en la aparición hace que el círculo no se vea si la
+     carga fue rápida: un spinner que parpadea 80ms molesta más que ayuda. */
+  animation:
+    girar-carga 0.7s linear infinite,
+    asomar-carga 0.25s var(--curva) 0.35s backwards;
+}
+
+@keyframes girar-carga {
+  to { rotate: 360deg; }
+}
+
+@keyframes asomar-carga {
+  from { opacity: 0; }
+}
+
+/* El medio entra con un desvanecido en vez de aparecer de golpe. */
+.visual-marco video,
+.lupa-marco img {
+  opacity: 1;
+  transition: opacity 0.45s var(--curva);
+}
+
+.visual-marco.cargando-aun video,
+.lupa-marco.cargando-aun img {
+  opacity: 0;
+}
+
+/* En el visor, la imagen entra desde el lado hacia el que se navegó: el
+   movimiento cuenta de dónde viene, no solo que cambió. */
+@keyframes entrar-lateral {
+  from {
+    transform: translateX(calc(var(--dir, 1) * 2.5rem));
+    opacity: 0;
+  }
+}
+
+.lupa-marco {
+  animation:
+    acercar 0.4s var(--curva),
+    entrar-lateral 0.45s var(--curva);
+}
+
+/* Las cartas de la baraja también se desvanecen al entrar, para que no
+   aparezcan de golpe una a una según van llegando. */
+.baraja-carta img {
+  animation: asomar-carta 0.6s var(--curva) backwards;
+}
+
+@keyframes asomar-carta {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visual-marco video,
+  .lupa-marco img,
+  .baraja-carta img {
+    animation: none;
+    transition: none;
+    opacity: 1;
+  }
+
+  .cargando {
+    animation: girar-carga 1.2s linear infinite;
+  }
+}

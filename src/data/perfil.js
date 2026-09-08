@@ -12,7 +12,7 @@ export const perfil = {
   disponibilidad: 'Autónomo y tiempo completo',
 
   // El titular del hero se parte en líneas: cada línea se revela por separado.
-  titular: ['Diseño', 'mundos', 'y los pongo', 'a moverse'],
+  titular: ['Diseño', 'mundos', 'y les doy', 'movimiento'],
   entrada:
     'Dirección de arte para cosas que se ven y se mueven: videojuegos, cómics, video y producto digital. Invento el mundo primero y me encargo de que se sostenga después, cuadro por cuadro o pantalla por pantalla. Cuando la herramienta es una inteligencia artificial, también sé dirigirla.',
 

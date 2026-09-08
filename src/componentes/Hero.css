@@ -355,7 +355,7 @@
   z-index: 1;
   /* Sombra corta y poco difuminada: se busca que despegue del fondo, no que
      flote. Con mucho desenfoque el avatar parecia pegado con cinta encima. */
-  filter: url(#avatar-paleta) drop-shadow(3px 5px 5px rgba(0, 18, 40, 0.4));
+  filter: url(#avatar-paleta) drop-shadow(2px 3px 3px rgba(0, 18, 40, 0.18));
   rotate: 9deg;
   pointer-events: none;
   animation: asomar-avatar 1.1s var(--curva) 0.9s backwards;

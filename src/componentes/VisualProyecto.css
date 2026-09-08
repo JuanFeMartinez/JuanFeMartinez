@@ -323,13 +323,16 @@
   pointer-events: none;
 }
 
-/* El embed de Behance viene con medidas fijas de 404x316. Aquí se estira al
-   ancho de la columna conservando esa proporción, que es la que espera su
-   maquetación interna. */
+/* El embed de Behance se declara a 404x316, pero con esa proporción exacta su
+   contenido pedía un pixel más de alto del que le quedaba, y ese pixel bastaba
+   para sacarle una barra de scroll interna. Medido abriendo el embed suelto a
+   varios tamaños: a 5/4 sobra espacio de cero y no aparece la barra, ni en las
+   portadas apaisadas ni en las verticales. De paso el panel queda un poco más
+   grande, que era la otra mitad de la peticion. */
 .visual-embed {
   display: block;
   width: 100%;
-  aspect-ratio: 404 / 316;
+  aspect-ratio: 5 / 4;
   border: 0;
   background: var(--superficie);
 }

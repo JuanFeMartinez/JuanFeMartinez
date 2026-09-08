@@ -31,11 +31,16 @@ export const manifiesto =
 
 // Cada proyecto es un capítulo del scroll. El orden aquí es el orden en pantalla.
 //
-// Un proyecto puede mostrar varias piezas de video: cada una en el arreglo
-// `videos`, con su archivo, su miniatura y su nombre. Si hay más de una,
-// aparecen como miniaturas para ir cambiando entre ellas.
-// Para una sola imagen fija: imagen: '/img/archivo.jpg'.
-// Si no hay ni video ni imagen, se dibuja una composición con CSS.
+// Cada proyecto elige cómo se muestra, y el panel usa el primero que encuentre
+// de esta lista, en este orden:
+//
+//   videos: [{ src, poster, titulo }]  varias piezas, con miniaturas y flechas
+//   imagen: '/img/archivo.jpg'         una sola imagen fija
+//   baraja: [{ src, titulo }]          capturas en abanico, ampliables al clic
+//   sitio:  'https://…'                el sitio real cargado en vivo, a escala
+//   embed:  'https://…'                un incrustado ajeno, como los de Behance
+//
+// Si no hay ninguno, se dibuja una composición con CSS según `forma`.
 export const proyectos = [
   {
     id: 'identidad-animada',
@@ -254,8 +259,15 @@ export const proyectos = [
     stack: ['Dirección de arte', 'WordPress', 'Elementor', 'CSS'],
     metricas: [],
     enlace: 'https://drfabriciomartinezrojas.com',
-    // Vista previa del sitio real, en vivo. No es una captura: no envejece.
-    sitio: 'https://drfabriciomartinezrojas.com',
+    // Cuatro tramos del sitio, capturados a lo largo de la pagina. Menos
+    // cartas que La Curaçao porque aquí es una sola landing y no ocho
+    // secciones distintas.
+    baraja: [
+      { src: '/img/fabricio/portada.jpg', titulo: 'Portada' },
+      { src: '/img/fabricio/metodo.jpg', titulo: 'Agenda tu llamada' },
+      { src: '/img/fabricio/contenido.jpg', titulo: 'Testimonios' },
+      { src: '/img/fabricio/cierre.jpg', titulo: 'Cierre y redes' },
+    ],
     imagen: null,
     paleta: ['#2b2140', '#c084fc', '#f9f5eb'],
     forma: 'columnas',

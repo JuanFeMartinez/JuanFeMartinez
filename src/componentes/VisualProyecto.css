@@ -200,9 +200,13 @@
   --avance: clamp(0, calc((var(--pc, 0) + 0.85) * 1.3), 1);
   /* Poco giro: cada grado hace crecer la caja envolvente de la carta, y con
      seis en cascada eso es lo que hacia que la ultima se saliera del marco. */
-  --abanico: calc(var(--avance) * 1.5deg);
-  --paso-x: calc(var(--avance) * 6%);
-  --paso-y: calc(var(--avance) * 22%);
+  /* El reparto se divide entre los huecos que hay, no por carta: asi la
+     baraja ocupa el mismo espacio con cuatro cartas que con seis, en vez de
+     quedarse corta y dejar media caja vacia. */
+  --huecos: calc(var(--total) - 1);
+  --abanico: calc(var(--avance) * 7.5deg / var(--huecos));
+  --paso-x: calc(var(--avance) * 30% / var(--huecos));
+  --paso-y: calc(var(--avance) * 110% / var(--huecos));
 
   position: relative;
   width: 100%;
@@ -280,16 +284,16 @@
 }
 
 .capitulo:hover .baraja {
-  --abanico: 2deg;
-  --paso-x: 6.6%;
-  --paso-y: 24%;
+  --abanico: calc(10deg / var(--huecos));
+  --paso-x: calc(33% / var(--huecos));
+  --paso-y: calc(120% / var(--huecos));
 }
 
 @media (prefers-reduced-motion: reduce) {
   .baraja {
-    --abanico: 1.5deg;
-    --paso-x: 6%;
-    --paso-y: 22%;
+    --abanico: calc(7.5deg / var(--huecos));
+    --paso-x: calc(30% / var(--huecos));
+    --paso-y: calc(110% / var(--huecos));
   }
 
   .baraja-carta,

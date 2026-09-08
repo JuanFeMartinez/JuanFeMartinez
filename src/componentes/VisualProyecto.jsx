@@ -69,8 +69,13 @@ export function VisualProyecto({ proyecto }) {
   const Forma = FORMAS[proyecto.forma] ?? Reticula
   const rotulo = proyecto.enlace ? new URL(proyecto.enlace).hostname : proyecto.id
   const piezas = proyecto.videos ?? []
+  const cartas = proyecto.baraja ?? []
   const hayMedio =
-    piezas.length > 0 || Boolean(proyecto.imagen) || Boolean(proyecto.embed) || Boolean(proyecto.sitio)
+    piezas.length > 0 ||
+    cartas.length > 0 ||
+    Boolean(proyecto.imagen) ||
+    Boolean(proyecto.embed) ||
+    Boolean(proyecto.sitio)
 
   return (
     <figure className="visual" style={{ '--c1': c1, '--c2': c2, '--c3': c3 }}>
@@ -89,6 +94,8 @@ export function VisualProyecto({ proyecto }) {
             alt={`Vista del proyecto ${proyecto.titulo}`}
             loading="lazy"
           />
+        ) : cartas.length > 0 ? (
+          <BarajaProyecto cartas={cartas} titulo={proyecto.titulo} />
         ) : proyecto.sitio ? (
           <SitioProyecto url={proyecto.sitio} titulo={proyecto.titulo} />
         ) : proyecto.embed ? (
@@ -108,6 +115,25 @@ export function VisualProyecto({ proyecto }) {
         )}
       </div>
     </figure>
+  )
+}
+
+/**
+ * Baraja de secciones: una carta por pantalla del sitio, apiladas como cartas
+ * en la mano. El abanico se abre con el avance del capítulo, así que la
+ * animación la conduce el scroll y no un temporizador: si el visitante para,
+ * la baraja para con él.
+ */
+function BarajaProyecto({ cartas, titulo }) {
+  return (
+    <ul className="baraja" style={{ '--total': cartas.length }}>
+      {cartas.map((carta, i) => (
+        <li className="baraja-carta" key={carta.src} style={{ '--n': i }}>
+          <img src={conBase(carta.src)} alt={`${titulo}: ${carta.titulo}`} loading="lazy" />
+          <span>{carta.titulo}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
 

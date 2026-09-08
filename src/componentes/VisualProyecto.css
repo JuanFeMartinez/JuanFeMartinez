@@ -178,6 +178,93 @@
   height: auto;
 }
 
+/* Baraja de secciones -----------------------------------------------------
+   Cartas apiladas como en la mano. El pivote está por debajo de la carta, que
+   es lo que hace que giren en abanico en vez de girar cada una sobre sí misma.
+
+   La apertura la manda --pc, el avance del capítulo que ya calcula Proyectos:
+   así la animación la conduce el scroll y no un temporizador. Si el visitante
+   se detiene, la baraja se detiene con él. */
+.baraja {
+  --avance: clamp(0, calc((var(--pc, 0) + 0.85) * 1.3), 1);
+  /* Más desplazamiento que giro: cada sección del sitio tiene su propio color,
+     y lo que hay que dejar ver es una franja de cada una. Con mucho ángulo las
+     cartas de atrás se esconden detrás de la primera y la baraja se lee como
+     un montón. */
+  --abanico: calc(var(--avance) * 4deg);
+  --corrimiento: calc(var(--avance) * 16%);
+
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+}
+
+.baraja-carta {
+  position: absolute;
+  /* Todo se mide desde el borde izquierdo y en porcentaje del ancho de la
+     propia carta: con seis cartas, un corrimiento de 16% y un ancho de 46%,
+     la ultima queda dentro de la caja. Antes se salia y la recortaba el
+     overflow, que es lo que dejaba la baraja cortada a la derecha. */
+  left: 0;
+  bottom: 14%;
+  width: 46%;
+  /* La primera carta queda al frente y el resto asoma detrás, hacia la
+     derecha: se lee como una baraja abierta, no como un montón. */
+  z-index: calc(var(--total) - var(--n));
+  transform-origin: 50% 125%;
+  transform: translateX(calc(6% + var(--n) * var(--corrimiento)))
+    rotate(calc(var(--n) * var(--abanico)));
+  transition: transform 0.7s var(--curva);
+}
+
+.baraja-carta img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(249, 245, 235, 0.22);
+  box-shadow: 0 18px 30px -18px rgba(0, 0, 0, 0.75);
+}
+
+/* El nombre solo aparece en la carta de delante: en las de atrás sería ruido
+   ilegible sobre una imagen girada. */
+.baraja-carta span {
+  position: absolute;
+  left: 0;
+  bottom: -1.6rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  opacity: 0;
+  transition: opacity 0.4s var(--curva);
+}
+
+.baraja-carta:first-child span {
+  opacity: var(--avance);
+}
+
+/* Al pasar el mouse el abanico se abre del todo: premia al que se acerca. */
+.capitulo:hover .baraja {
+  --abanico: 5.5deg;
+  --corrimiento: 19%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baraja {
+    --abanico: 4deg;
+    --corrimiento: 16%;
+  }
+
+  .baraja-carta {
+    transition: none;
+  }
+}
+
 /* Vista previa de un sitio en vivo. El iframe se carga a 1280px de ancho, que
    es donde el sitio muestra su maquetación de escritorio, y se reduce con una
    escala que calcula el componente según el ancho del panel. La altura de

@@ -223,6 +223,16 @@ export const proyectos = [
       { valor: '2', etiqueta: 'idiomas' },
     ],
     enlace: null, // ← la URL pública cuando esté
+    // Una carta por sección, capturadas del sitio real. Se abren en abanico
+    // con el scroll: la primera de la lista es la que queda al frente.
+    baraja: [
+      { src: '/img/curacao/home.jpg', titulo: 'Home' },
+      { src: '/img/curacao/broadcast.jpg', titulo: 'Broadcast' },
+      { src: '/img/curacao/defensa.jpg', titulo: 'Seguridad y Defensa' },
+      { src: '/img/curacao/marcas.jpg', titulo: 'Marcas' },
+      { src: '/img/curacao/nosotros.jpg', titulo: 'Nosotros' },
+      { src: '/img/curacao/soporte.jpg', titulo: 'Soporte' },
+    ],
     imagen: null,
     paleta: ['#0d3b66', '#3aa0ff', '#f4f1ea'],
     forma: 'reticula',

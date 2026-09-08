@@ -344,7 +344,11 @@
    espacio vacío: no tapa ninguna letra. */
 .hero-avatar {
   position: absolute;
-  top: 0.5%;
+  /* Centrado sobre el punto medio entre las dos primeras lineas: asi el
+     avatar se lee como parte del titular y no como algo posado encima. El
+     giro de 9 grados agranda su caja, por eso el valor no coincide con la
+     posicion que acaba teniendo en pantalla. */
+  top: 6.7%;
   left: 46.5%;
   width: 26%;
   max-width: 17rem;
@@ -369,9 +373,12 @@
    proporcion para seguir cayendo sobre las letras. */
 @media (max-width: 48rem) {
   .hero-avatar {
-    top: 0;
+    /* Al 36% el avatar medía dos tercios del alto del titular, y bajaba hasta
+       comerse la tercera linea. Al 30% queda en la misma proporcion que en
+       escritorio y se centra igual entre las dos primeras. */
+    top: 2.7%;
     left: 45%;
-    width: 36%;
+    width: 30%;
     max-width: none;
   }
 }

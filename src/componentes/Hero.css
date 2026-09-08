@@ -54,11 +54,25 @@
   background: var(--acento);
 }
 
-/* Todo el contenido se desvanece y se aleja al bajar. */
+/* El bloque entero se aleja al bajar, pero el desvanecido ya no es comun:
+   cada parte se va a su ritmo, mas abajo. */
 .hero-interior {
-  opacity: calc(1 - var(--salida) * 1.25);
   transform: translateY(calc(var(--salida) * -6vh)) scale(calc(1 - var(--salida) * 0.06));
-  will-change: transform, opacity;
+  will-change: transform;
+}
+
+/* El titular se lee de un golpe, asi que puede irse pronto. */
+.hero-etiqueta,
+.hero-titular {
+  opacity: calc(1 - var(--salida) * 1.7);
+}
+
+/* El parrafo necesita segundos, no un vistazo: aguanta entero hasta que el
+   titular practicamente ya no esta, y solo entonces empieza a irse. El
+   navegador recorta la opacidad a 1, asi que el tramo inicial se queda
+   opaco sin necesidad de escribir el limite. */
+.hero-pie {
+  opacity: calc(1 - (var(--salida) - 0.45) * 2.4);
 }
 
 /* Malla de color: tres manchas muy desenfocadas que se mueven despacio y se

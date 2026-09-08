@@ -22,20 +22,37 @@ export function Cursor() {
 
     const destino = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
     const suave = { ...destino }
-    let cuadro = requestAnimationFrame(bucle)
+    let cuadro = 0
 
+    // El bucle se para solo cuando el anillo ya alcanzó al puntero, y lo
+    // reanima el siguiente movimiento del mouse. Antes corría eternamente:
+    // mantener vivo un requestAnimationFrame obliga al navegador a despertar
+    // en cada fotograma aunque no haya nada que mover.
     function bucle() {
-      suave.x += (destino.x - suave.x) * 0.16
-      suave.y += (destino.y - suave.y) * 0.16
+      const dx = destino.x - suave.x
+      const dy = destino.y - suave.y
+      suave.x += dx * 0.16
+      suave.y += dy * 0.16
+
       if (anillo.current) {
         anillo.current.style.transform = `translate3d(${suave.x}px, ${suave.y}px, 0)`
       }
+
+      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+        cuadro = 0
+        return
+      }
       cuadro = requestAnimationFrame(bucle)
+    }
+
+    const arrancar = () => {
+      if (!cuadro) cuadro = requestAnimationFrame(bucle)
     }
 
     const mover = (evento) => {
       destino.x = evento.clientX
       destino.y = evento.clientY
+      arrancar()
       if (punto.current) {
         punto.current.style.transform = `translate3d(${evento.clientX}px, ${evento.clientY}px, 0)`
       }

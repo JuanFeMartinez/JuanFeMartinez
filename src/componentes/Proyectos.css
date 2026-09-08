@@ -95,9 +95,16 @@
 
 /* Capítulos ------------------------------------------------------------- */
 
+/* El navegador se salta el dibujado de los capitulos que no estan en
+   pantalla. Con ocho capitulos cargados de video e iframes, eso es la mayor
+   parte del trabajo de render que se ahorra. El tamano declarado evita que la
+   barra de scroll pegue saltos, y la palabra auto hace que se recuerde el alto
+   real una vez medido. */
 .capitulo {
   --pc: 0;
   border-top: 1px solid var(--linea);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 .capitulo:first-of-type {

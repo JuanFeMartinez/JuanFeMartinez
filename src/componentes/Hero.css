@@ -68,14 +68,18 @@
   position: absolute;
   inset: -25%;
   z-index: -2;
-  filter: blur(90px);
   opacity: calc(1 - var(--salida));
 }
 
+/* El desenfoque va en cada mancha y no en el contenedor. Puesto en el padre,
+   mover a los hijos obliga a recalcular el desenfoque entero en cada fotograma;
+   puesto en cada una, se calcula una vez y luego solo se desplaza la capa. */
 .mancha {
   position: absolute;
   border-radius: 50%;
   display: block;
+  filter: blur(90px);
+  will-change: transform;
 }
 
 .mancha-a {

@@ -1,6 +1,9 @@
+/* El desplazamiento del grano es de un 2%, asi que no hace falta una capa
+   que sobresalga media pantalla por cada lado: asi ocupaba cuatro veces el
+   area visible, y cada repintado costaba cuatro veces mas de lo necesario. */
 .grano {
   position: fixed;
-  inset: -50%;
+  inset: -4%;
   z-index: 500;
   pointer-events: none;
   opacity: 0.02;

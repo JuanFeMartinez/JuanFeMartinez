@@ -17,7 +17,7 @@
 }
 
 .nav.compacto {
-  background: rgba(8, 8, 10, 0.72);
+  background: rgba(0, 43, 91, 0.72);
   backdrop-filter: blur(14px) saturate(1.4);
   border-bottom-color: var(--linea);
 }

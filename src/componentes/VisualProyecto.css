@@ -5,14 +5,14 @@
   overflow: hidden;
   background: linear-gradient(150deg, var(--c1), var(--tinta-2) 70%);
   box-shadow:
-    0 1px 0 rgba(244, 241, 234, 0.06) inset,
+    0 1px 0 rgba(249, 245, 235, 0.06) inset,
     0 30px 60px -30px rgba(0, 0, 0, 0.8);
   transition: transform 0.6s var(--curva), border-color 0.6s var(--curva);
 }
 
 .capitulo:hover .visual {
   transform: translateY(-6px);
-  border-color: rgba(244, 241, 234, 0.24);
+  border-color: rgba(249, 245, 235, 0.24);
 }
 
 .visual-barra {
@@ -20,15 +20,15 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.7rem 0.9rem;
-  border-bottom: 1px solid rgba(244, 241, 234, 0.08);
-  background: rgba(8, 8, 10, 0.35);
+  border-bottom: 1px solid rgba(249, 245, 235, 0.08);
+  background: rgba(0, 43, 91, 0.35);
 }
 
 .visual-barra > span {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(244, 241, 234, 0.18);
+  background: rgba(249, 245, 235, 0.18);
 }
 
 .visual-barra em {
@@ -37,7 +37,7 @@
   font-size: 0.625rem;
   font-style: normal;
   letter-spacing: 0.08em;
-  color: rgba(244, 241, 234, 0.4);
+  color: rgba(249, 245, 235, 0.4);
 }
 
 .visual-lienzo {
@@ -138,7 +138,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--hueso);
-  background: rgba(8, 8, 10, 0.65);
+  background: rgba(0, 43, 91, 0.65);
   backdrop-filter: blur(6px);
   border: 1px solid var(--linea);
   border-radius: 999px;
@@ -187,7 +187,7 @@
 }
 
 .reticula span {
-  background: rgba(244, 241, 234, 0.07);
+  background: rgba(249, 245, 235, 0.07);
   border-radius: 5px;
   animation: respirar 5s var(--curva-suave) infinite;
   animation-delay: calc(var(--i) * 0.12s);
@@ -210,14 +210,14 @@
 /* Flujo: un sistema con pasos y estados. --------------------------------- */
 .flujo-linea {
   fill: none;
-  stroke: rgba(244, 241, 234, 0.2);
+  stroke: rgba(249, 245, 235, 0.2);
   stroke-width: 1.5;
   stroke-dasharray: 4 4;
 }
 
 .flujo-nodo {
   fill: var(--tinta-2);
-  stroke: rgba(244, 241, 234, 0.3);
+  stroke: rgba(249, 245, 235, 0.3);
   stroke-width: 1.5;
 }
 
@@ -238,7 +238,7 @@
 }
 
 .columnas span {
-  background: rgba(244, 241, 234, 0.09);
+  background: rgba(249, 245, 235, 0.09);
   border-radius: 4px;
   display: block;
 }
@@ -266,7 +266,7 @@
   position: absolute;
   inset: 0;
   border-radius: 10px;
-  border: 1px solid rgba(244, 241, 234, 0.16);
+  border: 1px solid rgba(249, 245, 235, 0.16);
   background: linear-gradient(140deg, color-mix(in oklab, var(--c2) 30%, transparent), transparent);
   backdrop-filter: blur(2px);
   transform: translate(calc(var(--n) * 10%), calc(var(--n) * -8%)) scale(calc(1 - var(--n) * 0.06));

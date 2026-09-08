@@ -1,15 +1,25 @@
 /* Sistema base: tokens, reset y utilidades compartidas. -------------------- */
 
 :root {
-  /* Color */
-  --tinta: #08080a;
-  --tinta-2: #101014;
-  --tinta-3: #191920;
-  --hueso: #f4f1ea;
-  --apagado: #8f8c85;
-  --linea: rgba(244, 241, 234, 0.12);
-  --acento: #ff4d2e;
-  --acento-2: #7c8cff;
+  /* Color -----------------------------------------------------------------
+     Cinco colores. Los dos azules hacen el trabajo callado: son el fondo y
+     las superficies, y por eso ocupan el 90% de la pantalla. Los dos cálidos
+     casi no aparecen, y justo por eso golpean cuando aparecen. La crema no es
+     blanco: sobre azul profundo, el blanco puro vibra y cansa la vista.
+     Lo vibrante no viene de usar mucho color, viene de guardarlo. */
+  --tinta: #002b5b; /* azul profundo: el fondo de todo */
+  --tinta-2: #0a3466; /* un peldaño arriba: tarjetas y superficies */
+  --tinta-3: #2d4059; /* pizarra: estados al pasar el mouse */
+  --hueso: #f9f5eb; /* crema: el texto */
+  --apagado: #93a4bc; /* crema apagada hacia el azul: texto secundario */
+  --linea: rgba(249, 245, 235, 0.16);
+  --acento: #ea5455; /* rojo: lo que hay que mirar */
+  --acento-2: #f07b3f; /* naranja: acompaña al rojo, nunca solo */
+  /* El rojo es precioso en grande y falla en chico: sobre el azul solo llega a
+     3.9:1 de contraste, por debajo del mínimo legible (4.5:1). Así que el texto
+     pequeño usa el naranja, que llega a 5.1:1. En la sección crema se invierte:
+     ahí el naranja se pierde y hay que oscurecer el rojo. */
+  --acento-texto: #f07b3f;
 
   /* Tipografía */
   --display: 'Outfit', 'Poppins', system-ui, sans-serif;

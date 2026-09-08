@@ -5,28 +5,29 @@
 
 export const perfil = {
   nombre: 'Juan Felipe Martínez Villate',
-  rol: 'Motion graphics · Edición · Dirección de diseño',
-  ubicacion: 'Bucaramanga, Colombia', // ←
-  correo: 'redessociales@curacao.com.co',
+  rol: 'Dirección de arte · Diseño de personajes · Motion',
+  ubicacion: 'Tunja, Colombia',
+  correo: 'redessociales@curacao.com.co', // ← ¿un correo personal en vez del del trabajo?
   disponible: true,
+  disponibilidad: 'Autónomo y tiempo completo',
 
   // El titular del hero se parte en líneas: cada línea se revela por separado.
-  titular: ['Hago que las', 'marcas se', 'muevan'],
+  titular: ['Diseño', 'personajes', 'y los pongo', 'a moverse'],
   entrada:
-    'Motion graphics, edición y dirección de diseño. Del guion al render, y de la pieza de quince segundos al sitio completo. Cuando la herramienta es una inteligencia artificial, también sé dirigirla.',
+    'Dirección de arte, diseño de personajes y motion graphics. Cómics, videojuegos y marcas: mundos que hay que inventar primero y hacer creíbles después. Cuando la herramienta es una inteligencia artificial, también sé dirigirla.',
 
   redes: [
+    { nombre: 'Behance', url: 'https://www.behance.net/juanfemartinez' },
     { nombre: 'Correo', url: 'mailto:redessociales@curacao.com.co' },
     { nombre: 'LinkedIn', url: '#' }, // ←
     { nombre: 'Instagram', url: '#' }, // ←
-    { nombre: 'Behance', url: '#' }, // ← borra este si no lo usas
   ],
 }
 
 // Manifiesto: se ilumina palabra por palabra mientras haces scroll.
 // *Entre asteriscos* se pinta con el color de acento.
 export const manifiesto =
-  'Una animación no es un logo que gira. Es una decisión sobre *qué mira el ojo*, en qué orden y por cuánto tiempo. Da igual si la pieza es un video de quince segundos, una página entera o un personaje: alguien tiene que decidir. Por eso dirijo igual una línea de tiempo, un equipo o una *inteligencia artificial*: la herramienta cambia, *el criterio no*.'
+  'Un personaje no es un dibujo bonito. Es una decisión sobre *quién es*, qué quiere y cómo se le nota en la silueta antes de que abra la boca. Lo mismo da si después vive en un cómic, en un videojuego o en el logo animado de una marca: alguien tiene que decidir. Por eso dirijo igual un trazo, una línea de tiempo o una *inteligencia artificial*: la herramienta cambia, *el criterio no*.'
 
 // Cada proyecto es un capítulo del scroll. El orden aquí es el orden en pantalla.
 //
@@ -68,50 +69,104 @@ export const proyectos = [
     forma: 'capas',
   },
   {
-    id: 'tiptops',
-    titulo: 'TipTops',
-    subtitulo: 'Serie de video para redes',
-    disciplina: 'Edición',
-    anio: '2025 — hoy', // ←
-    rol: 'Edición y post',
+    id: 'baskiat',
+    titulo: 'BASKIAT',
+    subtitulo: 'Diseño de personaje',
+    disciplina: 'Personajes',
+    anio: '2024',
+    rol: 'Diseño e ilustración',
     resumen:
-      'Serie continua de piezas verticales sobre equipos profesionales de video: qué son, cómo llegan y cómo se cuidan. Explicar una cámara de broadcast en treinta segundos no es cuestión de hablar rápido, es cuestión de montaje.',
+      'El primero. Un personaje construido desde Jean-Michel Basquiat para la materia de diseño de personajes de ingeniería en multimedia: del boceto en Fresco al modelo en Blender, pasando por la pregunta que de verdad importa, que es quién es antes de cómo se ve.',
     detalles: [
-      'La edición carga con la explicación: el texto en pantalla marca el ritmo y la imagen hace el resto.', // ←
-      'Formato vertical y duración corta, pensados para cómo se ve realmente en el celular.',
-      'Montaje en Premiere y DaVinci Resolve según lo que pida la pieza.', // ←
+      'Del trazo plano al volumen: ilustración en Fresco y modelado en Blender.',
+      'La silueta primero: un personaje que no se reconoce en negro sobre blanco todavía no está resuelto.', // ←
     ],
-    stack: ['Premiere Pro', 'DaVinci Resolve', 'After Effects'],
-    metricas: [{ valor: '25+', etiqueta: 'piezas' }], // ←
-    enlace: null,
-    videos: [
-      { src: '/video/broadcast.mp4', poster: '/img/broadcast.jpg', titulo: 'Cámaras y equipos de broadcast' },
-      { src: '/video/mantenimiento.mp4', poster: '/img/mantenimiento.jpg', titulo: 'Así recibes tu equipo' },
-      { src: '/video/sargento-box.mp4', poster: '/img/sargento-box.jpg', titulo: 'Línea táctica: dotación' },
-      { src: '/video/mundial.mp4', poster: '/img/mundial.jpg', titulo: 'El Mundial en la oficina' },
+    stack: ['Fresco', 'Photoshop', 'Blender', 'Figma'],
+    metricas: [],
+    enlace: 'https://www.behance.net/gallery/235668919/BASKIAT',
+    imagen: null, // ← pásame las láminas y reemplazo el dibujo generado
+    paleta: ['#2d4059', '#f07b3f', '#f9f5eb'],
+    forma: 'capas',
+  },
+  {
+    id: 'casa-corallo',
+    titulo: 'La Casa Corallo',
+    subtitulo: 'Cómic · K.O Media',
+    disciplina: 'Cómic',
+    anio: '2025',
+    rol: 'Ilustración y worldbuilding',
+    resumen:
+      'Un cómic en blanco y negro que funciona como transmedia de Lucky Dip: no es material promocional del juego, es otra puerta de entrada al mismo mundo. Noir, con todo lo que eso obliga en contraste y en silencios.',
+    detalles: [
+      'Worldbuilding compartido con el videojuego: los mismos personajes, otro lenguaje.',
+      'Blanco y negro por decisión narrativa, no por presupuesto.', // ←
+      'Hecho en equipo en K.O Media, con Fabián Gutierrez y Yose One.',
     ],
-    imagen: null,
-    paleta: ['#3d1f1f', '#ff8a5b', '#f4f1ea'],
+    stack: ['Illustrator', 'Fresco'],
+    metricas: [],
+    enlace: 'https://www.behance.net/gallery/238872661/LA-CASA-CORALLO',
+    imagen: null, // ←
+    paleta: ['#002b5b', '#ea5455', '#f9f5eb'],
     forma: 'columnas',
   },
   {
-    id: 'personajes',
-    titulo: 'Diseño de personajes',
-    subtitulo: 'Ilustración y construcción',
-    disciplina: 'Personajes',
-    anio: '2026', // ←
-    rol: 'Diseño e ilustración',
+    id: 'luckydip',
+    titulo: 'Lucky Dip',
+    subtitulo: 'Videojuego · K.O Media',
+    disciplina: 'Juegos',
+    anio: '2025',
+    rol: 'Arte y personajes',
     resumen:
-      'PENDIENTE: no encontré este material en tus carpetas. Dime dónde está y armo la galería con las imágenes reales.', // ←
+      'Un videojuego de cuatro creadores al que aporté arte y personajes. De esos proyectos donde se nota que a todo el equipo le importa, y eso termina viéndose en pantalla.', // ←
     detalles: [
-      'Falta contar de dónde salen: marca, proyecto propio o encargo.', // ←
-      'Conviene mostrar proceso, no solo resultado: bocetos, rotación, expresiones.', // ←
+      'Personajes que después se extendieron al cómic La Casa Corallo.',
+      'Trabajo en equipo con roles repartidos, no en solitario.',
     ],
-    stack: ['Illustrator', 'Photoshop'], // ←
+    stack: ['Fresco', 'Photoshop', 'Illustrator'], // ←
     metricas: [],
-    enlace: null,
-    imagen: null, // ← aquí va la imagen del personaje
-    paleta: ['#1b3a2f', '#4ade80', '#f4f1ea'],
+    enlace: 'https://www.behance.net/gallery/235688649/LUCKYDIP-(parcialmente)',
+    imagen: null, // ←
+    paleta: ['#0a3466', '#f07b3f', '#f9f5eb'],
+    forma: 'reticula',
+  },
+  {
+    id: 'find-fih',
+    titulo: 'FIND FIH',
+    subtitulo: 'Game jam',
+    disciplina: 'Juegos',
+    anio: '2025',
+    rol: 'Arte y dirección',
+    resumen:
+      'Un juego hecho contra el reloj en una game jam, con Yose One y Fabián Gutierrez. Las jams no premian la pieza perfecta: premian decidir rápido y sostener la decisión hasta el final.',
+    detalles: [
+      'Arte y dirección visual en un plazo de días, no de meses.', // ←
+      'El juego se puede descargar y jugar, no es solo una lámina.',
+    ],
+    stack: ['Fresco', 'Photoshop'], // ←
+    metricas: [],
+    enlace: 'https://www.behance.net/gallery/238874059/FIND-FIH-GameJam',
+    imagen: null, // ←
+    paleta: ['#2d4059', '#ea5455', '#f9f5eb'],
+    forma: 'flujo',
+  },
+  {
+    id: 'ko-media',
+    titulo: 'K.O Media',
+    subtitulo: 'Sitio web del estudio',
+    disciplina: 'Web',
+    anio: '2025',
+    rol: 'Diseño y frontend',
+    resumen:
+      'El sitio del estudio, con animación y 3D corriendo en el navegador. Aquí el diseño y el código son la misma decisión: lo que se mueve en pantalla hay que sostenerlo con Three.js sin que la página se vuelva lenta.',
+    detalles: [
+      'Three.js para 3D en tiempo real dentro del navegador.',
+      'Del diseño en Figma al frontend, sin intermediarios.', // ←
+    ],
+    stack: ['Three.js', 'JavaScript', 'HTML', 'CSS', 'Figma'],
+    metricas: [],
+    enlace: 'https://www.behance.net/gallery/238873761/KO-media-Sitio-Web',
+    imagen: null, // ←
+    paleta: ['#002b5b', '#f07b3f', '#f9f5eb'],
     forma: 'reticula',
   },
   {

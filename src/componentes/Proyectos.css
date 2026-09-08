@@ -61,7 +61,7 @@
   font-size: 0.625rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--acento);
+  color: var(--acento-texto);
   border: 1px solid color-mix(in oklab, var(--acento) 40%, transparent);
   border-radius: 999px;
 }
@@ -120,7 +120,7 @@
   font-size: clamp(4rem, 12vw, 9rem);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(244, 241, 234, 0.14);
+  -webkit-text-stroke: 1px rgba(249, 245, 235, 0.14);
   pointer-events: none;
   transform: translateY(calc(var(--pc) * 3rem));
   will-change: transform;
@@ -144,13 +144,13 @@
 }
 
 .capitulo-meta .punto {
-  color: var(--acento);
+  color: var(--acento-texto);
 }
 
 .capitulo-resumen {
   margin-top: 1.75rem;
   font-size: var(--t-l);
-  color: rgba(244, 241, 234, 0.86);
+  color: rgba(249, 245, 235, 0.86);
   max-width: 46ch;
 }
 

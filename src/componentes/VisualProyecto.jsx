@@ -69,7 +69,8 @@ export function VisualProyecto({ proyecto }) {
   const Forma = FORMAS[proyecto.forma] ?? Reticula
   const rotulo = proyecto.enlace ? new URL(proyecto.enlace).hostname : proyecto.id
   const piezas = proyecto.videos ?? []
-  const hayMedio = piezas.length > 0 || Boolean(proyecto.imagen) || Boolean(proyecto.embed)
+  const hayMedio =
+    piezas.length > 0 || Boolean(proyecto.imagen) || Boolean(proyecto.embed) || Boolean(proyecto.sitio)
 
   return (
     <figure className="visual" style={{ '--c1': c1, '--c2': c2, '--c3': c3 }}>
@@ -88,6 +89,8 @@ export function VisualProyecto({ proyecto }) {
             alt={`Vista del proyecto ${proyecto.titulo}`}
             loading="lazy"
           />
+        ) : proyecto.sitio ? (
+          <SitioProyecto url={proyecto.sitio} titulo={proyecto.titulo} />
         ) : proyecto.embed ? (
           // loading="lazy" es lo que hace viable meter cinco de estos: el
           // iframe no se descarga hasta que el capítulo entra en pantalla.
@@ -105,6 +108,47 @@ export function VisualProyecto({ proyecto }) {
         )}
       </div>
     </figure>
+  )
+}
+
+/**
+ * Vista previa de un sitio web en vivo, no una captura: se carga el sitio real
+ * a ancho de escritorio y se reduce a escala para que quepa en el panel. Así se
+ * ve como se ve de verdad, y no envejece cuando el sitio cambia.
+ *
+ * Va con pointer-events desactivados a propósito. Es una vista, no un sitio
+ * dentro de otro: sin eso, quien haga clic acaba navegando por dentro del
+ * recuadro y no encuentra la salida. Para entrar de verdad está el enlace.
+ */
+function SitioProyecto({ url, titulo }) {
+  const caja = useRef(null)
+  const ANCHO_ESCRITORIO = 1280
+
+  useEffect(() => {
+    const el = caja.current
+    if (!el) return
+
+    // La escala depende del ancho del panel, que cambia con la ventana, así que
+    // no puede quedarse fija en el CSS.
+    const medir = () =>
+      el.style.setProperty('--escala', (el.clientWidth / ANCHO_ESCRITORIO).toFixed(4))
+
+    medir()
+    const observador = new ResizeObserver(medir)
+    observador.observe(el)
+    return () => observador.disconnect()
+  }, [])
+
+  return (
+    <div className="visual-sitio" ref={caja}>
+      <iframe
+        src={url}
+        title={`Vista del sitio ${titulo}`}
+        loading="lazy"
+        tabIndex={-1}
+        aria-hidden="true"
+      />
+    </div>
   )
 }
 

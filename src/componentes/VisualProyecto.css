@@ -178,6 +178,32 @@
   height: auto;
 }
 
+/* Vista previa de un sitio en vivo. El iframe se carga a 1280px de ancho, que
+   es donde el sitio muestra su maquetación de escritorio, y se reduce con una
+   escala que calcula el componente según el ancho del panel. La altura de
+   1280x10/16 = 800 hace que la vista quede exactamente llena. */
+.visual-sitio {
+  position: relative;
+  /* El ancho explícito no sobra: sin él, el navegador tiene que resolver la
+     altura del padre a partir del hijo y la del hijo a partir de su propio
+     ancho, se queda en el bucle y le asigna cero. El panel entero colapsaba. */
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--superficie);
+}
+
+.visual-sitio iframe {
+  position: absolute;
+  inset: 0;
+  width: 1280px;
+  height: 800px;
+  border: 0;
+  transform: scale(var(--escala, 0.4));
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
 /* El embed de Behance viene con medidas fijas de 404x316. Aquí se estira al
    ancho de la columna conservando esa proporción, que es la que espera su
    maquetación interna. */

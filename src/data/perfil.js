@@ -227,6 +227,29 @@ export const proyectos = [
     paleta: ['#0d3b66', '#3aa0ff', '#f4f1ea'],
     forma: 'reticula',
   },
+  {
+    id: 'dr-fabricio',
+    titulo: 'Dr. Fabricio Martínez',
+    subtitulo: 'Sitio de medicina alternativa',
+    disciplina: 'UX y UI',
+    anio: '2026', // ←
+    rol: 'Diseño y dirección',
+    resumen:
+      'Un paciente que llega buscando ayuda no quiere leer un folleto: quiere entender en diez segundos si esto es para él y cómo dar el siguiente paso. Todo el sitio está ordenado alrededor de esa decisión.',
+    detalles: [
+      'La página abre con el problema del paciente, no con los títulos del médico.', // ←
+      'Todo el estilo vive centralizado en un solo lugar, no disperso en cada bloque: el próximo cambio toma minutos y no una tarde.',
+      'Pensado para que se actualice sin tocar código y sin romper el diseño.', // ←
+    ],
+    stack: ['Dirección de arte', 'WordPress', 'Elementor', 'CSS'],
+    metricas: [],
+    enlace: 'https://drfabriciomartinezrojas.com',
+    // Vista previa del sitio real, en vivo. No es una captura: no envejece.
+    sitio: 'https://drfabriciomartinezrojas.com',
+    imagen: null,
+    paleta: ['#2b2140', '#c084fc', '#f9f5eb'],
+    forma: 'columnas',
+  },
 ]
 
 // Marquesina inferior: se mueve sola y acelera con el scroll.

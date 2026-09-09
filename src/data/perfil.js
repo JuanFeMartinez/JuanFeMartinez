@@ -29,15 +29,15 @@ export const perfil = {
 // alguien podía recorrer el portafolio entero sin saber si estás disponible.
 export const presentacion = {
   parrafos: [
-    'Estudié ingeniería en multimedia, aunque lo que hago se parece más a dirigir que a programar: decidir cómo se ve algo y sostener esa decisión hasta el final.', // ←
-    'En K.O Media hago personajes y cómic junto a Fabián Gutierrez y Yose One. En La Curaçao llevo lo audiovisual de la marca: motion, edición y lo que haga falta.', // ←
-    'Entre las dos cosas he terminado tocando de todo — personajes, video, interfaz — y me gusta que sea así: cada oficio le enseña algo al otro.',
+    'Estudiante de ingeniería en multimedia y bilingüe. Conozco el flujo completo de una producción: videojuegos, animación y audiovisual filmado, del arranque a la entrega.',
+    'Me apasiona el lado visual de las cosas — que se vean bien y que se sientan bien — porque de ahí sale la experiencia que se lleva quien está del otro lado. Y he descubierto que dirigir proyectos me gusta tanto como hacerlos.',
+    'Seguir aprendiendo es una meta constante: es lo que me hace mejorar en lo profesional y en lo personal.',
   ],
   datos: [
     { etiqueta: 'Dónde', valor: 'Bogotá, Colombia' },
     { etiqueta: 'Disponible para', valor: 'Autónomo y tiempo completo' },
-    { etiqueta: 'Estudio', valor: 'K.O Media' }, // ←
-    { etiqueta: 'Formación', valor: 'Ingeniería en multimedia' }, // ←
+    { etiqueta: 'Formación', valor: 'Ingeniería en multimedia' },
+    { etiqueta: 'Idiomas', valor: 'Español e inglés' },
   ],
 }
 

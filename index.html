@@ -19,25 +19,21 @@
     />
 
     <!-- La tarjeta que se ve al compartir el enlace en LinkedIn, WhatsApp o
-         donde sea. Estas dos direcciones tienen que ser absolutas: las redes
+         donde sea. Las direcciones tienen que ser absolutas porque las redes
          leen la etiqueta desde su propio servidor y una ruta relativa no les
-         dice nada. Es el único sitio del proyecto que no se adapta solo, así
-         que si algún día se renombra el repositorio, hay que cambiarlas aquí. -->
-    <meta property="og:url" content="https://juanfemartinez.github.io/Portafolio-JuanFe-Mart-nez/" />
-    <meta
-      property="og:image"
-      content="https://juanfemartinez.github.io/Portafolio-JuanFe-Mart-nez/og.jpg"
-    />
+         dice nada. __SITIO__ lo rellena Vite en cada build con la dirección
+         real que le pasa el workflow: así esto se adapta solo si el
+         repositorio cambia de nombre, en vez de quedarse apuntando a la
+         dirección vieja. -->
+    <meta property="og:url" content="__SITIO__/" />
+    <meta property="og:image" content="__SITIO__/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Portafolio de Juan Felipe Martínez Villate" />
     <meta property="og:locale" content="es_CO" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:image"
-      content="https://juanfemartinez.github.io/Portafolio-JuanFe-Mart-nez/og.jpg"
-    />
+    <meta name="twitter:image" content="__SITIO__/og.jpg" />
 
     <link
       rel="icon"

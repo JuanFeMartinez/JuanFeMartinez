@@ -27,7 +27,7 @@ export const perfil = {
 // Manifiesto: se ilumina palabra por palabra mientras haces scroll.
 // *Entre asteriscos* se pinta con el color de acento.
 export const manifiesto =
-  'Un corte a tiempo hace más que un efecto caro. Un personaje bueno se reconoce *por la silueta*, antes de que abra la boca. Y una interfaz se entiende en tres segundos o no se entiende. Son oficios distintos que se reducen a lo mismo: *decidir qué ve la gente*, en qué orden y por cuánto rato. Lo demás son herramientas, y las manejo todas: After Effects, un lápiz o una inteligencia artificial. *El criterio es el mismo*.'
+  'Un corte a tiempo hace más que un efecto caro. Un personaje bueno se reconoce *por la silueta*, antes de que abra la boca. Y una interfaz se entiende en tres segundos o no se entiende. Son oficios distintos que se reducen a lo mismo: *decidir qué ve la gente*, en qué orden y por cuánto tiempo. Lo demás son herramientas, y las manejo todas: After Effects, un lápiz o una inteligencia artificial. *El criterio es el mismo*.'
 
 // Cada proyecto es un capítulo del scroll. El orden aquí es el orden en pantalla.
 //

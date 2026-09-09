@@ -242,10 +242,15 @@
   gap: 2rem;
 }
 
+/* Crema llena y no el color apagado: sobre el degradado, un azul grisaceo se
+   lee peor de lo que dice su contraste, porque comparte tono con el fondo.
+   Pasa de 9.4 a 14.4 contra el fondo que le toca debajo. Aqui este parrafo no
+   es texto secundario: es lo unico que explica a que se dedica. */
 .hero-entrada {
-  max-width: 42ch;
-  color: var(--texto-suave);
+  max-width: 46ch;
+  color: var(--texto);
   font-size: var(--t-l);
+  line-height: 1.55;
 }
 
 .hero-cta {

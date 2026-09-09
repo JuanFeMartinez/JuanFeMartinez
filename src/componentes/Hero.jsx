@@ -118,11 +118,6 @@ export function Hero() {
           </a>
         </div>
       </div>
-
-      <div className="hero-guia" aria-hidden="true">
-        <span className="hero-guia-texto">Scroll</span>
-        <span className="hero-guia-linea" />
-      </div>
     </section>
   )
 }

@@ -1,0 +1,53 @@
+/* Por debajo del grano (500) para que la textura de papel también caiga sobre
+   el velo, y por encima del nav (150) y de la barra de progreso (200), que
+   durante la entrada no tienen nada que decir. */
+.apertura {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  background: var(--fondo);
+  /* Nunca atrapa un clic: si alguien llega con prisa y aprieta algo en el
+     primer segundo, el clic pasa de largo hasta la página. */
+  pointer-events: none;
+  animation: apertura-abrir 0.5s var(--curva-suave) 0.65s both;
+}
+
+.apertura-marca {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  animation: apertura-entrar 0.5s var(--curva) 0.05s both;
+}
+
+.apertura-nombre {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--texto);
+}
+
+/* La raya crece desde el centro, que es el gesto más corto que se lee como
+   "esto está empezando" sin robarle protagonismo a la portada. */
+.apertura-linea {
+  width: 4.5rem;
+  height: 1px;
+  background: var(--acento);
+  animation: apertura-raya 0.6s var(--curva) 0.25s both;
+}
+
+@keyframes apertura-entrar {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes apertura-raya {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes apertura-abrir {
+  to { opacity: 0; }
+}

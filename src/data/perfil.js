@@ -19,8 +19,8 @@ export const perfil = {
   redes: [
     { nombre: 'Behance', url: 'https://www.behance.net/juanfemartinez' },
     { nombre: 'Correo', url: 'mailto:juanfemvc@gmail.com' },
-    { nombre: 'LinkedIn', url: '#' }, // ←
-    { nombre: 'Instagram', url: '#' }, // ←
+    { nombre: 'LinkedIn', url: 'https://www.linkedin.com/in/juan-felipe-mart%C3%ADnez-004072385' },
+    { nombre: 'Instagram', url: 'https://www.instagram.com/jfmv.com.co/' },
   ],
 }
 

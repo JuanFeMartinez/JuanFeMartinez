@@ -1,5 +1,6 @@
 import { useProgreso } from './hooks/useProgreso'
 import { useRevelar } from './hooks/useRevelar'
+import { Apertura } from './componentes/Apertura'
 import { BarraProgreso } from './componentes/BarraProgreso'
 import { Contacto } from './componentes/Contacto'
 import { Cursor } from './componentes/Cursor'
@@ -19,6 +20,7 @@ export default function App() {
 
   return (
     <>
+      <Apertura />
       <FiltroAvatar />
       <Grano />
       <BarraProgreso />

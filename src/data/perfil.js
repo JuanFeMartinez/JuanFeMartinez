@@ -24,6 +24,23 @@ export const perfil = {
   ],
 }
 
+// Sección de presentación, entre los proyectos y el proceso. Es el único sitio
+// donde el nombre se ve en grande y donde se dicen los datos duros: sin esto,
+// alguien podía recorrer el portafolio entero sin saber si estás disponible.
+export const presentacion = {
+  parrafos: [
+    'Estudié ingeniería en multimedia, aunque lo que hago se parece más a dirigir que a programar: decidir cómo se ve algo y sostener esa decisión hasta el final.', // ←
+    'En K.O Media hago personajes y cómic junto a Fabián Gutierrez y Yose One. En La Curaçao llevo lo audiovisual de la marca: motion, edición y lo que haga falta.', // ←
+    'Entre las dos cosas he terminado tocando de todo — personajes, video, interfaz — y me gusta que sea así: cada oficio le enseña algo al otro.',
+  ],
+  datos: [
+    { etiqueta: 'Dónde', valor: 'Bogotá, Colombia' },
+    { etiqueta: 'Disponible para', valor: 'Autónomo y tiempo completo' },
+    { etiqueta: 'Estudio', valor: 'K.O Media' }, // ←
+    { etiqueta: 'Formación', valor: 'Ingeniería en multimedia' }, // ←
+  ],
+}
+
 // Manifiesto: se ilumina palabra por palabra mientras haces scroll.
 // *Entre asteriscos* se pinta con el color de acento.
 export const manifiesto =

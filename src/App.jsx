@@ -3,11 +3,13 @@ import { useRevelar } from './hooks/useRevelar'
 import { BarraProgreso } from './componentes/BarraProgreso'
 import { Contacto } from './componentes/Contacto'
 import { Cursor } from './componentes/Cursor'
+import { FiltroAvatar } from './componentes/FiltroAvatar'
 import { Grano } from './componentes/Grano'
 import { Hero } from './componentes/Hero'
 import { Manifiesto } from './componentes/Manifiesto'
 import { Marquesina } from './componentes/Marquesina'
 import { Nav } from './componentes/Nav'
+import { Presentacion } from './componentes/Presentacion'
 import { Proceso } from './componentes/Proceso'
 import { Proyectos } from './componentes/Proyectos'
 
@@ -17,6 +19,7 @@ export default function App() {
 
   return (
     <>
+      <FiltroAvatar />
       <Grano />
       <BarraProgreso />
       <Cursor />
@@ -27,6 +30,7 @@ export default function App() {
         <Marquesina />
         <Manifiesto />
         <Proyectos />
+        <Presentacion />
         <Proceso />
         <Contacto />
       </main>

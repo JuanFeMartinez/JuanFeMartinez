@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-15T00:00:00.000Z",
+  "title": "Design System: El Cuaderno de Dirección",
+  "extensions": {
+    "colorMeta": {
+      "papel-crema": { "role": "neutral", "displayName": "Papel Crema", "canonical": "#faf5e6", "tonalRamp": ["#1f1a10", "#3d3420", "#5c4f30", "#8a7648", "#b9a06a", "#d9c495", "#f0e2c2", "#faf5e6"] },
+      "superficie": { "role": "neutral", "displayName": "Superficie", "canonical": "#fffdf6", "tonalRamp": ["#201f1a", "#403e33", "#605d4d", "#8f8b73", "#bdb89a", "#ded9bf", "#f5f2e5", "#fffdf6"] },
+      "superficie-honda": { "role": "neutral", "displayName": "Superficie Honda", "canonical": "#f0e8d3", "tonalRamp": ["#241f14", "#463c26", "#695939", "#998058", "#c2a97e", "#dccbaa", "#eaddc2", "#f0e8d3"] },
+      "tinta-profunda": { "role": "primary", "displayName": "Tinta Profunda", "canonical": "#002b5b", "tonalRamp": ["#000a17", "#001330", "#001d47", "#002b5b", "#0f4c8f", "#3d7dc2", "#7fadde", "#c3dbf2"] },
+      "tinta-suave": { "role": "neutral", "displayName": "Tinta Suave", "canonical": "#4a5a70", "tonalRamp": ["#12161c", "#232b36", "#354152", "#4a5a70", "#657891", "#8898ab", "#b3c0cf", "#dde4ea"] },
+      "rojo-senal": { "role": "secondary", "displayName": "Rojo Señal", "canonical": "#ea5455", "tonalRamp": ["#3a0d0d", "#5f1616", "#8a2020", "#b62a2a", "#ea5455", "#f18384", "#f7b2b2", "#fce0e0"] },
+      "naranja-acompanante": { "role": "secondary", "displayName": "Naranja Acompañante", "canonical": "#f07b3f", "tonalRamp": ["#3d1f0a", "#623510", "#8a4a16", "#b8621e", "#f07b3f", "#f5a171", "#f9c6a3", "#fce6d6"] },
+      "rojo-senal-texto": { "role": "tertiary", "displayName": "Rojo Señal Texto", "canonical": "#b83a3b", "tonalRamp": ["#2e0e0e", "#4d1717", "#712121", "#962a2a", "#b83a3b", "#cf6a6a", "#e19d9d", "#f2cfcf"] },
+      "azul-noche": { "role": "neutral", "displayName": "Azul Noche", "canonical": "#001a3a", "tonalRamp": ["#00050f", "#000a1c", "#00112b", "#001a3a", "#0a3466", "#2d5591", "#5f83b8", "#a3bcdc"] },
+      "azul-noche-superficie": { "role": "neutral", "displayName": "Azul Noche Superficie", "canonical": "#0a3466", "tonalRamp": ["#020a15", "#051529", "#08243f", "#0a3466", "#2d4059", "#4a6690", "#7c94bd", "#b6c8e0"] },
+      "azul-noche-superficie-2": { "role": "neutral", "displayName": "Azul Noche Superficie 2", "canonical": "#2d4059", "tonalRamp": ["#0b0f15", "#151e29", "#212f3f", "#2d4059", "#4a5f7d", "#7188a5", "#a1b3c9", "#d2dbe6"] },
+      "texto-crema": { "role": "neutral", "displayName": "Texto Crema", "canonical": "#f6eeda", "tonalRamp": ["#221f16", "#443f2b", "#665f40", "#998f60", "#c2b990", "#ded7bc", "#efe9d7", "#f6eeda"] },
+      "texto-crema-suave": { "role": "neutral", "displayName": "Texto Crema Suave", "canonical": "#b9c4d4", "tonalRamp": ["#171b20", "#2c343f", "#434e5c", "#5d6b7d", "#8090a2", "#a3b0c0", "#c7d0da", "#e5eaf0"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Titulares grandes: hero y encabezados de sección. Siempre con la clase .titular-apretado." },
+      "titulo": { "displayName": "Título", "purpose": "Subtítulos de bloque (proceso, presentación)." },
+      "body": { "displayName": "Cuerpo", "purpose": "Texto corrido; párrafos largos usan el escalón --t-l en vez del tamaño base." },
+      "label": { "displayName": "Etiqueta", "purpose": "Navegación, disciplinas del índice, .etiqueta. Siempre mayúsculas." },
+      "label-2xs": { "displayName": "Etiqueta 2xs", "purpose": "Metadatos secundarios: años, créditos, captions de baraja, pies de página. Piso de legibilidad del sistema (11px); reemplazó un 0.625rem/10px suelto en seis archivos." },
+      "numero": { "displayName": "Número de capítulo", "purpose": "Numeración editorial de cada proyecto, siempre a contorno, nunca sólido." }
+    },
+    "shadows": [
+      { "name": "panel-flotante", "value": "0 1px 0 rgba(249,245,235,0.06) inset, 0 30px 60px -30px rgba(0,0,0,0.8)", "purpose": "El panel de proyecto en reposo sobre el papel; único elemento de superficie con sombra por defecto." },
+      { "name": "imagen-ampliada", "value": "0 40px 80px -40px rgba(0,0,0,0.9)", "purpose": "La lupa y las cartas de la baraja al mostrarse." }
+    ],
+    "motion": [
+      { "name": "curva", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Curva de salida pronunciada; la mayoría de las transiciones y revelados de scroll." },
+      { "name": "curva-suave", "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Curva simétrica para cambios de estado (nav compacto, hover de fondo)." }
+    ],
+    "breakpoints": [
+      { "name": "nav-compacto", "value": "34rem" },
+      { "name": "indice-sin-etiqueta", "value": "40rem" },
+      { "name": "columna-unica", "value": "48rem" },
+      { "name": "reja-capitulo", "value": "56rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón primario (contacto / hero)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Píldora con borde fino que se llena desde abajo al pasar el mouse; el texto invierte a color de fondo.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Hablemos<span class=\"ds-btn-icon\">→</span></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.75rem; font-family: 'Outfit', system-ui, sans-serif; font-weight: 500; font-size: clamp(1.25rem, 3.5vw, 2.75rem); padding: 0.9rem 1.6rem; border: 1px solid rgba(0,43,91,0.18); border-radius: 999px; color: #002b5b; position: relative; overflow: hidden; isolation: isolate; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), color 0.45s cubic-bezier(0.16,1,0.3,1), border-color 0.45s cubic-bezier(0.16,1,0.3,1); text-decoration: none; } .ds-btn-primary::before { content: ''; position: absolute; inset: 0; z-index: -1; background: #ea5455; transform: translateY(101%); transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { border-color: #ea5455; } .ds-btn-primary:hover::before { transform: none; } .ds-btn-icon { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover .ds-btn-icon { transform: translateX(4px); } .ds-btn-primary:focus-visible { outline: 2px solid #ea5455; outline-offset: 4px; }"
+    },
+    {
+      "name": "Etiqueta de disciplina",
+      "kind": "chip",
+      "refersTo": "tag-pill",
+      "description": "Cápsula de metadatos de solo lectura, borde fino, sin fondo sólido.",
+      "html": "<span class=\"ds-tag\">Videojuegos y personajes</span>",
+      "css": ".ds-tag { display: inline-block; padding: 0.325rem 0.7rem 0.275rem; font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; letter-spacing: 0.14em; text-transform: uppercase; color: #b83a3b; border: 1px solid rgba(234,84,85,0.4); border-radius: 999px; }"
+    },
+    {
+      "name": "Tarjeta de proceso",
+      "kind": "card",
+      "refersTo": "card-proceso",
+      "description": "Celda de la reja de 'cómo trabajo'; contorno propio simulado con box-shadow para que las celdas vacías no se vean sueltas.",
+      "html": "<div class=\"ds-card-proceso\"><span class=\"ds-card-numero\">01</span><h3>Decidir qué mira el ojo</h3><p>Antes de abrir After Effects: qué se ve primero, qué después y qué no se ve.</p></div>",
+      "css": ".ds-card-proceso { box-shadow: 0 0 0 1px rgba(0,43,91,0.18); background: #fffdf6; padding: clamp(1.75rem, 3vw, 2.5rem); transition: background-color 0.5s cubic-bezier(0.16,1,0.3,1); } .ds-card-proceso:hover { background: #f0e8d3; } .ds-card-numero { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.16em; color: #b83a3b; margin-bottom: 1.25rem; } .ds-card-proceso h3 { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 0 0 0.9rem; color: #002b5b; } .ds-card-proceso p { color: #4a5a70; font-size: 0.875rem; line-height: 1.7; margin: 0; }"
+    },
+    {
+      "name": "Panel de proyecto (isla oscura)",
+      "kind": "custom",
+      "refersTo": "card-visual",
+      "description": "Componente de firma: isla oscura flotante con barra tipo ventana de navegador, la única superficie del sistema con sombra en reposo.",
+      "html": "<div class=\"ds-visual\"><div class=\"ds-visual-barra\"><span></span><span></span><span></span><em>proyecto.mp4</em></div><div class=\"ds-visual-lienzo\">Contenido del proyecto</div></div>",
+      "css": ".ds-visual { --fondo:#002b5b; --superficie:#0a3466; margin: 0; border: 1px solid rgba(249,245,235,0.16); border-radius: 14px; overflow: hidden; background: linear-gradient(150deg, #0a3466, #0a3466 70%); box-shadow: 0 1px 0 rgba(249,245,235,0.06) inset, 0 30px 60px -30px rgba(0,0,0,0.8); color: #f6eeda; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), border-color 0.6s cubic-bezier(0.16,1,0.3,1); } .ds-visual:hover { transform: translateY(-6px); border-color: rgba(249,245,235,0.24); } .ds-visual-barra { display: flex; align-items: center; gap: 0.4rem; padding: 0.7rem 0.9rem; border-bottom: 1px solid rgba(249,245,235,0.08); background: rgba(0,43,91,0.35); } .ds-visual-barra span { width: 8px; height: 8px; border-radius: 50%; background: rgba(249,245,235,0.18); } .ds-visual-barra em { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; font-style: normal; letter-spacing: 0.08em; color: rgba(249,245,235,0.4); } .ds-visual-lienzo { aspect-ratio: 4/3; display: grid; place-items: center; padding: clamp(1rem, 3vw, 2rem); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: rgba(249,245,235,0.5); }"
+    },
+    {
+      "name": "Navegación",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Barra fija que invierte sus tokens mientras flota sobre el hero oscuro y pasa a compacta (fondo translúcido + blur) al hacer scroll.",
+      "html": "<nav class=\"ds-nav ds-nav--compacto\"><div class=\"ds-nav-interior\"><span class=\"ds-nav-nombre\"><i class=\"ds-nav-punto\"></i>Juan Felipe Martínez</span><ul class=\"ds-nav-lista\"><li><a href=\"#\">Proyectos</a></li><li><a href=\"#\">Proceso</a></li><li><a href=\"#\">Contacto</a></li></ul></div></nav>",
+      "css": ".ds-nav { position: relative; border-bottom: 1px solid rgba(0,43,91,0.18); background: rgba(250,245,230,0.82); backdrop-filter: blur(14px) saturate(1.4); } .ds-nav-interior { max-width: 78rem; margin-inline: auto; padding: 0.875rem clamp(1.25rem, 5vw, 5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; } .ds-nav-nombre { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.5rem; color: #002b5b; } .ds-nav-punto { width: 6px; height: 6px; border-radius: 50%; background: #16a34a; display: inline-block; } .ds-nav-lista { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 0.875rem; } .ds-nav-lista a { position: relative; color: #4a5a70; text-decoration: none; transition: color 0.3s; } .ds-nav-lista a:hover { color: #002b5b; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Cuaderno de Dirección",
+    "overview": "El sitio se lee como el cuaderno de trabajo de un director de arte: papel crema, tinta azul profunda, notas al margen en monoespaciada, y paneles de pantalla incrustados como referencias pegadas encima de la página. Es editorial y preciso — más cerca de una revista de diseño que de una plantilla de portafolio — con un acento cálido que casi nunca aparece y por eso golpea cuando lo hace: la vibración no viene de usar mucho color, viene de guardarlo. Tres islas oscuras (el hero, el bloque de proceso, y cada panel de proyecto) cortan el papel como si la página misma se apagara para dejar que el trabajo brille en pantalla, y solo entonces aparecen sombra, grano de cine y controles de reproductor.\n\nEl texto contenido hasta que se activa es la regla de comportamiento: en reposo los botones y píldoras son casi silenciosos — una línea fina de 1px, sin relleno — y al tocarlos el color y el movimiento aparecen de golpe, no gradualmente. Nada decorativo se mueve porque sí: cada micro-interacción (el relleno que sube desde abajo, el guion que crece, la flecha que se corre) tiene un porqué funcional.",
+    "keyCharacteristics": [
+      "Papel crema cálido con tinta azul de 13:1 de contraste, nunca blanco puro ni negro puro.",
+      "Un acento rojo/naranja que aparece en menos del 10% de cualquier pantalla.",
+      "Tres islas oscuras (hero, proceso, panel de proyecto) que invierten los tokens sin reescribir ninguna regla.",
+      "Numeración de capítulo en una serifa tipo Bodoni, a contorno, como un adorno editorial y no una repetición del titular.",
+      "Grano de impresión (textura de ruido al 2% de opacidad) sobre todo el sitio.",
+      "Componentes contenidos en reposo, expresivos solo al activarse."
+    ],
+    "rules": [
+      { "name": "La Regla de la Rareza", "body": "El acento (rojo o naranja) ocupa menos del 10% de cualquier pantalla. Su escasez es el punto: si apareciera seguido, dejaría de leerse como una señal.", "section": "colors" },
+      { "name": "La Regla de la Isla", "body": "Una sección oscura nunca reescribe sus propias reglas de componente: solo redefine los tokens de color dentro de su propio scope, y todo lo que vive adentro se adapta solo.", "section": "colors" },
+      { "name": "La Regla del Apretón", "body": "Un titular display sin .titular-apretado (peso 900, interlineado 0.88, tracking −0.035em) se lee genérico. El apretón no es un detalle, es la mitad del carácter tipográfico del sistema.", "section": "typography" },
+      { "name": "La Regla del Papel Plano", "body": "Ninguna superficie sobre el papel crema lleva sombra. Solo las ventanas al trabajo (panel de proyecto, baraja, lupa) tienen permiso de flotar.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do guardar el acento (rojo/naranja) para menos del 10% de cualquier pantalla — La Regla de la Rareza.",
+      "Do invertir tokens dentro de una isla oscura (--fondo, --superficie, --texto, --linea, --acento-texto) en vez de escribir reglas de color nuevas.",
+      "Do usar .titular-apretado en cualquier titular display nuevo (peso 900, interlineado 0.88, tracking −0.035em).",
+      "Do mantener los botones y píldoras silenciosos en reposo — borde fino, sin relleno — y expresivos solo al activarse.",
+      "Do apagar todo movimiento con prefers-reduced-motion: reduce y ocultar el cursor propio en pantallas táctiles.",
+      "Do usar la composición generada en CSS (forma) como placeholder editorial mientras no hay imagen real de un proyecto, nunca un rectángulo gris vacío."
+    ],
+    "donts": [
+      "Don't poner sombra decorativa sobre el papel crema — La Regla del Papel Plano. La sombra es solo para paneles de trabajo (proyecto, baraja, lupa).",
+      "Don't usar el rojo (#ea5455) en texto pequeño sobre crema sin oscurecerlo a #b83a3b primero — cae a 3.3:1, por debajo del mínimo legible.",
+      "Don't mezclar radios: interactivo es píldora (999px), contenedor de contenido es 5–14px, marcador puntual es círculo (50%). Nada a medio camino.",
+      "Don't animar sin una razón funcional — el sistema rechaza el movimiento decorativo; cada transición existe porque comunica algo.",
+      "Don't repetir el recurso de 'sección invertida' (isla oscura) más de las tres veces que ya existe (hero, proceso, panel de proyecto): su fuerza depende de ser escaso."
+    ]
+  }
+}

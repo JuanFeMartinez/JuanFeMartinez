@@ -118,7 +118,7 @@
      estirando la barra. Se aprieta en vez de recortarse: el nombre entero
      importa más que el espaciado. */
   .nav-nombre {
-    font-size: 0.625rem;
+    font-size: var(--t-2xs);
     letter-spacing: 0.08em;
     white-space: nowrap;
   }

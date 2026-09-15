@@ -63,7 +63,7 @@
 
 .cursor-anillo span {
   font-family: var(--mono);
-  font-size: 0.6875rem;
+  font-size: var(--t-2xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   opacity: 0;

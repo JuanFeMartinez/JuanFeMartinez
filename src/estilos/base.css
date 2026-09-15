@@ -31,6 +31,11 @@
   --numero: 'Bodoni Moda', 'Didot', Georgia, serif;
 
   /* Escala fluida */
+  /* Piso de legibilidad: por debajo de 11px el texto deja de ser cómodo.
+     --t-2xs es el paso más chico permitido — antes había código usando
+     0.625rem (10px) suelto en tres archivos distintos, cada uno inventando
+     su propio tamaño mínimo en vez de compartir uno solo. */
+  --t-2xs: 0.6875rem;
   --t-xs: 0.75rem;
   --t-s: 0.875rem;
   --t-m: 1rem;

@@ -162,6 +162,8 @@ function BarajaProyecto({ cartas, titulo }) {
   const [ampliada, setAmpliada] = useState(null)
   const [direccion, setDireccion] = useState(1)
   const [cargando, setCargando] = useState(false)
+  const lupaRef = useRef(null)
+  const previoFocoRef = useRef(null)
 
   const mover = (paso) => {
     setDireccion(paso)
@@ -198,6 +200,22 @@ function BarajaProyecto({ cartas, titulo }) {
       if (evento.key === 'Escape') setAmpliada(null)
       if (evento.key === 'ArrowRight') setAmpliada((i) => (i + 1) % cartas.length)
       if (evento.key === 'ArrowLeft') setAmpliada((i) => (i - 1 + cartas.length) % cartas.length)
+
+      // Sin esto, Tab se escapa del diálogo hacia los proyectos que siguen
+      // debajo: quien navega con teclado pierde de vista dónde está parado.
+      if (evento.key === 'Tab') {
+        const enfocables = lupaRef.current?.querySelectorAll('button')
+        if (!enfocables || enfocables.length === 0) return
+        const primero = enfocables[0]
+        const ultimo = enfocables[enfocables.length - 1]
+        if (evento.shiftKey && document.activeElement === primero) {
+          evento.preventDefault()
+          ultimo.focus()
+        } else if (!evento.shiftKey && document.activeElement === ultimo) {
+          evento.preventDefault()
+          primero.focus()
+        }
+      }
     }
 
     // Con el visor abierto, el fondo no debe moverse: si no, al cerrarlo el
@@ -211,6 +229,24 @@ function BarajaProyecto({ cartas, titulo }) {
       document.removeEventListener('keydown', alTeclear)
     }
   }, [ampliada, cartas.length])
+
+  // Foco al abrir y al cerrar, no en cada salto de imagen: por eso la
+  // dependencia es un booleano y no `ampliada` directamente, que cambia con
+  // cada flecha. El botón de cerrar es el primer control real del diálogo;
+  // enfocar el contenedor en vez de eso deja al lector de pantalla sin nada
+  // que anunciar. Al cerrar, el foco vuelve a la carta que abrió el visor,
+  // que es de donde vino quien está navegando con teclado.
+  const abierta = ampliada !== null
+  useEffect(() => {
+    if (!abierta) return
+
+    previoFocoRef.current = document.activeElement
+    lupaRef.current?.querySelector('.lupa-cerrar')?.focus()
+
+    return () => {
+      previoFocoRef.current?.focus?.()
+    }
+  }, [abierta])
 
   return (
     <>
@@ -231,7 +267,13 @@ function BarajaProyecto({ cartas, titulo }) {
           // un transform, y un transform convierte a su elemento en el marco de
           // referencia de todo lo que tenga position: fixed: el visor habría
           // quedado encerrado dentro del panel en vez de cubrir la pantalla.
-          <div className="lupa" role="dialog" aria-modal="true" aria-label={`${titulo}, ampliada`}>
+          <div
+            className="lupa"
+            ref={lupaRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${titulo}, ampliada`}
+          >
             <button className="lupa-fondo" type="button" onClick={() => setAmpliada(null)}>
               <span className="solo-lectores">Cerrar</span>
             </button>
@@ -330,16 +372,23 @@ function VideoProyecto({ piezas, titulo }) {
   const [activa, setActiva] = useState(0)
   const [conSonido, setConSonido] = useState(false)
   const [cargando, setCargando] = useState(true)
+  const [fallo, setFallo] = useState(false)
+  const [visible, setVisible] = useState(false)
+  // Cambiar esto fuerza a React a rehacer el <video>, que es lo único que
+  // hace que el navegador reintente la descarga desde cero.
+  const [intento, setIntento] = useState(0)
 
   const pieza = piezas[activa]
 
   useEffect(() => {
     const el = video.current
     if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     const observador = new IntersectionObserver(
       ([entrada]) => {
+        setVisible(entrada.isIntersecting)
+        if (sinMovimiento) return
         if (entrada.isIntersecting) el.play().catch(() => {})
         else el.pause()
       },
@@ -350,13 +399,35 @@ function VideoProyecto({ piezas, titulo }) {
     return () => observador.disconnect()
   }, [activa])
 
+  // Sin esto, un video que se cuelga a medio cargar (sin disparar ni canplay
+  // ni error) deja el spinner girando para siempre. El plazo solo corre
+  // mientras el capítulo está a la vista: el panel vive bajo
+  // content-visibility: auto, así que uno más abajo en la página legítimamente
+  // no ha empezado a cargarse todavía, y contar el plazo desde el montaje lo
+  // marcaría como "fallido" antes de que nadie lo haya visto.
+  useEffect(() => {
+    if (!cargando || !visible) return
+    const limite = setTimeout(() => {
+      setCargando(false)
+      setFallo(true)
+    }, 12000)
+    return () => clearTimeout(limite)
+  }, [cargando, visible, activa, intento])
+
   const cambiar = (i) => {
     if (i === activa) return
     setActiva(i)
     setCargando(true)
+    setFallo(false)
     // El sonido no se hereda entre piezas: si estabas oyendo una, la siguiente
     // arranca callada, que es lo que espera cualquiera.
     setConSonido(false)
+  }
+
+  const reintentar = () => {
+    setFallo(false)
+    setCargando(true)
+    setIntento((n) => n + 1)
   }
 
   const alternarSonido = () => {
@@ -381,7 +452,7 @@ function VideoProyecto({ piezas, titulo }) {
             es fijo y el brinco arrastra todo lo que viene debajo. */}
         <div className="visual-caja">
           <video
-            key={pieza.src}
+            key={`${pieza.src}-${intento}`}
             ref={video}
             src={conBase(pieza.src)}
             poster={conBase(pieza.poster) ?? undefined}
@@ -393,10 +464,24 @@ function VideoProyecto({ piezas, titulo }) {
             aria-label={`${titulo}: ${pieza.titulo}`}
             // canplay es el momento en que el video ya puede empezar: antes de
             // eso solo hay un rectángulo vacío donde antes había una pieza.
-            onCanPlay={() => setCargando(false)}
-            onError={() => setCargando(false)}
+            onCanPlay={() => {
+              setCargando(false)
+              setFallo(false)
+            }}
+            onError={() => {
+              setCargando(false)
+              setFallo(true)
+            }}
           />
           {cargando && <Cargando />}
+          {fallo && (
+            <div className="visual-fallo" role="alert">
+              <p>No se pudo cargar el video</p>
+              <button type="button" onClick={reintentar}>
+                Reintentar
+              </button>
+            </div>
+          )}
         </div>
 
         {piezas.length > 1 && (

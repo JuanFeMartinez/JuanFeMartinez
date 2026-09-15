@@ -58,7 +58,7 @@
 
 .indice-disciplina {
   font-family: var(--mono);
-  font-size: 0.625rem;
+  font-size: var(--t-2xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding: 0.325rem 0.65rem 0.275rem;
@@ -74,7 +74,7 @@
      alto dentro de la pildora. */
   padding: 0.325rem 0.7rem 0.275rem;
   font-family: var(--mono);
-  font-size: 0.625rem;
+  font-size: var(--t-2xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--acento-texto);
@@ -226,7 +226,7 @@
 .capitulo-metricas dd {
   margin: 0.35rem 0 0;
   font-family: var(--mono);
-  font-size: 0.6875rem;
+  font-size: var(--t-2xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--texto-suave);
@@ -243,7 +243,7 @@
 
 .capitulo-stack li {
   font-family: var(--mono);
-  font-size: 0.6875rem;
+  font-size: var(--t-2xs);
   letter-spacing: 0.08em;
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--linea);

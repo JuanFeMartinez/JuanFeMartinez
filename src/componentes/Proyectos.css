@@ -53,9 +53,10 @@
 
 .indice-numero {
   grid-area: n;
-  font-family: var(--mono);
+  font-family: var(--display);
+  font-weight: 500;
   font-size: var(--t-xs);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
   transition: color 0.2s var(--curva);
 }
@@ -76,10 +77,10 @@
 
 .indice-meta {
   grid-area: m;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
   white-space: nowrap;
 }
@@ -146,10 +147,10 @@
      mas hueco debajo que encima, y con relleno simetrico el texto queda 0.8px
      alto dentro de la pildora. */
   padding: 0.325rem 0.7rem 0.275rem;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--acento-texto);
   border: 1px solid color-mix(in oklab, var(--acento) 40%, transparent);
   border-radius: 999px;
@@ -225,11 +226,9 @@
   position: absolute;
   top: -1.5rem;
   right: 0;
-  font-family: var(--numero);
-  /* Los dígitos de la Bodoni son más estrechos que los de la Outfit, así que
-     el mismo cuerpo se ve más pequeño: sube un punto para compensar. */
-  font-size: clamp(4.5rem, 13.5vw, 10.5rem);
-  font-weight: 500;
+  font-family: var(--titulo);
+  font-size: clamp(6rem, 16vw, 13rem);
+  font-weight: 400;
   letter-spacing: 0;
   line-height: 1;
   color: transparent;
@@ -249,10 +248,10 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 1.6rem;
-  font-family: var(--mono);
+  font-family: var(--display);
+  font-weight: 500;
   font-size: var(--t-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
 }
 
@@ -311,10 +310,10 @@
 
 .capitulo-metricas dd {
   margin: 0.35rem 0 0;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
 }
 
@@ -328,9 +327,10 @@
 }
 
 .capitulo-stack li {
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.08em;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--linea);
   border-radius: 999px;

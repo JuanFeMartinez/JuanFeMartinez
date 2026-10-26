@@ -22,19 +22,18 @@
      texto pequeño; el naranja claro llega a 8.8:1. */
   --acento-texto: #ffa26b;
 
-  /* Tipografía */
+  /* Tipografía ------------------------------------------------------------
+     Dos familias y ninguna más. Outfit para todo lo que se lee de cerca —texto,
+     etiquetas, botones, números pequeños—, que es la letra pequeña de la
+     dirección Noche. Six Caps para todo lo que se mira de lejos —titulares,
+     el cargo de la portada, el índice, los números de capítulo—, que es la
+     letra grande de Cartel. Antes había seis: la monoespaciada de las
+     etiquetas, Inter para el cuerpo, una condensada para la portada y una
+     didona para los números. Cada una añadía una voz más. */
   --display: 'Outfit', 'Poppins', system-ui, sans-serif;
-  --cuerpo: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
-  /* Solo para los numeros de capitulo. Una didona junto a una geometrica
-     pesada es un contraste clasico, y en contorno los digitos quedan como
-     un adorno editorial en vez de repetir la fuente del titulo. */
-  --numero: 'Bodoni Moda', 'Didot', Georgia, serif;
-  /* Titulares de sección: altísima y estrecha, la del cartel. Solo sirve en
-     grande; por debajo de unos 40 px se vuelve una valla de palos. */
-  --titulo: 'Six Caps', 'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif;
-  /* La portada: condensada pero con cuerpo, la de la dirección Noche. */
-  --condensada: 'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif;
+  /* Solo sirve en grande: por debajo de unos 40 px se vuelve una valla de
+     palos. */
+  --titulo: 'Six Caps', 'Arial Narrow', sans-serif;
 
   /* Escala fluida */
   /* Piso de legibilidad: por debajo de 11px el texto deja de ser cómodo.
@@ -83,7 +82,7 @@ body {
   margin: 0;
   background: var(--fondo);
   color: var(--texto);
-  font-family: var(--cuerpo);
+  font-family: var(--display);
   font-size: var(--t-m);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -147,23 +146,14 @@ img {
   position: relative;
 }
 
+/* La etiqueta de cada sección, a la manera de Noche: Outfit en naranja, en
+   minúscula y sin adornos. El naranja da 6.3:1 sobre el azul noche. */
 .etiqueta {
-  font-family: var(--mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--texto-suave);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.etiqueta::before {
-  content: '';
-  width: 2rem;
-  height: 1px;
-  background: var(--acento);
-  flex: none;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-s);
+  letter-spacing: 0.005em;
+  color: var(--acento-2);
 }
 
 .solo-lectores {

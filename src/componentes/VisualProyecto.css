@@ -46,10 +46,11 @@
 
 .visual-barra em {
   margin-left: auto;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
   font-style: normal;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.005em;
   color: rgba(249, 245, 235, 0.4);
 }
 
@@ -86,11 +87,11 @@
 }
 
 .visual-pieza-nombre {
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
   line-height: 1.4;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
   text-align: center;
   padding-inline: 0.75rem;
@@ -166,10 +167,10 @@
   right: 0.75rem;
   bottom: 0.75rem;
   padding: 0.4rem 0.8rem;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--texto);
   background: rgba(0, 43, 91, 0.65);
   backdrop-filter: blur(6px);
@@ -301,10 +302,10 @@
   position: absolute;
   left: 0.2rem;
   bottom: -1.5rem;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
   opacity: 0;
   transition: opacity 0.4s var(--curva);
@@ -547,10 +548,10 @@
   justify-content: space-between;
   gap: 1rem;
   margin-top: 0.9rem;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: #b9c4d4;
 }
 
@@ -670,18 +671,18 @@
 
 .visual-fallo p {
   margin: 0;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--texto);
 }
 
 .visual-fallo button {
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   padding: 0.5rem 1.1rem;
   color: var(--texto);
   background: transparent;

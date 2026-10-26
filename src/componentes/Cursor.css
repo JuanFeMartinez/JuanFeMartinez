@@ -99,10 +99,10 @@
   left: 0;
   /* En porcentaje de la propia palabra, que mide distinto segun cual sea. */
   translate: -50% -50%;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.18s;

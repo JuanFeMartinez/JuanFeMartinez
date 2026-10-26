@@ -37,9 +37,10 @@
 }
 
 .proceso-numero {
-  font-family: var(--mono);
+  font-family: var(--display);
+  font-weight: 500;
   font-size: var(--t-xs);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.005em;
   color: var(--acento-texto);
 }
 

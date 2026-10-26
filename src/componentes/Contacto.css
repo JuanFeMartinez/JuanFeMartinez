@@ -81,10 +81,10 @@
   gap: 2rem;
   margin: 3rem 0 var(--aire);
   padding: 0;
-  font-family: var(--mono);
+  font-family: var(--display);
+  font-weight: 500;
   font-size: var(--t-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
 }
 
 .contacto-redes a {
@@ -116,10 +116,10 @@
   justify-content: space-between;
   gap: 1rem;
   padding-block: 1.5rem;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--texto-suave);
 }
 

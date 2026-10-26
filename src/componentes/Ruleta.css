@@ -1,365 +1,175 @@
-/* Ruleta de proyectos. Un escenario de una pantalla que se queda quieto
-   mientras se baja; lo que avanza es la rueda. Arriba, la cabecera tipo plano
-   técnico de la referencia —cruces, etiquetas pequeñas, la palabra con sus
-   ecos y la barra roja—; abajo, la rueda asomando por el borde. */
+/* Abanico de proyectos. Un escenario de una pantalla que se queda quieto
+   mientras se baja; lo que avanza es el abanico.
+
+   A la izquierda el panel con la carta elegida en grande; a la derecha las
+   cartas, clavadas a una perilla en el borde del panel y abiertas en media
+   rueda hacia abajo, como un muestrario de color. La elegida es la que apunta
+   al triángulo rojo. */
+
+/* Animable de verdad: sin declararla, una transición sobre algo calculado
+   con ella salta de golpe en vez de pasar por el medio. */
+@property --empuje {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 .ruleta {
-  /* Las cartas y la palabra miran también el alto de la ventana: el
-     escenario se queda fijo una pantalla entera, y medido solo por el ancho
-     se salía por abajo en un portátil de 860 px. */
-  --carta: clamp(96px, min(13vw, 17.5svh), 180px);
-  --radio: calc(var(--carta) * 1.75);
-  --giro: 0deg;
+  --pos: 0;
+  /* Cuántos grados separan una carta de la siguiente. */
+  --paso: 30deg;
+  /* A qué altura del escenario va la perilla. */
+  --pivote-y: 34%;
+  --perilla: clamp(1.75rem, 2.6vw, 2.5rem);
+  --carta: clamp(200px, 30vw, 400px);
+  /* Distancia de la perilla al borde de cada carta. Proporcional a la carta:
+     pegadas a la perilla, la siguiente tapaba casi entera a la elegida; con
+     este hueco solo le pisa la esquina, como en el boceto. */
+  --hueco: calc(var(--perilla) + var(--carta) * 0.18);
 }
 
 .ruleta-recorrido {
   position: relative;
-  height: 260vh;
+  height: 300vh;
 }
 
 .ruleta-escenario {
   position: sticky;
   top: 0;
-  min-height: 100svh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  padding-top: 4.5rem;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  /* Arriba deja libre la franja del nav, que es fija y flota encima. */
+  padding-block: 5.25rem 1.5rem;
   overflow: hidden;
 }
 
-/* Cabecera ---------------------------------------------------------------- */
-.ruleta-cabecera {
+.ruleta-reja {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  height: 100%;
+  max-height: 46rem;
+}
+
+/* Panel -------------------------------------------------------------------- */
+/* Por encima del abanico: las cartas más giradas salen de detrás del panel
+   en vez de pasarle por encima al texto. */
+.ruleta-panel {
   position: relative;
-  width: 100%;
-  max-width: var(--ancho);
-  margin-inline: auto;
-  padding: clamp(0.75rem, 2.4svh, 1.75rem) var(--margen);
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: clamp(0.75rem, 1.6vh, 1.25rem);
+  min-width: 0;
+  padding: clamp(1.25rem, 2.6vw, 2.25rem);
+  border-radius: clamp(16px, 2vw, 26px);
+  /* El resplandor va abajo a la izquierda, lejos de la perilla: la perilla es
+     del color liso del panel, y así la costura no se nota. */
+  background:
+    radial-gradient(70% 55% at 0% 100%, rgba(240, 123, 63, 0.35), transparent 70%),
+    radial-gradient(55% 45% at 30% 110%, rgba(234, 84, 85, 0.35), transparent 70%),
+    var(--superficie);
 }
 
-.ruleta-cruz {
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  translate: -50% -50%;
-  opacity: 0.45;
-}
-
-.ruleta-cruz::before,
-.ruleta-cruz::after {
-  content: '';
-  position: absolute;
-  background: var(--texto);
-}
-
-.ruleta-cruz::before { left: 5px; top: 0; width: 1px; height: 11px; }
-.ruleta-cruz::after { top: 5px; left: 0; width: 11px; height: 1px; }
-
-/* Por encima de la barra roja: en pantallas angostas las etiquetas caen justo
-   donde está la barra. */
-.ruleta-fila {
-  position: relative;
-  z-index: 1;
+.ruleta-panel-cabeza {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
   gap: 1rem;
 }
 
-.ruleta-bienvenida {
+.ruleta-cuenta {
   margin: 0;
   font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
-  line-height: 1.05;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.ruleta-sello {
-  width: clamp(36px, 3.4vw, 48px);
-  rotate: 9deg;
-  filter: url(#avatar-paleta);
-}
-
-.ruleta-etq {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--texto-suave);
-}
-
-/* La palabra, sus dos ecos en contorno y la barra roja detrás. */
-.ruleta-titulo {
-  position: relative;
-  display: grid;
-  place-items: center;
-  margin-block: clamp(0.5rem, 2vh, 1.25rem);
-  isolation: isolate;
-}
-
-.ruleta-barra {
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  top: -35%;
-  width: clamp(4rem, 13%, 11rem);
-  height: 170%;
-  translate: -15% 0;
-  background: var(--acento);
-}
-
-.ruleta-palabra,
-.ruleta-eco {
-  grid-area: 1 / 1;
-  margin: 0;
-  font-family: var(--titulo);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: clamp(4.5rem, min(16vw, 18svh), 13rem);
-  line-height: 0.82;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.ruleta-eco {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--texto);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Los ecos se tuercen despacio y en bucle, como un fotograma de motion
-   graphics: es el único movimiento que no responde a nada, y por eso es
-   lento. */
-.ruleta-eco.sube {
-  translate: 0 -0.36em;
-  scale: 1.03 0.42;
-  animation: torcer 6s ease-in-out infinite alternate;
-}
-
-.ruleta-eco.baja {
-  translate: 0 0.37em;
-  scale: 1.05 -0.36;
-  opacity: 0.35;
-  animation: torcer 8s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes torcer {
-  from { transform: skewX(-16deg); }
-  to { transform: skewX(12deg); }
-}
-
-/* La rueda ---------------------------------------------------------------- */
-.ruleta-tablero {
-  position: relative;
-  min-height: calc(var(--carta) * 2.95 + 2rem);
-  touch-action: pan-y;
-  user-select: none;
-}
-
-.ruleta-tablero.agarrado {
-  cursor: grabbing;
-}
-
-.ruleta-centro {
-  position: absolute;
-  left: 50%;
-  top: calc(var(--carta) * 2.45 + 1.5rem);
-  width: 0;
-  height: 0;
-}
-
-.ruleta-rueda {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  rotate: var(--giro);
-}
-
-.ruleta-carta {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: var(--carta);
-  aspect-ratio: 3 / 4;
-  margin-left: calc(var(--carta) / -2);
-  margin-top: calc(var(--carta) * -2 / 3);
-  /* Girar y después alejarse del centro: la carta queda en su punto del
-     círculo y tangente a él, como en una rueda de verdad. */
-  transform: rotate(var(--a)) translateY(calc(var(--radio) * -1));
-}
-
-.ruleta-carta.activa {
-  z-index: 2;
-}
-
-.ruleta-carta a {
-  display: block;
-  width: 100%;
-  height: 100%;
-  -webkit-user-drag: none;
-}
-
-/* El escalado va en la cara y no en la carta: la carta ya tiene un transform
-   que la coloca en el círculo, y escalarla a ella movería también su sitio. */
-.ruleta-cara {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: calc(var(--carta) * 0.09);
-  background: var(--superficie);
-  box-shadow:
-    0 0 0 1px rgba(246, 238, 218, 0.14),
-    0 18px 30px -16px rgba(0, 0, 0, 0.7);
-  transition:
-    scale 0.35s var(--curva),
-    box-shadow 0.35s var(--curva);
-}
-
-/* En blanco y negro hasta llegar arriba, como las tarjetas de Noche: la
-   rueda se lee sobria y el color marca cuál es la que toca. */
-.ruleta-cara img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) brightness(0.85);
-  transition: filter 0.35s var(--curva);
-}
-
-.ruleta-carta.activa .ruleta-cara {
-  scale: 1.12;
-  box-shadow:
-    0 0 0 1px rgba(246, 238, 218, 0.3),
-    0 30px 44px -18px rgba(0, 0, 0, 0.8);
-}
-
-.ruleta-carta.activa .ruleta-cara img {
-  filter: none;
-}
-
-.ruleta-cara.roja {
-  display: grid;
-  place-items: center;
-  background: var(--acento);
-}
-
-.ruleta-cara.roja img {
-  width: 72%;
-  height: auto;
-  object-fit: contain;
-  rotate: 9deg;
-  filter: url(#avatar-paleta);
-}
-
-.ruleta-carta:not(.activa) .ruleta-cara.roja {
-  filter: saturate(0.25) brightness(0.8);
-}
-
-.ruleta-cara.tipo {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: calc(var(--carta) * 0.09);
-  background: var(--texto);
-  color: var(--fondo);
-}
-
-.ruleta-cara.tipo b {
-  font-family: var(--titulo);
-  font-weight: 400;
-  font-size: calc(var(--carta) * 0.42);
-  line-height: 0.85;
-  text-transform: uppercase;
-}
-
-.ruleta-cara.tipo small {
-  font-family: var(--mono);
-  font-size: max(8px, calc(var(--carta) * 0.05));
-  letter-spacing: 0.06em;
-  overflow-wrap: anywhere;
-}
-
-/* Centro: el círculo punteado con texto, que gira a la mitad de velocidad y
-   al revés que la rueda, y la ficha de la carta de arriba. */
-.ruleta-anillo {
-  position: absolute;
-  left: calc(var(--radio) * -0.62);
-  top: calc(var(--radio) * -0.62);
-  width: calc(var(--radio) * 1.24);
-  height: calc(var(--radio) * 1.24);
-  rotate: calc(var(--giro) * -0.5);
-  overflow: visible;
-  pointer-events: none;
-}
-
-.ruleta-anillo circle {
-  fill: none;
-  stroke: var(--texto);
-  stroke-opacity: 0.3;
-  stroke-width: 0.5;
-  stroke-dasharray: 1.6 2.4;
-}
-
-.ruleta-anillo text {
-  font-family: var(--mono);
-  font-size: 5.4px;
-  letter-spacing: 0.2em;
-  fill: var(--texto);
-  fill-opacity: 0.4;
-}
-
-/* Halo oscuro detrás del texto del centro: cuando una carta pasa por detrás,
-   el crema del texto sobre el crema de la carta desaparecía. */
-.ruleta-yo {
-  padding: 0.5rem 1.25rem 0.75rem;
-  border-radius: 999px;
-  background: radial-gradient(closest-side, var(--fondo) 65%, transparent);
-  position: absolute;
-  left: 0;
-  top: calc(var(--radio) * -0.2);
-  translate: -50% 0;
-  display: grid;
-  justify-items: center;
-  gap: 0.35rem;
-  width: max-content;
-  max-width: 80vw;
-  text-align: center;
-}
-
-.ruleta-yo::before {
-  content: '';
-  width: 0;
-  height: 0;
-  border-inline: 6px solid transparent;
-  border-bottom: 8px solid var(--acento);
-}
-
-.ruleta-yo strong {
-  font-family: var(--titulo);
-  font-weight: 400;
-  font-size: clamp(2rem, min(3.4vw, 5svh), 3rem);
-  line-height: 0.9;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.ruleta-que {
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--t-s);
   color: var(--texto-suave);
   font-variant-numeric: tabular-nums;
 }
 
+.ruleta-vista {
+  margin: 0;
+  overflow: hidden;
+  border-radius: clamp(10px, 1.2vw, 16px);
+  aspect-ratio: 16 / 10;
+  background: var(--fondo);
+  animation: ruleta-entrar 0.4s var(--curva);
+}
+
+.ruleta-vista img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ruleta-ficha {
+  min-height: 0;
+  animation: ruleta-entrar 0.4s var(--curva) 0.04s backwards;
+}
+
+@keyframes ruleta-entrar {
+  from {
+    opacity: 0;
+    translate: 0 0.6rem;
+  }
+}
+
+.ruleta-titulo {
+  margin: 0;
+  font-size: clamp(3rem, 1.5rem + 3.6vw, 5.5rem);
+}
+
+.ruleta-meta {
+  margin: 0.4rem 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-s);
+  color: var(--acento-2);
+}
+
+/* Tres líneas como mucho: el panel tiene que caber en una pantalla con
+   cualquier proyecto, y el resumen completo está en su capítulo. */
+.ruleta-resumen {
+  margin: 0.6rem 0 0;
+  max-width: 52ch;
+  font-size: var(--t-s);
+  line-height: 1.55;
+  color: var(--texto-suave);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.ruleta-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ruleta-ver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.75em 1.3em;
+  border-radius: 999px;
+  background: var(--texto);
+  color: var(--fondo);
+  font-weight: 600;
+  font-size: var(--t-s);
+  transition:
+    background-color 0.2s var(--curva),
+    scale var(--t-presion) var(--curva);
+}
+
+.ruleta-ver:active {
+  scale: var(--presion);
+}
+
 .ruleta-mandos {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 0.35rem;
+  gap: 0.5rem;
 }
 
 .ruleta-mandos button {
@@ -370,16 +180,21 @@
   padding: 0;
   border: 1px solid var(--linea);
   border-radius: 50%;
-  background: var(--superficie);
+  background: transparent;
   color: var(--texto);
   transition:
     scale var(--t-presion) var(--curva),
     border-color 0.18s,
-    background-color 0.18s;
+    background-color 0.18s,
+    opacity 0.18s;
 }
 
-.ruleta-mandos button:active {
+.ruleta-mandos button:active:not(:disabled) {
   scale: 0.92;
+}
+
+.ruleta-mandos button:disabled {
+  opacity: 0.3;
 }
 
 .ruleta-mandos svg {
@@ -392,49 +207,173 @@
   stroke-linejoin: round;
 }
 
+/* Abanico ------------------------------------------------------------------ */
+.ruleta-abanico {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  user-select: none;
+}
+
+/* La perilla: un círculo del color del panel con el centro justo en su
+   borde, así que asoma como media luna. Es el eje del abanico. */
+.ruleta-abanico::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: calc(var(--perilla) * -1);
+  top: calc(var(--pivote-y) - var(--perilla));
+  width: calc(var(--perilla) * 2);
+  height: calc(var(--perilla) * 2);
+  border-radius: 50%;
+  background: var(--superficie);
+}
+
+.ruleta-cartas {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cada carta tiene su borde izquierdo a un hueco de la perilla y gira sobre
+   ella. El ángulo sale de lo lejos que está de la elegida: la elegida
+   apunta a la derecha, las siguientes van cayendo hacia abajo y las
+   anteriores se apagan hacia arriba. */
+.ruleta-carta {
+  --d: calc(var(--i) - var(--pos));
+  position: absolute;
+  z-index: calc(var(--i) + 1);
+  left: var(--hueco);
+  top: var(--pivote-y);
+  width: var(--carta);
+  aspect-ratio: 16 / 10;
+  margin-top: calc(var(--carta) * -0.3125);
+  transform-origin: calc(var(--hueco) * -1) 50%;
+  transform: rotate(calc(var(--d) * var(--paso))) translateX(var(--empuje));
+  /* La anterior se apaga casi entera al dejar su sitio, para no competir
+     con la elegida; las siguientes se ven hasta el cuarto de vuelta, donde ya
+     se esconden detrás del panel. */
+  opacity: clamp(0, min(1 + var(--d) / 1.15, 4 - var(--d)), 1);
+  transition: --empuje 0.25s var(--curva);
+}
+
+.ruleta-carta button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: clamp(8px, 1vw, 12px);
+  overflow: hidden;
+  background: var(--fondo);
+  box-shadow:
+    0 0 0 1px rgba(246, 238, 218, 0.16),
+    -10px 14px 28px -12px rgba(0, 0, 0, 0.75);
+}
+
+/* En blanco y negro hasta que les toca: el color es lo que dice cuál es la
+   elegida, sin tener que agrandarla. */
+.ruleta-carta img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.8);
+  transition: filter 0.35s var(--curva);
+  pointer-events: none;
+}
+
+.ruleta-carta.activa img {
+  filter: none;
+}
+
+/* El triángulo rojo marca la dirección de la elegida. */
+.ruleta-indicador {
+  position: absolute;
+  right: 0;
+  top: var(--pivote-y);
+  width: 0;
+  height: 0;
+  translate: 0 -50%;
+  border-block: 0.6rem solid transparent;
+  border-right: 0.85rem solid var(--acento);
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .ruleta-mandos button:hover {
+  .ruleta-abanico {
+    cursor: grab;
+  }
+
+  .ruleta-abanico.agarrado {
+    cursor: grabbing;
+  }
+
+  /* Las que no están elegidas se asoman un poco hacia afuera al pasar el
+     mouse, para decir que se pueden tocar. La elegida no se mueve. */
+  .ruleta-carta:not(.activa):hover {
+    --empuje: 0.9rem;
+  }
+
+  .ruleta-ver:hover {
+    background: var(--acento-2);
+  }
+
+  .ruleta-mandos button:hover:not(:disabled) {
     border-color: var(--acento);
     background: var(--acento);
   }
-
-  .ruleta-tablero {
-    cursor: grab;
-  }
 }
 
-/* En el teléfono la rueda entera cabía en pantalla y se veía como un plato
-   lleno de cartas. Con más radio y el centro pegado abajo, solo asoma el
-   arco de arriba —tres o cuatro cartas—, como en la referencia, y las de los
-   lados se salen por los bordes. */
+/* Teléfono: el panel arriba y el abanico debajo, con la perilla pegada al
+   borde izquierdo de la pantalla. Sin resumen, que con la imagen y el título
+   no cabe todo en una pantalla. */
 @media (max-width: 48rem) {
   .ruleta {
-    --carta: min(31vw, 124px);
-    --radio: calc(var(--carta) * 2.3);
+    --pivote-y: 26%;
+    --perilla: 1.6rem;
+    --carta: min(52vw, 220px);
+    --paso: 28deg;
   }
 
-  .ruleta-tablero {
-    min-height: calc(var(--carta) * 3.4 + 2rem);
+  .ruleta-escenario {
+    padding-block: 4.75rem 0.75rem;
   }
 
-  .ruleta-centro {
-    top: auto;
-    bottom: 10.5rem;
+  .ruleta-reja {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    max-height: none;
   }
 
-  .ruleta-fila:last-child {
-    flex-direction: column;
-    gap: 0.35rem;
+  .ruleta-vista {
+    aspect-ratio: 16 / 9;
+  }
+
+  .ruleta-resumen {
+    display: none;
+  }
+
+  .ruleta-titulo {
+    font-size: clamp(2.75rem, 12vw, 3.5rem);
+  }
+
+  /* El abanico llega hasta el borde de la pantalla para que la perilla sea
+     media luna y no un círculo entero. */
+  .ruleta-abanico {
+    margin-inline: calc(var(--margen) * -1);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ruleta-eco {
+  .ruleta-vista,
+  .ruleta-ficha {
     animation: none;
   }
 
-  .ruleta-cara,
-  .ruleta-cara img {
+  .ruleta-carta,
+  .ruleta-carta img {
     transition: none;
   }
 }

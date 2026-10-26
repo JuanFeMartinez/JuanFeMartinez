@@ -139,14 +139,15 @@
   display: flex;
   flex-direction: column;
   margin-top: 0.6cqi;
-  font-family: var(--condensada);
-  font-weight: 900;
+  font-family: var(--titulo);
+  font-weight: 400;
   font-synthesis: none;
-  /* "DIRECCIÓN", la línea más larga, ocupa 3.57 veces el cuerpo: a 12.5cqi
-     mide 45cqi y cabe en la columna izquierda, que es un 51% del ancho. */
-  font-size: clamp(4rem, 12.5cqi, 12rem);
-  line-height: 0.82;
-  letter-spacing: -0.005em;
+  /* Six Caps es tan estrecha que pide el doble de cuerpo que una condensada
+     normal para ocupar lo mismo; la medida sale de ajustar "DIRECCIÓN" al
+     ancho de la columna izquierda. */
+  font-size: clamp(6rem, 22cqi, 20rem);
+  line-height: 0.86;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
@@ -198,9 +199,10 @@
 .hero-oficios small {
   display: block;
   margin-bottom: 0.3rem;
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.1em;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--t-xs);
+  letter-spacing: 0.005em;
   color: var(--acento-2);
 }
 
@@ -227,7 +229,7 @@
   }
 
   .hero-titular {
-    font-size: 24cqi;
+    font-size: 40cqi;
   }
 
   .hero-lado {

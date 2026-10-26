@@ -61,10 +61,13 @@
   will-change: transform;
 }
 
-/* El titular se lee de un golpe, asi que puede irse pronto. */
+/* El titular se iba al 1.7, o sea desaparecido cuando apenas se ha recorrido
+   el 59% de la portada: con el párrafo todavía en mitad de la pantalla ya no
+   quedaba nada arriba que leer. Al 1.0 llega a cero justo cuando la portada
+   termina de salir, que es cuando tiene sentido que no quede nada. */
 .hero-etiqueta,
 .hero-titular {
-  opacity: calc(1 - var(--salida) * 1.7);
+  opacity: calc(1 - var(--salida));
 }
 
 /* El parrafo necesita segundos, no un vistazo: aguanta entero hasta que el
@@ -72,7 +75,11 @@
    navegador recorta la opacidad a 1, asi que el tramo inicial se queda
    opaco sin necesidad de escribir el limite. */
 .hero-pie {
-  opacity: calc(1 - (var(--salida) - 0.45) * 2.4);
+  /* Empieza más tarde y baja más despacio: el párrafo son cinco líneas, y
+     cinco líneas necesitan segundos, no un vistazo. Con estos números sigue
+     entero hasta pasada la mitad de la portada y solo se apaga del todo
+     cuando ya está saliendo por arriba. */
+  opacity: calc(1 - (var(--salida) - 0.5) * 1.8);
 }
 
 /* Malla de color: tres manchas muy desenfocadas que se mueven despacio y se

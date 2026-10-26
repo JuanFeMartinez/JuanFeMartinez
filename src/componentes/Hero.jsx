@@ -33,13 +33,28 @@ export function Hero() {
     let pendiente = 0
 
     // --salida: 0 arriba del todo, 1 cuando el hero ya salió de pantalla.
+    //
+    // La cuenta se hace contra el alto del hero y no contra el de la ventana,
+    // que era lo que había antes y no es lo mismo: la portada mide más que una
+    // pantalla en cuanto el titular se parte en cuatro líneas. Dividiendo por
+    // la ventana, --salida llegaba a 1 —o sea, "esto ya no se ve"— cuando el
+    // párrafo todavía estaba a media pantalla, bien visible y ya borrado.
+    let alto = el.offsetHeight || window.innerHeight
+
     const alScroll = () => {
       if (pendiente) return
       pendiente = requestAnimationFrame(() => {
         pendiente = 0
-        const salida = Math.min(window.scrollY / window.innerHeight, 1)
+        const salida = Math.min(window.scrollY / alto, 1)
         el.style.setProperty('--salida', salida.toFixed(3))
       })
+    }
+
+    // El alto cambia con el ancho: el titular se reparte en más o menos
+    // líneas, y con él la distancia que hay que recorrer para irse.
+    const remedir = () => {
+      alto = el.offsetHeight || window.innerHeight
+      alScroll()
     }
 
     // --px/--py: posición del mouse de -1 a 1, para el paralaje del fondo.
@@ -49,10 +64,12 @@ export function Hero() {
     }
 
     window.addEventListener('scroll', alScroll, { passive: true })
+    window.addEventListener('resize', remedir)
     if (!sinMovimiento) window.addEventListener('pointermove', alMover, { passive: true })
 
     return () => {
       window.removeEventListener('scroll', alScroll)
+      window.removeEventListener('resize', remedir)
       window.removeEventListener('pointermove', alMover)
       cancelAnimationFrame(pendiente)
     }

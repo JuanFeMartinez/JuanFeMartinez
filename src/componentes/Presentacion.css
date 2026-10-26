@@ -5,16 +5,19 @@
   align-items: start;
 }
 
-/* Disco azul detrás del avatar. El relleno de la cara es del mismo crema que
-   el papel de la página, así que sin un fondo oscuro debajo desaparecería y
-   quedarían las líneas sueltas en el aire. */
+/* Disco detrás del avatar con el resplandor rojo y naranja de la portada:
+   la misma luz, en pequeño. */
 .presentacion-retrato {
   position: relative;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 25%, var(--superficie-2), var(--texto) 75%);
+  background:
+    radial-gradient(70% 70% at 70% 85%, rgba(234, 84, 85, 0.75), transparent 70%),
+    radial-gradient(60% 60% at 90% 30%, rgba(240, 123, 63, 0.55), transparent 70%),
+    var(--superficie);
+  box-shadow: 0 0 0 1px var(--linea);
   overflow: hidden;
 }
 
@@ -25,12 +28,18 @@
   rotate: 9deg;
 }
 
+/* En la letra del cartel. Sin max-width en ch: el "0" de Six Caps es tan
+   estrecho que 14ch partía el nombre palabra por palabra. */
 .presentacion-nombre {
-  /* Más contenido que un titular de sección: aquí lo que importa es que el
-     nombre por fin se vea, no que grite. */
-  font-size: clamp(2rem, 0.9rem + 4.2vw, 4rem);
-  margin-block: 2.2rem 2rem;
-  max-width: 14ch;
+  font-size: clamp(4rem, 2rem + 5.5vw, 8rem);
+}
+
+/* Con el selector compuesto a propósito: .titular-apretado.mascara pone
+   márgenes negativos para dejar sitio a las tildes, y por especificidad le
+   ganaba a esta regla. A 128 px de cuerpo eso eran casi 40 px: el título se
+   subía encima de la etiqueta y bajaba hasta tocar el párrafo. */
+.presentacion-nombre.mascara {
+  margin-block: 1.25rem 1.75rem;
 }
 
 .presentacion-texto p:not(.etiqueta) {

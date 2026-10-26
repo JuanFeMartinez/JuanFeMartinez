@@ -13,9 +13,9 @@ export function Presentacion() {
     <section className="seccion presentacion" id="quien-soy">
       <div className="contenedor presentacion-reja">
         <div className="presentacion-retrato">
-          {/* El avatar sobre un disco azul: su relleno es del mismo crema que
-              el papel, así que sin fondo oscuro la cara desaparecería y solo
-              quedarían las líneas flotando. */}
+          {/* El avatar sobre un disco con el resplandor de la portada: así
+              la sección repite la luz de arriba y la cara no queda flotando
+              sobre el azul liso. */}
           <img src={avatar} alt={`Avatar de ${perfil.nombre}`} loading="lazy" />
         </div>
 
@@ -24,7 +24,7 @@ export function Presentacion() {
             Quién está detrás
           </p>
 
-          <h2 className="presentacion-nombre titular-apretado mascara">
+          <h2 className="presentacion-nombre titulo-cartel titular-apretado mascara">
             <span>{perfil.nombre}</span>
           </h2>
 

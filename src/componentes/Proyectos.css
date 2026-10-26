@@ -4,23 +4,28 @@
 }
 
 .proyectos-titulo {
-  font-size: clamp(2.5rem, 1rem + 6.4vw, 6.5rem);
-  margin-block: 2.5rem 3.25rem;
+  /* Six Caps es tan estrecha que necesita el doble de cuerpo que la Outfit
+     para pesar lo mismo en la página. */
+  font-size: clamp(5rem, 2rem + 11vw, 13rem);
+  margin-block: 2rem 2.5rem;
 }
 
-/* El chiste está en la diferencia de tamaño, no en la fuente: la misma Outfit,
-   a menos de un tercio del cuerpo del titular, se lee como un comentario dicho
-   por lo bajo. El peso baja de 900 a 600 porque a ese tamaño el negro máximo
-   se ve como un grito, no como un aparte. */
+/* El chiste está en la diferencia de tamaño y de letra: la coletilla va en
+   Outfit, minúscula, a un tercio de la altura de las mayúsculas del cartel, y
+   se lee como un comentario dicho por lo bajo. */
 .proyectos-coletilla {
-  font-size: 0.28em;
+  font-family: var(--display);
+  font-size: 0.2em;
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin-left: 0.6em;
+  text-transform: none;
+  margin-left: 0.5em;
   color: var(--texto-suave);
   white-space: nowrap;
 }
 
+/* Índice tipográfico, de la dirección Cartel: cada proyecto es una línea del
+   cartel, en Six Caps y a todo lo ancho. */
 .proyectos-indice {
   list-style: none;
   margin: 0;
@@ -29,70 +34,109 @@
 }
 
 /* La raya va en el li y no en el enlace: así el enlace puede moverse al pasar
-   el mouse sin arrastrar consigo la línea, y la retícula del índice se queda
-   quieta. */
+   el mouse sin arrastrar consigo la línea. */
 .proyectos-indice li {
   border-bottom: 1px solid var(--linea);
 }
 
 .proyectos-indice a {
+  position: relative;
   display: grid;
-  grid-template-columns: 3rem 1fr auto auto;
+  grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+  grid-template-areas: 'n t m';
   align-items: center;
   gap: 1rem;
-  padding-block: 1.1rem;
+  padding-block: 0.35rem;
+  color: var(--texto);
+  transition: opacity 0.25s var(--curva);
+}
+
+.indice-numero {
+  grid-area: n;
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.1em;
   color: var(--texto-suave);
   transition: color 0.2s var(--curva);
 }
 
-/* Antes el desplazamiento se hacía con padding-left, que es maquetación: el
-   navegador tenía que recalcular la fila entera en cada fotograma, ocho filas
-   disponibles y una debajo del cursor en todo momento. Con transform el
-   trabajo lo hace la tarjeta gráfica y no se toca la maquetación.
+.indice-titulo {
+  grid-area: t;
+  font-family: var(--titulo);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(3.25rem, 1rem + 6.8vw, 8.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  transition:
+    color 0.2s var(--curva),
+    translate 0.3s var(--curva);
+}
 
-   Se mueven solo el número y el título, no la fila completa: el año y la
-   disciplina están pegados al borde derecho y empujarlos los sacaría del
-   margen de la página. */
-.proyectos-indice .indice-numero,
-.proyectos-indice .indice-titulo {
-  transition: transform 0.2s var(--curva);
+.indice-meta {
+  grid-area: m;
+  font-family: var(--mono);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  white-space: nowrap;
+}
+
+/* La portada del proyecto asoma junto al título, girada como una carta que
+   se saca de la baraja. Sale de un poco más pequeña y sin opacidad, nunca de
+   la nada. */
+.indice-vista {
+  position: absolute;
+  z-index: 1;
+  /* A un cuarto del borde: más a la derecha tapaba la disciplina y el año,
+     y más a la izquierda chocaba con el título más largo del índice. */
+  right: 25%;
+  top: 50%;
+  width: clamp(9rem, 17vw, 16rem);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(246, 238, 218, 0.2),
+    0 28px 40px -18px rgba(0, 0, 0, 0.85);
+  translate: 0 -50%;
+  rotate: -5deg;
+  scale: 0.9;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.22s var(--curva),
+    scale 0.3s var(--curva),
+    rotate 0.3s var(--curva);
 }
 
 .proyectos-indice a:active {
-  color: var(--acento-texto);
+  opacity: 0.7;
 }
 
+/* Hover notorio: el título se pone rojo y avanza, el número se enciende,
+   asoma la portada y el resto del índice se apaga para que no compita. */
 @media (hover: hover) and (pointer: fine) {
-  .proyectos-indice a:hover {
-    color: var(--texto);
+  .proyectos-indice:has(a:hover) a:not(:hover) {
+    opacity: 0.28;
   }
 
-  .proyectos-indice a:hover .indice-numero,
   .proyectos-indice a:hover .indice-titulo {
-    transform: translateX(0.75rem);
+    color: var(--acento);
+    translate: 1.75rem 0;
   }
-}
 
-.indice-numero,
-.indice-anio {
-  font-family: var(--mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.1em;
-}
+  .proyectos-indice a:hover .indice-numero {
+    color: var(--acento);
+  }
 
-.indice-titulo {
-  font-family: var(--display);
-  font-size: var(--t-l);
-}
-
-.indice-disciplina {
-  font-family: var(--mono);
-  font-size: var(--t-2xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 0.325rem 0.65rem 0.275rem;
-  border: 1px solid var(--linea);
-  border-radius: 999px;
+  .proyectos-indice a:hover .indice-vista {
+    opacity: 1;
+    scale: 1;
+    rotate: -3deg;
+  }
 }
 
 .capitulo-disciplina {
@@ -111,14 +155,27 @@
   border-radius: 999px;
 }
 
-/* En pantallas estrechas la etiqueta del índice sobra: el capítulo ya la trae. */
+/* En pantallas estrechas la disciplina y el año bajan debajo del título: al
+   lado le robaban el ancho que Six Caps necesita para leerse. */
 @media (max-width: 40rem) {
   .proyectos-indice a {
-    grid-template-columns: 2.5rem 1fr auto;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    grid-template-areas: 'n t' '. m';
+    row-gap: 0.15rem;
+    padding-block: 0.6rem 0.75rem;
   }
 
-  .indice-disciplina {
-    display: none;
+  .indice-titulo {
+    font-size: clamp(2.75rem, 13vw, 4rem);
+  }
+
+  /* Partida a su propia línea con el interlineado de la Six Caps quedaba
+     sola a 70 px del título: en bloque, pegada debajo. */
+  .proyectos-coletilla {
+    display: block;
+    margin: 0.5rem 0 0;
+    font-size: 1.125rem;
+    line-height: 1.2;
   }
 }
 
@@ -176,14 +233,14 @@
   letter-spacing: 0;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(0, 43, 91, 0.28);
+  -webkit-text-stroke: 1px rgba(246, 238, 218, 0.22);
   pointer-events: none;
   transform: translateY(calc(var(--pc) * 3rem));
   will-change: transform;
 }
 
 .capitulo-titulo {
-  font-size: var(--t-xl);
+  font-size: clamp(3.5rem, 1.5rem + 5vw, 7rem);
   position: relative;
 }
 
@@ -206,7 +263,7 @@
 .capitulo-resumen {
   margin-top: 1.75rem;
   font-size: var(--t-l);
-  color: rgba(0, 43, 91, 0.85);
+  color: rgba(246, 238, 218, 0.88);
   max-width: 46ch;
 }
 

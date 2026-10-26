@@ -56,7 +56,7 @@
   left: -2rem;
   width: 4rem;
   height: 4rem;
-  border: 1px solid rgba(0, 43, 91, 0.55);
+  border: 1px solid rgba(246, 238, 218, 0.7);
   border-radius: 50%;
   --s: 0.625;
   --p: 1;
@@ -74,7 +74,7 @@
 .cursor-anillo.crecido .cursor-anillo-forma {
   --s: 1;
   border-color: transparent;
-  background: rgba(0, 43, 91, 0.1);
+  background: rgba(246, 238, 218, 0.14);
   backdrop-filter: blur(2px);
 }
 
@@ -90,18 +90,10 @@
   --p: 0.88;
 }
 
-/* Sobre las islas oscuras, la tinta pasa a crema. Los :not son para no pisar
-   los estados que ya se ven en cualquier fondo: crecido sin borde y con
-   palabra, que va relleno de rojo. */
-.cursor-anillo.sobre-oscuro:not(.crecido) .cursor-anillo-forma {
-  border-color: rgba(246, 238, 218, 0.7);
-}
-
-.cursor-anillo.sobre-oscuro.crecido:not(.con-texto) .cursor-anillo-forma {
-  background: rgba(246, 238, 218, 0.16);
-}
-
+/* Azul sobre el relleno rojo del anillo con palabra: 4.9:1, donde el crema
+   se quedaba en 3:1. */
 .cursor-anillo span {
+  color: var(--fondo);
   position: absolute;
   top: 0;
   left: 0;

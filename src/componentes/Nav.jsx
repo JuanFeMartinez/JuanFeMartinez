@@ -8,7 +8,7 @@ import './Nav.css'
 const ENLACES = [
   { texto: 'Trabajo', destino: '#proyectos', cursor: 'Ver' },
   { texto: 'Cómo trabajo', destino: '#proceso', cursor: 'Leer' },
-  { texto: 'Contacto', destino: '#contacto', cursor: 'Hablemos' },
+  { texto: 'Escríbeme', destino: '#contacto', cursor: 'Hablemos', pastilla: true },
 ]
 
 export function Nav() {
@@ -37,7 +37,11 @@ export function Nav() {
             <ul className="nav-lista">
               {ENLACES.map((enlace) => (
                 <li key={enlace.destino}>
-                  <a href={enlace.destino} data-cursor={enlace.cursor}>
+                  <a
+                    href={enlace.destino}
+                    data-cursor={enlace.cursor}
+                    className={enlace.pastilla ? 'nav-pastilla' : undefined}
+                  >
                     {enlace.texto}
                   </a>
                 </li>

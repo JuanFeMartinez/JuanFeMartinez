@@ -22,7 +22,7 @@
   font-family: var(--display);
   font-size: clamp(1.25rem, 2.2vw, 2rem);
   white-space: nowrap;
-  color: rgba(0, 43, 91, 0.55);
+  color: var(--texto-suave);
 }
 
 .marquesina-pista i {

@@ -13,6 +13,7 @@ import { Nav } from './componentes/Nav'
 import { Presentacion } from './componentes/Presentacion'
 import { Proceso } from './componentes/Proceso'
 import { Proyectos } from './componentes/Proyectos'
+import { Ruleta } from './componentes/Ruleta'
 
 export default function App() {
   useProgreso() // escribe --progreso y --velocidad en :root
@@ -29,6 +30,7 @@ export default function App() {
 
       <main>
         <Hero />
+        <Ruleta />
         <Marquesina />
         <Manifiesto />
         <Proyectos />

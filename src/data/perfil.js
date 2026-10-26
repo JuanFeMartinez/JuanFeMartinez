@@ -11,8 +11,18 @@ export const perfil = {
   disponible: true,
   disponibilidad: 'Autónomo y tiempo completo',
 
-  // El titular del hero se parte en líneas: cada línea se revela por separado.
+  // Portada: el saludo pequeño, el cargo en grande (cada elemento es una
+  // línea) y los cuatro oficios de la franja de abajo.
+  saludo: 'Hola, soy Juan Felipe',
+  cargo: ['Dirección', 'de arte'],
+  oficios: ['Dirección de arte', 'Motion graphics', 'Personajes', 'Interfaces'],
+
+  // La frase de la derecha de la portada. Va en partes porque así estaba
+  // cuando era el titular gigante; ahora se lee seguida.
   titular: ['Diseño', 'mundos', 'y les doy', 'movimiento'],
+
+  // Ya no sale en la portada: la de ahora es la de la dirección Noche, que no
+  // lleva párrafo. Se queda aquí por si vuelve a hacer falta.
   entrada:
     'Dirección de arte para cosas que se ven y se mueven: videojuegos, cómics, video y producto digital. Invento el mundo primero y me encargo de que se sostenga después, cuadro por cuadro o pantalla por pantalla. Cuando la herramienta es una inteligencia artificial, también sé dirigirla.',
 
@@ -58,9 +68,14 @@ export const manifiesto =
 //   embed:  'https://…'                un incrustado ajeno, como los de Behance
 //
 // Si no hay ninguno, se dibuja una composición con CSS según `forma`.
+//
+// Aparte, cada proyecto lleva una `portada`: la imagen que lo representa en
+// la ruleta de la portada y la que asoma al pasar el mouse por el índice. Las
+// de Behance están bajadas de cada proyecto a /img/behance/.
 export const proyectos = [
   {
     id: 'identidad-animada',
+    portada: '/img/ahora.jpg',
     titulo: 'Identidad en movimiento',
     subtitulo: 'Motion graphics · La Curaçao',
     disciplina: 'Edición',
@@ -93,6 +108,7 @@ export const proyectos = [
   },
   {
     id: 'redes-curacao',
+    portada: '/img/broadcast.jpg',
     titulo: 'Contenido para redes',
     subtitulo: 'Edición · La Curaçao',
     disciplina: 'Edición',
@@ -122,6 +138,7 @@ export const proyectos = [
   },
   {
     id: 'baskiat',
+    portada: '/img/behance/baskiat.jpg',
     titulo: 'BASKIAT',
     subtitulo: 'Diseño de personaje',
     disciplina: 'Videojuegos y personajes',
@@ -143,6 +160,7 @@ export const proyectos = [
   },
   {
     id: 'casa-corallo',
+    portada: '/img/behance/corallo.jpg',
     titulo: 'La Casa Corallo',
     subtitulo: 'Cómic · K.O Media',
     disciplina: 'Videojuegos y personajes',
@@ -165,6 +183,7 @@ export const proyectos = [
   },
   {
     id: 'luckydip',
+    portada: '/img/behance/lucky.jpg',
     titulo: 'Lucky Dip',
     subtitulo: 'Videojuego · K.O Media',
     disciplina: 'Videojuegos y personajes',
@@ -186,6 +205,7 @@ export const proyectos = [
   },
   {
     id: 'find-fih',
+    portada: '/img/behance/findfih.jpg',
     titulo: 'FIND FIH',
     subtitulo: 'Game jam',
     disciplina: 'Videojuegos y personajes',
@@ -207,6 +227,7 @@ export const proyectos = [
   },
   {
     id: 'ko-media',
+    portada: '/img/behance/komedia.jpg',
     titulo: 'K.O Media',
     subtitulo: 'Sitio web del estudio',
     disciplina: 'UX y UI',
@@ -228,6 +249,7 @@ export const proyectos = [
   },
   {
     id: 'curacao-sitio',
+    portada: '/img/curacao/home.jpg',
     titulo: 'La Curaçao',
     subtitulo: 'Sitio corporativo',
     disciplina: 'UX y UI',
@@ -262,6 +284,7 @@ export const proyectos = [
   },
   {
     id: 'dr-fabricio',
+    portada: '/img/fabricio/portada.jpg',
     titulo: 'Dr. Fabricio Martínez',
     subtitulo: 'Sitio de medicina alternativa',
     disciplina: 'UX y UI',

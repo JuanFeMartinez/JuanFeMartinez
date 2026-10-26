@@ -5,30 +5,24 @@
   width: 100%;
 }
 
+/* Barra de la dirección Noche: el nombre en Outfit, los enlaces sencillos y
+   el contacto como pastilla crema, que es lo único que se pide a gritos. */
 .nav {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 150;
+  border-bottom: 1px solid transparent;
   transition:
     background-color 0.5s var(--curva-suave),
     border-color 0.5s var(--curva-suave),
     backdrop-filter 0.5s var(--curva-suave);
-  border-bottom: 1px solid transparent;
 }
 
-/* Mientras no está compacto, el nav flota sobre la portada oscura: hereda los
-   tokens claros del sitio y quedaría tinta azul sobre azul, ilegible. Aquí se
-   invierte, y al hacer scroll vuelve al papel. */
-.nav:not(.compacto) {
-  --texto: #f6eeda;
-  --texto-suave: #b9c4d4;
-  --linea: rgba(250, 245, 230, 0.22);
-  color: var(--texto);
-}
-
+/* Al bajar, la barra se vuelve un vidrio azul para que el texto de debajo
+   no se le cruce. */
 .nav.compacto {
-  background: rgba(250, 245, 230, 0.82);
-  backdrop-filter: blur(14px) saturate(1.4);
+  background: rgba(0, 26, 58, 0.78);
+  backdrop-filter: blur(14px) saturate(1.3);
   border-bottom-color: var(--linea);
 }
 
@@ -48,17 +42,18 @@
 }
 
 .nav.compacto .nav-interior {
-  padding-block: 0.875rem;
+  padding-block: 0.75rem;
 }
 
 .nav-nombre {
-  font-family: var(--mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .nav-punto {
@@ -78,7 +73,8 @@
 
 .nav-lista {
   display: flex;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: center;
+  gap: clamp(1rem, 2.6vw, 2.25rem);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -91,7 +87,7 @@
   transition: color 0.2s;
 }
 
-.nav-lista a::after {
+.nav-lista a:not(.nav-pastilla)::after {
   content: '';
   position: absolute;
   left: 0;
@@ -108,53 +104,63 @@
   color: var(--acento-texto);
 }
 
+.nav-pastilla {
+  display: inline-block;
+  padding: 0.6em 1.15em;
+  border-radius: 999px;
+  background: var(--texto);
+  font-weight: 600;
+  transition:
+    background-color 0.2s var(--curva),
+    scale var(--t-presion) var(--curva);
+}
+
+/* Más específico que .nav-lista a: si no, el texto de la pastilla heredaba
+   el crema suave de los demás enlaces y quedaba crema sobre crema. */
+.nav-lista .nav-pastilla {
+  color: var(--fondo);
+}
+
+.nav-lista .nav-pastilla:active {
+  color: var(--fondo);
+  scale: var(--presion);
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .nav-lista a:hover {
+  .nav-lista a:not(.nav-pastilla):hover {
     color: var(--texto);
   }
 
-  .nav-lista a:hover::after {
+  .nav-lista a:not(.nav-pastilla):hover::after {
     transform: scaleX(1);
     transform-origin: left;
   }
+
+  .nav-pastilla:hover {
+    background: var(--acento-2);
+  }
 }
 
-@media (max-width: 34rem) {
-  /* Antes aquí se escondía todo menos el último enlace, y en un teléfono la
-     barra se quedaba con "Contacto" y nada más: las dos secciones que de
-     verdad se van a buscar —el trabajo y el proceso— no tenían forma de
-     alcanzarse salvo deslizando a ciegas.
-
-     No caben las tres con el nombre completo delante, así que se cede la del
-     medio, que es la que menos se busca, y se aprieta el resto hasta que las
-     otras dos entran. */
-  .nav-lista li:nth-child(2) {
+/* En el teléfono no caben el nombre completo y los tres enlaces. Se quedan
+   el nombre y la pastilla de contacto, como en el boceto: el trabajo está
+   justo debajo, a un dedo de distancia, y escribir es lo único que no se
+   encuentra solo bajando. */
+@media (max-width: 40rem) {
+  .nav-lista li:not(:last-child) {
     display: none;
   }
 
-  .nav-lista {
-    font-size: var(--t-xs);
-    gap: 0.625rem;
-  }
-
-  .nav-interior {
-    gap: 0.5rem;
-  }
-
-  /* El nombre completo con este espaciado no cabe y partía en dos líneas,
-     estirando la barra. Se aprieta en vez de recortarse: el nombre entero
-     importa más que el espaciado. */
   .nav-nombre {
-    font-size: var(--t-2xs);
-    letter-spacing: 0.055em;
-    white-space: nowrap;
+    font-size: 0.875rem;
   }
 }
 
-/* Por debajo de esto ya no entra ni el nombre con dos enlaces. Se queda el
-   contacto, que es el único destino al que no se llega simplemente bajando. */
-@media (max-width: 21.5rem) {
-  .nav-lista li:not(:last-child) {
+@media (max-width: 23rem) {
+  .nav-nombre {
+    font-size: 0.75rem;
+  }
+
+  .nav-punto {
     display: none;
   }
 }

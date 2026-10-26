@@ -7,6 +7,11 @@
  * los tres nuestros: los intermedios, que son mezclas de ellos, caen solos en
  * la mezcla correcta. Repintar el PNG habría dejado los bordes sucios.
  *
+ * Desde que el sitio es oscuro: blanco → crema #f6eeda, negro → azul noche
+ * #001a3a y rojo → naranja #f07b3f. El halo naranja es lo que separa al
+ * avatar del fondo azul; con líneas azules sobre azul y sin halo, el contorno
+ * se perdería.
+ *
  * sRGB es obligatorio: por defecto los filtros SVG operan en luz lineal y los
  * números salen otros.
  *
@@ -20,9 +25,9 @@ export function FiltroAvatar() {
       <filter id="avatar-paleta" colorInterpolationFilters="sRGB">
         <feColorMatrix
           type="matrix"
-          values="0.9688 0.0392 0 0 -0.0277
-                  0.3361 0.4784 0 0 0.1463
-                  -0.0944 0.6549 0 0 0.3415
+          values="0.9684 0.0235 0 0 -0.0272
+                  0.4039 0.451 0 0 0.0785
+                  0.0373 0.6078 0 0 0.2097
                   0 0 0 1 0"
         />
       </filter>

@@ -1,95 +1,47 @@
-/* La portada es la tercera isla oscura del sitio, y la más caliente: entra el
-   golpe de color y después el resto se lee tranquilo sobre papel. Como en las
-   otras dos, basta dar la vuelta a los tokens aquí dentro. */
+/* Portada, dirección Noche. Una tarjeta un tono más clara que la página, con
+   el resplandor rojo y naranja saliendo de abajo a la derecha, como una luz
+   detrás de la figura. Va separada de los bordes de la ventana para que se lea
+   como un objeto —una pantalla— y no como un fondo más. */
 .hero {
-  --fondo: #001a3a;
-  --superficie: #0a3466;
-  --texto: #f6eeda;
-  --texto-suave: #b9c4d4;
-  --linea: rgba(250, 245, 230, 0.22);
-  --acento-texto: #ffa26b;
-
   --salida: 0;
   --px: 0;
   --py: 0;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
   position: relative;
-  padding-block: 8rem 6rem;
-  isolation: isolate;
+  /* Arriba deja libre la franja del nav, que es fija y flota encima. */
+  padding: 5.25rem clamp(0.5rem, 1.4vw, 1.25rem) 0;
+}
+
+.hero-tarjeta {
+  /* El relleno lateral va en una variable porque la franja de oficios lo
+     necesita para salirse hasta los bordes de la tarjeta. */
+  --relleno: clamp(1.25rem, 3vw, 3rem);
+  position: relative;
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  min-height: min(calc(100svh - 6.5rem), 58rem);
+  padding: clamp(1.5rem, 3vw, 3rem) var(--relleno) 0;
+  border-radius: clamp(14px, 2vw, 28px);
   overflow: hidden;
-  color: var(--texto);
-  /* El degradado base va aquí y no solo en las manchas: apilar tres radiales
-     grandes da una malla de color sólida y estable, y las manchas de encima
-     solo aportan el movimiento. Confiar todo al desenfoque dejaba el fondo
-     casi plano.
-
-     El velo de la primera línea es obligatorio, no decorativo: sin él, donde el
-     rojo y el naranja se solapan el texto crema baja a 2.8:1 de contraste y el
-     párrafo a 1.8:1, o sea ilegible. El velo es más denso a la izquierda, que
-     es donde va el texto, y se abre a la derecha para que el color siga vivo
-     justo donde no estorba. */
-  --velo: linear-gradient(
-    105deg,
-    rgba(0, 18, 40, 0.9) 0%,
-    rgba(0, 18, 40, 0.62) 52%,
-    rgba(0, 18, 40, 0.34) 100%
-  );
+  isolation: isolate;
+  /* El degradado base va aquí y no solo en las manchas: tres radiales dan un
+     resplandor estable aunque el desenfoque de las manchas tarde en pintarse,
+     y las manchas encima solo aportan el movimiento. */
   background:
-    var(--velo),
-    radial-gradient(115% 85% at 82% 0%, rgba(234, 84, 85, 0.9), transparent 58%),
-    radial-gradient(100% 80% at 10% 100%, rgba(240, 123, 63, 0.75), transparent 55%),
-    radial-gradient(95% 75% at 48% 52%, rgba(150, 45, 125, 0.8), transparent 62%),
-    var(--fondo);
+    radial-gradient(60% 75% at 72% 100%, rgba(234, 84, 85, 0.8), transparent 70%),
+    radial-gradient(55% 65% at 100% 30%, rgba(240, 123, 63, 0.6), transparent 70%),
+    radial-gradient(50% 60% at 12% 110%, rgba(240, 123, 63, 0.4), transparent 70%),
+    var(--superficie);
 }
 
-/* El borde inferior corta en seco contra el papel, sin degradado de salida:
-   el cambio de mundo tiene que notarse. */
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 1px;
-  background: var(--acento);
-}
-
-/* El bloque entero se aleja al bajar, pero el desvanecido ya no es comun:
-   cada parte se va a su ritmo, mas abajo. */
-.hero-interior {
-  transform: translateY(calc(var(--salida) * -6vh)) scale(calc(1 - var(--salida) * 0.06));
-  will-change: transform;
-}
-
-/* El titular se iba al 1.7, o sea desaparecido cuando apenas se ha recorrido
-   el 59% de la portada: con el párrafo todavía en mitad de la pantalla ya no
-   quedaba nada arriba que leer. Al 1.0 llega a cero justo cuando la portada
-   termina de salir, que es cuando tiene sentido que no quede nada. */
-.hero-etiqueta,
-.hero-titular {
-  opacity: calc(1 - var(--salida));
-}
-
-/* El parrafo necesita segundos, no un vistazo: aguanta entero hasta que el
-   titular practicamente ya no esta, y solo entonces empieza a irse. El
-   navegador recorta la opacidad a 1, asi que el tramo inicial se queda
-   opaco sin necesidad de escribir el limite. */
-.hero-pie {
-  /* Empieza más tarde y baja más despacio: el párrafo son cinco líneas, y
-     cinco líneas necesitan segundos, no un vistazo. Con estos números sigue
-     entero hasta pasada la mitad de la portada y solo se apaga del todo
-     cuando ya está saliendo por arriba. */
-  opacity: calc(1 - (var(--salida) - 0.5) * 1.8);
-}
-
-/* Malla de color: tres manchas muy desenfocadas que se mueven despacio y se
-   corren con el mouse. El desenfoque grande es lo que las funde en un degradado
-   continuo en vez de tres círculos sueltos. */
+/* Resplandor vivo ------------------------------------------------------- */
 .hero-atmosfera {
   position: absolute;
-  inset: -25%;
+  inset: -20%;
   z-index: -2;
   opacity: calc(1 - var(--salida));
+  pointer-events: none;
 }
 
 /* El desenfoque va en cada mancha y no en el contenedor. Puesto en el padre,
@@ -99,37 +51,37 @@
   position: absolute;
   border-radius: 50%;
   display: block;
-  filter: blur(90px);
+  filter: blur(80px);
   will-change: transform;
 }
 
 .mancha-a {
-  width: 58vw;
-  height: 58vw;
-  top: -6%;
-  right: 0%;
-  background: radial-gradient(circle, rgba(234, 84, 85, 0.9), transparent 68%);
-  transform: translate3d(calc(var(--px) * -40px), calc(var(--py) * -40px), 0);
+  width: 50%;
+  height: 60%;
+  right: 18%;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(234, 84, 85, 0.85), transparent 68%);
+  transform: translate3d(calc(var(--px) * -40px), calc(var(--py) * -30px), 0);
   animation: deriva 18s ease-in-out infinite alternate;
 }
 
 .mancha-b {
-  width: 46vw;
-  height: 46vw;
-  bottom: -8%;
-  left: -4%;
-  background: radial-gradient(circle, rgba(240, 123, 63, 0.75), transparent 68%);
-  transform: translate3d(calc(var(--px) * 60px), calc(var(--py) * 60px), 0);
+  width: 42%;
+  height: 52%;
+  right: 0;
+  top: 18%;
+  background: radial-gradient(circle, rgba(240, 123, 63, 0.7), transparent 68%);
+  transform: translate3d(calc(var(--px) * 50px), calc(var(--py) * 40px), 0);
   animation: deriva 24s ease-in-out infinite alternate-reverse;
 }
 
 .mancha-c {
-  width: 44vw;
-  height: 44vw;
-  top: 28%;
-  left: 34%;
-  background: radial-gradient(circle, rgba(160, 60, 130, 0.7), transparent 66%);
-  transform: translate3d(calc(var(--px) * -80px), calc(var(--py) * 30px), 0);
+  width: 40%;
+  height: 50%;
+  left: 4%;
+  bottom: -6%;
+  background: radial-gradient(circle, rgba(240, 123, 63, 0.45), transparent 68%);
+  transform: translate3d(calc(var(--px) * -60px), calc(var(--py) * 20px), 0);
   animation: deriva 30s ease-in-out infinite alternate;
 }
 
@@ -137,192 +89,158 @@
   to { translate: 6% -8%; }
 }
 
-/* Trama de puntos sobre el degradado: es lo que le da grano de impresión y lo
-   saca del aspecto de plantilla. Se desvanece hacia abajo para no competir con
-   el texto de la parte baja. */
-.hero-trama {
+/* El avatar ---------------------------------------------------------------
+   Detrás del texto y saliendo por el borde de abajo, recortado como una
+   persona en un plano medio. La franja de oficios le pasa por encima. */
+.hero-avatar {
   position: absolute;
-  inset: 0;
   z-index: -1;
-  background-image: radial-gradient(circle, rgba(250, 245, 230, 0.32) 1px, transparent 1.2px);
-  background-size: 7px 7px;
-  mask-image: linear-gradient(160deg, #000 5%, transparent 55%);
+  /* A un cuarto del borde derecho: más cerca, el pelo pasaba por detrás de
+     la frase y el crema se mezclaba con el crema. La cara queda por encima
+     de la franja y solo la barbilla pasa por debajo. */
+  right: 25%;
+  bottom: -3cqi;
+  width: 33cqi;
+  rotate: 9deg;
+  filter: url(#avatar-paleta) drop-shadow(0 0 40px rgba(240, 123, 63, 0.45));
+  pointer-events: none;
+  opacity: calc(1 - var(--salida) * 1.2);
+  animation: asomar-avatar 1.1s var(--curva) 0.9s backwards;
+}
+
+@keyframes asomar-avatar {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(0.95);
+  }
+}
+
+/* Texto ---------------------------------------------------------------- */
+.hero-texto {
+  align-self: center;
+  position: relative;
+  /* Se va al mismo ritmo que la portada: llega a cero justo cuando la
+     tarjeta termina de salir, no antes. */
   opacity: calc(1 - var(--salida));
-  pointer-events: none;
 }
 
-/* Estrellas de puntas: el sticker de la referencia. Van detrás del texto y con
-   poca opacidad, para que decoren sin robar la lectura. */
-.hero-estrella {
-  position: absolute;
-  z-index: -1;
-  fill: var(--texto);
-  opacity: 0.14;
-  pointer-events: none;
+.hero-hola {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(1rem, 1.8cqi, 1.6rem);
+  color: var(--acento-2);
 }
 
-.hero-estrella-a {
-  width: clamp(7rem, 16vw, 15rem);
-  top: 12%;
-  right: 6%;
-  animation: girar 40s linear infinite;
-}
-
-.hero-estrella-b {
-  width: clamp(4rem, 8vw, 7rem);
-  bottom: 14%;
-  right: 22%;
-  opacity: 0.1;
-  animation: girar 28s linear infinite reverse;
-}
-
-@keyframes girar {
-  to { rotate: 360deg; }
-}
-
-/* Adorno de esquina: tres puntos y una línea que cruza. */
-.hero-adorno {
-  position: absolute;
-  top: 5.5rem;
-  left: var(--margen);
-  right: var(--margen);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  opacity: calc(0.65 - var(--salida));
-}
-
-.hero-adorno span {
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--linea);
-  border-radius: 50%;
-  flex: none;
-}
-
-.hero-adorno span:first-child {
-  background: var(--acento);
-  border-color: transparent;
-}
-
-.hero-adorno i {
-  flex: 1;
-  height: 1px;
-  margin-left: 0.6rem;
-  background: var(--linea);
-}
-
-/* El margen negativo de la mascara sirve para el ritmo entre lineas, pero
-   tambien se come el aire del borde exterior del bloque. Estos margenes lo
-   devuelven: sin ellos el titular queda pegado a la etiqueta de arriba. */
-.hero-etiqueta {
-  margin-bottom: clamp(2.5rem, 6vh, 4.25rem);
-}
-
-/* Mayúsculas como en la referencia: es su rasgo más reconocible después del
-   degradado. El tamaño se recalcula abajo, porque en caja alta la línea más
-   larga crece bastante. */
 .hero-titular {
-  /* Marco de referencia del avatar, que va posicionado dentro. */
-  position: relative;
-  text-transform: uppercase;
-  font-size: min(11vw, 8.5rem);
-}
-
-.hero-titular .mascara > span {
-  display: inline-block;
-}
-
-/* last-of-type y no last-child: desde que el avatar vive dentro del titular,
-   el ultimo hijo es la imagen y el punto final se perdia. */
-.hero-titular .mascara:last-of-type > span::after {
-  content: '.';
-  color: var(--acento);
-}
-
-.hero-pie {
-  margin-top: clamp(2rem, 6vh, 4rem);
+  /* En columna flexible y no en bloques: los márgenes negativos de cada
+     línea (los que dejan sitio a las tildes) se fusionaban entre bloques
+     vecinos en vez de sumarse, y sobraban 0.28em entre una línea y otra. */
   display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
-  gap: 2rem;
+  flex-direction: column;
+  margin-top: 0.6cqi;
+  font-family: var(--condensada);
+  font-weight: 900;
+  font-synthesis: none;
+  /* "DIRECCIÓN", la línea más larga, ocupa 3.57 veces el cuerpo: a 12.5cqi
+     mide 45cqi y cabe en la columna izquierda, que es un 51% del ancho. */
+  font-size: clamp(4rem, 12.5cqi, 12rem);
+  line-height: 0.82;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
 }
 
-/* Crema llena y no el color apagado: sobre el degradado, un azul grisaceo se
-   lee peor de lo que dice su contraste, porque comparte tono con el fondo.
-   Pasa de 9.4 a 14.4 contra el fondo que le toca debajo. Aqui este parrafo no
-   es texto secundario: es lo unico que explica a que se dedica. */
-.hero-entrada {
-  max-width: 46ch;
-  color: var(--texto);
-  font-size: var(--t-l);
-  line-height: 1.55;
-}
-
-.hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 1.6rem;
-  border: 1px solid var(--linea);
-  border-radius: 999px;
-  font-size: var(--t-s);
-  white-space: nowrap;
+.hero-lado {
+  align-self: center;
+  justify-self: end;
   position: relative;
-  overflow: hidden;
-  transition:
-    color 0.2s var(--curva),
-    border-color 0.2s var(--curva),
-    scale var(--t-presion) var(--curva);
+  opacity: calc(1 - (var(--salida) - 0.2) * 1.4);
 }
 
-.hero-cta:active {
-  scale: var(--presion);
+.hero-frase {
+  max-width: 15ch;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.3cqi, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-align: right;
 }
 
-.hero-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--texto);
-  transform: translateY(101%);
-  transition: transform 0.3s var(--curva);
-  z-index: -1;
+/* Franja de oficios: como el rótulo de una película, con el avatar pasando
+   por debajo. El desenfoque es lo que permite leer el crema del texto encima
+   del crema de la cara. */
+.hero-pie {
+  grid-column: 1 / -1;
+  position: relative;
+  margin-inline: calc(var(--relleno) * -1);
+  margin-top: clamp(1.5rem, 3cqi, 2.5rem);
+  padding: clamp(0.9rem, 1.6cqi, 1.4rem) var(--relleno) clamp(1.1rem, 2cqi, 1.75rem);
+  border-top: 1px solid rgba(246, 238, 218, 0.22);
+  background: linear-gradient(rgba(0, 26, 58, 0.62), rgba(0, 26, 58, 0.9));
+  backdrop-filter: blur(8px);
+  opacity: calc(1 - (var(--salida) - 0.3) * 1.6);
 }
 
-.hero-cta svg {
-  transition: transform 0.2s var(--curva);
+.hero-oficios {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem clamp(1rem, 2cqi, 2rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--display);
+  font-size: clamp(0.875rem, 1.1cqi, 1rem);
+  font-weight: 500;
 }
 
-/* El relleno que sube y la flecha que avanza solo tienen sentido con un mouse
-   de verdad. En táctil, el :hover se queda pegado tras el toque y el botón se
-   quedaría relleno para siempre. */
-@media (hover: hover) and (pointer: fine) {
-  .hero-cta:hover {
-    color: var(--fondo);
-    border-color: var(--texto);
-  }
-
-  .hero-cta:hover::before {
-    transform: none;
-  }
-
-  .hero-cta:hover svg {
-    transform: translateX(4px);
-  }
+.hero-oficios small {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-family: var(--mono);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.1em;
+  color: var(--acento-2);
 }
 
+/* Una columna: el avatar entra en el flujo arriba del saludo, como en el
+   boceto de teléfono. Absoluto quedaría detrás del titular, y la cara crema
+   se comería las letras crema. Va por media query y no por container query
+   porque lo que cambia es la reja de la propia tarjeta, y una consulta de
+   contenedor solo alcanza a los hijos. */
 @media (max-width: 48rem) {
-  .hero-pie {
-    flex-direction: column;
-    align-items: flex-start;
+  .hero-tarjeta {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    min-height: 0;
   }
 
-  /* En pantalla angosta el texto ocupa todo el ancho, así que el velo no puede
-     abrirse hacia la derecha: se vuelve parejo y baja de arriba abajo. */
-  .hero {
-    --velo: linear-gradient(rgba(0, 18, 40, 0.84), rgba(0, 18, 40, 0.72));
+  .hero-avatar {
+    position: relative;
+    z-index: 0;
+    right: auto;
+    bottom: auto;
+    justify-self: center;
+    width: min(64cqi, 20rem);
+    margin: 0.5rem 0 0.75rem;
+  }
+
+  .hero-titular {
+    font-size: 24cqi;
+  }
+
+  .hero-lado {
+    justify-self: start;
+    margin-top: 1.5rem;
+  }
+
+  .hero-frase {
+    text-align: left;
+  }
+
+  .hero-oficios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -334,46 +252,8 @@
   pointer-events: none;
 }
 
-/* El avatar se apoya en el hueco que dejan las dos primeras líneas del
-   titular, que son las más cortas. Va por delante del texto, pero cae sobre
-   espacio vacío: no tapa ninguna letra. */
-.hero-avatar {
-  position: absolute;
-  /* Centrado sobre el punto medio entre las dos primeras lineas: asi el
-     avatar se lee como parte del titular y no como algo posado encima. El
-     giro de 9 grados agranda su caja, por eso el valor no coincide con la
-     posicion que acaba teniendo en pantalla. */
-  top: 6.7%;
-  left: 46.5%;
-  width: 26%;
-  max-width: 17rem;
-  z-index: 1;
-  /* Sombra corta y poco difuminada: se busca que despegue del fondo, no que
-     flote. Con mucho desenfoque el avatar parecia pegado con cinta encima. */
-  filter: url(#avatar-paleta) drop-shadow(2px 3px 3px rgba(0, 18, 40, 0.18));
-  rotate: 9deg;
-  pointer-events: none;
-  animation: asomar-avatar 1.1s var(--curva) 0.9s backwards;
-}
-
-@keyframes asomar-avatar {
-  from {
-    opacity: 0;
-    transform: translateY(1.5rem) scale(0.94);
-  }
-}
-
-/* En pantalla angosta sigue montado sobre el titular, no debajo: el titular
-   ocupa mas ancho, asi que el avatar se corre a la izquierda y crece en
-   proporcion para seguir cayendo sobre las letras. */
-@media (max-width: 48rem) {
+@media (prefers-reduced-motion: reduce) {
   .hero-avatar {
-    /* Al 36% el avatar medía dos tercios del alto del titular, y bajaba hasta
-       comerse la tercera linea. Al 30% queda en la misma proporcion que en
-       escritorio y se centra igual entre las dos primeras. */
-    top: 2.7%;
-    left: 45%;
-    width: 30%;
-    max-width: none;
+    animation: none;
   }
 }

@@ -1,23 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { conBase } from '../utilidades/conBase'
+import './VisualProyecto.css'
 
 // Lo que tarda el visor ampliado en irse. Vive aquí y no solo en el CSS porque
 // el componente tiene que saber cuándo desmontarlo: si los dos números se
 // separan, o se corta la animación a media salida o queda un hueco muerto.
 const SALIDA_VISOR = 180
-import './VisualProyecto.css'
-
-/**
- * Antepone la ruta base del sitio a las rutas absolutas de perfil.js.
- *
- * Vite reescribe solo las rutas que pasan por un import o por un url() de CSS;
- * las que van escritas como texto en los datos las deja intactas. Cuando el
- * sitio se publica en un subdirectorio, '/video/x.mp4' apunta a la raíz del
- * dominio, donde no hay nada. En local no se nota, porque ahí la base es la
- * raíz: por eso este fallo solo aparecía en producción.
- */
-const conBase = (ruta) =>
-  ruta?.startsWith('/') ? import.meta.env.BASE_URL.replace(/\/$/, '') + ruta : ruta
 
 /**
  * Iconos dibujados en vez de caracteres tipográficos. Los glifos ‹ › × no

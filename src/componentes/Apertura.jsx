@@ -8,12 +8,12 @@ import './Apertura.css'
 const DURACION = 1250
 
 /**
- * Telón de entrada. Un velo del mismo crema del papel que se abre despacio y
- * deja ver la portada.
+ * Telón de entrada. Un velo del mismo azul noche de la página que se abre
+ * despacio y deja ver la portada.
  *
- * Es el mismo color que el navegador ya pinta antes de que arranque React, así
- * que no hay parpadeo: la página empieza en crema y sigue en crema hasta que el
- * velo se va.
+ * Es el mismo color que el navegador ya pinta antes de que arranque React —el
+ * index.html lo fija en el html—, así que no hay parpadeo: la página empieza en
+ * azul y sigue en azul hasta que el velo se va.
  *
  * MARCADOR DE POSICIÓN: la animación de dentro es a propósito de lo más
  * sencillo —el nombre y una raya— para que este sea el sitio donde meter la de

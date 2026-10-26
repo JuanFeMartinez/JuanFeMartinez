@@ -3,26 +3,13 @@ import { perfil } from '../data/perfil'
 import avatar from '../assets/avatar.png'
 import './Hero.css'
 
+const numero = (i) => String(i + 1).padStart(2, '0')
+
 /**
- * Estrella de puntas, el recurso gráfico que sostiene toda la portada.
- * Se dibuja alternando dos radios alrededor del centro: cuanto más chico el
- * radio interior, más afiladas salen las puntas.
+ * Portada en la dirección Noche: una tarjeta azul con resplandor rojo y
+ * naranja, el avatar grande saliendo por abajo, el cargo en letra condensada
+ * y los cuatro oficios en una franja al pie, como el rótulo de una película.
  */
-function Estrella({ puntas = 12, className }) {
-  const vertices = []
-  for (let i = 0; i < puntas * 2; i++) {
-    const angulo = (Math.PI * i) / puntas - Math.PI / 2
-    const radio = i % 2 ? 19 : 50
-    vertices.push(`${(50 + radio * Math.cos(angulo)).toFixed(1)},${(50 + radio * Math.sin(angulo)).toFixed(1)}`)
-  }
-
-  return (
-    <svg className={className} viewBox="0 0 100 100" aria-hidden="true">
-      <polygon points={vertices.join(' ')} />
-    </svg>
-  )
-}
-
 export function Hero() {
   const seccion = useRef(null)
 
@@ -34,11 +21,9 @@ export function Hero() {
 
     // --salida: 0 arriba del todo, 1 cuando el hero ya salió de pantalla.
     //
-    // La cuenta se hace contra el alto del hero y no contra el de la ventana,
-    // que era lo que había antes y no es lo mismo: la portada mide más que una
-    // pantalla en cuanto el titular se parte en cuatro líneas. Dividiendo por
-    // la ventana, --salida llegaba a 1 —o sea, "esto ya no se ve"— cuando el
-    // párrafo todavía estaba a media pantalla, bien visible y ya borrado.
+    // La cuenta se hace contra el alto del hero y no contra el de la ventana:
+    // si la portada mide más que una pantalla, dividir por la ventana hacía que
+    // --salida llegara a 1 —"esto ya no se ve"— con la mitad todavía visible.
     let alto = el.offsetHeight || window.innerHeight
 
     const alScroll = () => {
@@ -50,14 +35,13 @@ export function Hero() {
       })
     }
 
-    // El alto cambia con el ancho: el titular se reparte en más o menos
-    // líneas, y con él la distancia que hay que recorrer para irse.
     const remedir = () => {
       alto = el.offsetHeight || window.innerHeight
       alScroll()
     }
 
-    // --px/--py: posición del mouse de -1 a 1, para el paralaje del fondo.
+    // --px/--py: posición del mouse de -1 a 1, para que el resplandor se corra
+    // un poco con el puntero.
     const alMover = (evento) => {
       el.style.setProperty('--px', (evento.clientX / window.innerWidth - 0.5).toFixed(3))
       el.style.setProperty('--py', (evento.clientY / window.innerHeight - 0.5).toFixed(3))
@@ -77,62 +61,43 @@ export function Hero() {
 
   return (
     <section className="hero" id="inicio" ref={seccion}>
-      <div className="hero-atmosfera" aria-hidden="true">
-        <span className="mancha mancha-a" />
-        <span className="mancha mancha-b" />
-        <span className="mancha mancha-c" />
-      </div>
+      <div className="hero-tarjeta">
+        <div className="hero-atmosfera" aria-hidden="true">
+          <span className="mancha mancha-a" />
+          <span className="mancha mancha-b" />
+          <span className="mancha mancha-c" />
+        </div>
 
-      {/* La trama de puntos es lo que evita que el degradado se vea a plantilla:
-          le pone grano de impresión encima. */}
-      <div className="hero-trama" aria-hidden="true" />
+        <img className="hero-avatar" src={avatar} alt={`Avatar de ${perfil.nombre}`} />
 
-      <Estrella className="hero-estrella hero-estrella-a" />
-      <Estrella className="hero-estrella hero-estrella-b" puntas={10} />
+        <div className="hero-texto">
+          <p className="hero-hola" data-revelar style={{ '--retraso': '0.1s' }}>
+            {perfil.saludo}
+          </p>
+          <h1 className="hero-titular titular-apretado">
+            {perfil.cargo.map((linea, i) => (
+              <span className="mascara" key={linea} style={{ '--retraso': `${0.2 + i * 0.09}s` }}>
+                <span>{linea}</span>
+              </span>
+            ))}
+          </h1>
+        </div>
 
-      <div className="hero-adorno" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-        <i />
-      </div>
-
-      <div className="contenedor hero-interior">
-        <p className="etiqueta hero-etiqueta mascara" style={{ '--retraso': '0.1s' }}>
-          <span>
-            {perfil.rol} — {perfil.ubicacion}
-          </span>
-        </p>
-
-        <h1 className="hero-titular titular-apretado">
-          {perfil.titular.map((linea, i) => (
-            <span className="mascara" key={linea} style={{ '--retraso': `${0.2 + i * 0.09}s` }}>
-              <span>{linea}</span>
-            </span>
-          ))}
-          {/* Va dentro del titular para que lo siga: si se anclara al hero,
-              cambiaría de sitio respecto a las letras en cada tamaño de
-              pantalla, y aquí lo que importa es dónde cae contra el texto. */}
-          <img className="hero-avatar" src={avatar} alt="Avatar de Juan Felipe Martínez" />
-        </h1>
+        <div className="hero-lado">
+          <p className="hero-frase" data-revelar style={{ '--retraso': '0.5s' }}>
+            {perfil.titular.join(' ')}.
+          </p>
+        </div>
 
         <div className="hero-pie">
-          <p className="hero-entrada" data-revelar style={{ '--retraso': '0.65s' }}>
-            {perfil.entrada}
-          </p>
-          <a className="hero-cta" href="#proyectos" data-revelar style={{ '--retraso': '0.8s' }}>
-            <span>Ver el trabajo</span>
-            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-              <path
-                d="M5 12h14M13 6l6 6-6 6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
+          <ul className="hero-oficios" data-revelar style={{ '--retraso': '0.65s' }}>
+            {perfil.oficios.map((oficio, i) => (
+              <li key={oficio}>
+                <small>{numero(i)}</small>
+                {oficio}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

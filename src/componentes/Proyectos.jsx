@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { proyectos } from '../data/perfil'
+import { conBase } from '../utilidades/conBase'
 import { VisualProyecto } from './VisualProyecto'
 import './Proyectos.css'
 
@@ -54,7 +55,7 @@ export function Proyectos() {
         <p className="etiqueta" data-revelar>
           Trabajo seleccionado
         </p>
-        <h2 className="proyectos-titulo titular-apretado mascara">
+        <h2 className="proyectos-titulo titulo-cartel mascara">
           <span>
             Mis proyectos!<small className="proyectos-coletilla">(hasta ahora)</small>
           </span>
@@ -62,11 +63,15 @@ export function Proyectos() {
         <ol className="proyectos-indice">
           {proyectos.map((proyecto, i) => (
             <li key={proyecto.id} data-revelar style={{ '--retraso': `${i * 0.06}s` }}>
-              <a href={`#${proyecto.id}`}>
+              <a href={`#${proyecto.id}`} data-cursor="Ver">
                 <span className="indice-numero">{numero(i)}</span>
                 <span className="indice-titulo">{proyecto.titulo}</span>
-                <span className="indice-disciplina">{proyecto.disciplina}</span>
-                <span className="indice-anio">{proyecto.anio}</span>
+                <span className="indice-meta">
+                  {proyecto.disciplina} · {proyecto.anio}
+                </span>
+                {proyecto.portada && (
+                  <img className="indice-vista" src={conBase(proyecto.portada)} alt="" loading="lazy" />
+                )}
               </a>
             </li>
           ))}
@@ -98,7 +103,7 @@ export function Proyectos() {
                 {proyecto.disciplina}
               </p>
 
-              <h3 className="capitulo-titulo mascara">
+              <h3 className="capitulo-titulo titulo-cartel mascara">
                 <span>{proyecto.titulo}</span>
               </h3>
 

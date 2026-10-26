@@ -1,0 +1,440 @@
+/* Ruleta de proyectos. Un escenario de una pantalla que se queda quieto
+   mientras se baja; lo que avanza es la rueda. Arriba, la cabecera tipo plano
+   técnico de la referencia —cruces, etiquetas pequeñas, la palabra con sus
+   ecos y la barra roja—; abajo, la rueda asomando por el borde. */
+.ruleta {
+  /* Las cartas y la palabra miran también el alto de la ventana: el
+     escenario se queda fijo una pantalla entera, y medido solo por el ancho
+     se salía por abajo en un portátil de 860 px. */
+  --carta: clamp(96px, min(13vw, 17.5svh), 180px);
+  --radio: calc(var(--carta) * 1.75);
+  --giro: 0deg;
+}
+
+.ruleta-recorrido {
+  position: relative;
+  height: 260vh;
+}
+
+.ruleta-escenario {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding-top: 4.5rem;
+  overflow: hidden;
+}
+
+/* Cabecera ---------------------------------------------------------------- */
+.ruleta-cabecera {
+  position: relative;
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding: clamp(0.75rem, 2.4svh, 1.75rem) var(--margen);
+}
+
+.ruleta-cruz {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  translate: -50% -50%;
+  opacity: 0.45;
+}
+
+.ruleta-cruz::before,
+.ruleta-cruz::after {
+  content: '';
+  position: absolute;
+  background: var(--texto);
+}
+
+.ruleta-cruz::before { left: 5px; top: 0; width: 1px; height: 11px; }
+.ruleta-cruz::after { top: 5px; left: 0; width: 11px; height: 1px; }
+
+/* Por encima de la barra roja: en pantallas angostas las etiquetas caen justo
+   donde está la barra. */
+.ruleta-fila {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.ruleta-bienvenida {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ruleta-sello {
+  width: clamp(36px, 3.4vw, 48px);
+  rotate: 9deg;
+  filter: url(#avatar-paleta);
+}
+
+.ruleta-etq {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+
+/* La palabra, sus dos ecos en contorno y la barra roja detrás. */
+.ruleta-titulo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin-block: clamp(0.5rem, 2vh, 1.25rem);
+  isolation: isolate;
+}
+
+.ruleta-barra {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: -35%;
+  width: clamp(4rem, 13%, 11rem);
+  height: 170%;
+  translate: -15% 0;
+  background: var(--acento);
+}
+
+.ruleta-palabra,
+.ruleta-eco {
+  grid-area: 1 / 1;
+  margin: 0;
+  font-family: var(--titulo);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(4.5rem, min(16vw, 18svh), 13rem);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ruleta-eco {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--texto);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Los ecos se tuercen despacio y en bucle, como un fotograma de motion
+   graphics: es el único movimiento que no responde a nada, y por eso es
+   lento. */
+.ruleta-eco.sube {
+  translate: 0 -0.36em;
+  scale: 1.03 0.42;
+  animation: torcer 6s ease-in-out infinite alternate;
+}
+
+.ruleta-eco.baja {
+  translate: 0 0.37em;
+  scale: 1.05 -0.36;
+  opacity: 0.35;
+  animation: torcer 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes torcer {
+  from { transform: skewX(-16deg); }
+  to { transform: skewX(12deg); }
+}
+
+/* La rueda ---------------------------------------------------------------- */
+.ruleta-tablero {
+  position: relative;
+  min-height: calc(var(--carta) * 2.95 + 2rem);
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.ruleta-tablero.agarrado {
+  cursor: grabbing;
+}
+
+.ruleta-centro {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--carta) * 2.45 + 1.5rem);
+  width: 0;
+  height: 0;
+}
+
+.ruleta-rueda {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  rotate: var(--giro);
+}
+
+.ruleta-carta {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--carta);
+  aspect-ratio: 3 / 4;
+  margin-left: calc(var(--carta) / -2);
+  margin-top: calc(var(--carta) * -2 / 3);
+  /* Girar y después alejarse del centro: la carta queda en su punto del
+     círculo y tangente a él, como en una rueda de verdad. */
+  transform: rotate(var(--a)) translateY(calc(var(--radio) * -1));
+}
+
+.ruleta-carta.activa {
+  z-index: 2;
+}
+
+.ruleta-carta a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-user-drag: none;
+}
+
+/* El escalado va en la cara y no en la carta: la carta ya tiene un transform
+   que la coloca en el círculo, y escalarla a ella movería también su sitio. */
+.ruleta-cara {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--carta) * 0.09);
+  background: var(--superficie);
+  box-shadow:
+    0 0 0 1px rgba(246, 238, 218, 0.14),
+    0 18px 30px -16px rgba(0, 0, 0, 0.7);
+  transition:
+    scale 0.35s var(--curva),
+    box-shadow 0.35s var(--curva);
+}
+
+/* En blanco y negro hasta llegar arriba, como las tarjetas de Noche: la
+   rueda se lee sobria y el color marca cuál es la que toca. */
+.ruleta-cara img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.85);
+  transition: filter 0.35s var(--curva);
+}
+
+.ruleta-carta.activa .ruleta-cara {
+  scale: 1.12;
+  box-shadow:
+    0 0 0 1px rgba(246, 238, 218, 0.3),
+    0 30px 44px -18px rgba(0, 0, 0, 0.8);
+}
+
+.ruleta-carta.activa .ruleta-cara img {
+  filter: none;
+}
+
+.ruleta-cara.roja {
+  display: grid;
+  place-items: center;
+  background: var(--acento);
+}
+
+.ruleta-cara.roja img {
+  width: 72%;
+  height: auto;
+  object-fit: contain;
+  rotate: 9deg;
+  filter: url(#avatar-paleta);
+}
+
+.ruleta-carta:not(.activa) .ruleta-cara.roja {
+  filter: saturate(0.25) brightness(0.8);
+}
+
+.ruleta-cara.tipo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--carta) * 0.09);
+  background: var(--texto);
+  color: var(--fondo);
+}
+
+.ruleta-cara.tipo b {
+  font-family: var(--titulo);
+  font-weight: 400;
+  font-size: calc(var(--carta) * 0.42);
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+.ruleta-cara.tipo small {
+  font-family: var(--mono);
+  font-size: max(8px, calc(var(--carta) * 0.05));
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+}
+
+/* Centro: el círculo punteado con texto, que gira a la mitad de velocidad y
+   al revés que la rueda, y la ficha de la carta de arriba. */
+.ruleta-anillo {
+  position: absolute;
+  left: calc(var(--radio) * -0.62);
+  top: calc(var(--radio) * -0.62);
+  width: calc(var(--radio) * 1.24);
+  height: calc(var(--radio) * 1.24);
+  rotate: calc(var(--giro) * -0.5);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ruleta-anillo circle {
+  fill: none;
+  stroke: var(--texto);
+  stroke-opacity: 0.3;
+  stroke-width: 0.5;
+  stroke-dasharray: 1.6 2.4;
+}
+
+.ruleta-anillo text {
+  font-family: var(--mono);
+  font-size: 5.4px;
+  letter-spacing: 0.2em;
+  fill: var(--texto);
+  fill-opacity: 0.4;
+}
+
+/* Halo oscuro detrás del texto del centro: cuando una carta pasa por detrás,
+   el crema del texto sobre el crema de la carta desaparecía. */
+.ruleta-yo {
+  padding: 0.5rem 1.25rem 0.75rem;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, var(--fondo) 65%, transparent);
+  position: absolute;
+  left: 0;
+  top: calc(var(--radio) * -0.2);
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  width: max-content;
+  max-width: 80vw;
+  text-align: center;
+}
+
+.ruleta-yo::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-inline: 6px solid transparent;
+  border-bottom: 8px solid var(--acento);
+}
+
+.ruleta-yo strong {
+  font-family: var(--titulo);
+  font-weight: 400;
+  font-size: clamp(2rem, min(3.4vw, 5svh), 3rem);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ruleta-que {
+  font-family: var(--mono);
+  font-size: var(--t-2xs);
+  letter-spacing: 0.08em;
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.ruleta-mandos {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.ruleta-mandos button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--linea);
+  border-radius: 50%;
+  background: var(--superficie);
+  color: var(--texto);
+  transition:
+    scale var(--t-presion) var(--curva),
+    border-color 0.18s,
+    background-color 0.18s;
+}
+
+.ruleta-mandos button:active {
+  scale: 0.92;
+}
+
+.ruleta-mandos svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ruleta-mandos button:hover {
+    border-color: var(--acento);
+    background: var(--acento);
+  }
+
+  .ruleta-tablero {
+    cursor: grab;
+  }
+}
+
+/* En el teléfono la rueda entera cabía en pantalla y se veía como un plato
+   lleno de cartas. Con más radio y el centro pegado abajo, solo asoma el
+   arco de arriba —tres o cuatro cartas—, como en la referencia, y las de los
+   lados se salen por los bordes. */
+@media (max-width: 48rem) {
+  .ruleta {
+    --carta: min(31vw, 124px);
+    --radio: calc(var(--carta) * 2.3);
+  }
+
+  .ruleta-tablero {
+    min-height: calc(var(--carta) * 3.4 + 2rem);
+  }
+
+  .ruleta-centro {
+    top: auto;
+    bottom: 10.5rem;
+  }
+
+  .ruleta-fila:last-child {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ruleta-eco {
+    animation: none;
+  }
+
+  .ruleta-cara,
+  .ruleta-cara img {
+    transition: none;
+  }
+}

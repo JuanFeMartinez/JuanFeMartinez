@@ -1,7 +1,13 @@
 .proceso-titulo {
-  font-size: var(--t-xl);
-  margin-block: 2.4rem 3.5rem;
-  max-width: 22ch;
+  font-size: clamp(4rem, 2rem + 6vw, 9rem);
+}
+
+/* Con el selector compuesto a propósito: .titular-apretado.mascara pone
+   márgenes negativos para dejar sitio a las tildes, y por especificidad le
+   ganaba a esta regla. A 128 px de cuerpo eso eran casi 40 px: el título se
+   subía encima de la etiqueta y bajaba hasta tocar el párrafo. */
+.proceso-titulo.mascara {
+  margin-block: 1.25rem 2.75rem;
 }
 
 .proceso-lista {

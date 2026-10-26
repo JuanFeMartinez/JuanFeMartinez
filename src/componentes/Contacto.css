@@ -4,8 +4,22 @@
 }
 
 .contacto-titulo {
-  font-size: clamp(2.25rem, 1rem + 5.4vw, 5.25rem);
-  margin-block: 2.5rem 3.25rem;
+  /* En columna flexible y no en bloques: los márgenes negativos de cada
+     línea (los que dejan sitio a las tildes) se fusionaban entre bloques
+     vecinos en vez de sumarse, y sobraban 0.28em entre una línea y otra. */
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(5rem, 2rem + 10vw, 14rem);
+  margin-block: 2rem 2.75rem;
+}
+
+.contacto-titulo .invertido {
+  display: inline-block;
+  rotate: 180deg;
+  /* Girado sobre su centro queda un pelo alto: baja hasta asentar el punto
+     en la línea de base, como el ¿ de verdad. */
+  translate: 0 0.12em;
+  margin-right: 0.04em;
 }
 
 .contacto-boton {

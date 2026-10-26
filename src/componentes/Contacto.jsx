@@ -12,11 +12,17 @@ export function Contacto() {
           Siguiente proyecto
         </p>
 
-        <h2 className="contacto-titulo titular-apretado">
-          <span className="mascara">
-            <span>¿Tienes algo</span>
+        {/* Six Caps no trae el signo de apertura: el navegador lo pintaba con
+            otra letra, gruesa y descuadrada. Se dibuja con su propio "?"
+            girado, que es como se hacía en la tipografía de metal. El
+            aria-label le devuelve a los lectores de pantalla la frase entera. */}
+        <h2 className="contacto-titulo titulo-cartel titular-apretado" aria-label="¿Tienes algo entre manos?">
+          <span className="mascara" aria-hidden="true">
+            <span>
+              <span className="invertido">?</span>Tienes algo
+            </span>
           </span>
-          <span className="mascara" style={{ '--retraso': '0.08s' }}>
+          <span className="mascara" aria-hidden="true" style={{ '--retraso': '0.08s' }}>
             <span>entre manos?</span>
           </span>
         </h2>

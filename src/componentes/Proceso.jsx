@@ -8,7 +8,7 @@ export function Proceso() {
         <p className="etiqueta" data-revelar>
           Cómo trabajo
         </p>
-        <h2 className="proceso-titulo titular-apretado mascara">
+        <h2 className="proceso-titulo titulo-cartel titular-apretado mascara">
           <span>Tres reglas, sin excepciones</span>
         </h2>
 

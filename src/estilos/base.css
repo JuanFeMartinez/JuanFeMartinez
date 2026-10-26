@@ -2,24 +2,25 @@
 
 :root {
   /* Color -----------------------------------------------------------------
-     Papel crema, tinta azul. La crema es cálida a propósito: un blanco casi
-     puro se siente a pantalla, y una crema con amarillo se siente a papel.
-     El azul profundo hace de tinta y da 13:1 de contraste, muy por encima del
-     mínimo de 4.5:1. Los dos cálidos casi no aparecen, y justo por eso
-     golpean cuando aparecen: lo vibrante no viene de usar mucho color, viene
-     de guardarlo. */
-  --fondo: #faf5e6; /* crema clara: el papel, discreto */
-  --superficie: #fffdf6; /* casi blanco: tarjetas y superficies elevadas */
-  --superficie-2: #f0e8d3; /* crema honda: estados al pasar el mouse */
-  --texto: #002b5b; /* azul profundo: la tinta */
-  --texto-suave: #4a5a70; /* azul desaturado: texto secundario */
-  --linea: rgba(0, 43, 91, 0.18);
+     El sitio entero vive de noche: el azul de la portada pasa a ser el papel
+     de todas las secciones y el crema queda para el texto. Los mismos cuatro
+     colores de siempre, con los papeles cambiados: lo que antes era tinta
+     ahora es fondo. El rojo y el naranja siguen apareciendo poco, y por eso
+     siguen golpeando cuando aparecen.
+
+     El crema sobre el azul noche da 15:1 de contraste y el texto secundario
+     9.8:1, los dos muy por encima del mínimo de 4.5:1. */
+  --fondo: #001a3a; /* azul noche: el papel */
+  --superficie: #0a3466; /* azul elevado: tarjetas y bandas */
+  --superficie-2: #12417a; /* azul de hover */
+  --texto: #f6eeda; /* crema: la tinta */
+  --texto-suave: #b9c4d4; /* azul grisáceo: texto secundario */
+  --linea: rgba(246, 238, 218, 0.16);
   --acento: #ea5455; /* rojo: lo que hay que mirar */
   --acento-2: #f07b3f; /* naranja: acompaña al rojo, nunca solo */
-  /* El rojo es precioso en grande y falla en chico: sobre la crema solo llega
-     a 3.3:1, por debajo del mínimo legible. Para texto pequeño se oscurece
-     hasta 5.2:1. En las secciones invertidas este token cambia solo. */
-  --acento-texto: #b83a3b;
+  /* El rojo puro sobre azul noche se queda en 4.9:1, justo en el límite para
+     texto pequeño; el naranja claro llega a 8.8:1. */
+  --acento-texto: #ffa26b;
 
   /* Tipografía */
   --display: 'Outfit', 'Poppins', system-ui, sans-serif;
@@ -29,6 +30,11 @@
      pesada es un contraste clasico, y en contorno los digitos quedan como
      un adorno editorial en vez de repetir la fuente del titulo. */
   --numero: 'Bodoni Moda', 'Didot', Georgia, serif;
+  /* Titulares de sección: altísima y estrecha, la del cartel. Solo sirve en
+     grande; por debajo de unos 40 px se vuelve una valla de palos. */
+  --titulo: 'Six Caps', 'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif;
+  /* La portada: condensada pero con cuerpo, la de la dirección Noche. */
+  --condensada: 'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif;
 
   /* Escala fluida */
   /* Piso de legibilidad: por debajo de 11px el texto deja de ser cómodo.
@@ -59,7 +65,7 @@
   --presion: 0.97;
   --t-presion: 140ms;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 *,
@@ -192,8 +198,19 @@ img {
   margin-block: -0.3em -0.28em;
 }
 
+/* Titulares en la letra del cartel. Peso 400 y sin síntesis: Six Caps tiene
+   un solo grueso, y el 800 que heredan los h2 haría que el navegador la
+   engordara a mano, emborronando los palos. */
+.titulo-cartel {
+  font-family: var(--titulo);
+  font-weight: 400;
+  font-synthesis: none;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.9;
+}
+
 /* Textos display chicos: sin algo de peso extra se pierden contra el fondo. */
-.indice-titulo,
 .proceso-lista h3,
 .marquesina-pista span {
   font-weight: 600;

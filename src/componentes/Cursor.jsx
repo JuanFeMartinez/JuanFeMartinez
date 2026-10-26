@@ -3,13 +3,6 @@ import './Cursor.css'
 
 const INTERACTIVOS = 'a, button, [data-cursor]'
 
-// Las islas oscuras del sitio. Sobre ellas el anillo azul se pierde —es tinta
-// azul sobre fondo azul—, así que al entrar cambia a crema. Antes no hacía
-// falta porque el punto rojo se veía en cualquier fondo; al quitarlo, el
-// cursor desaparecía justo en la portada, que es lo primero que se ve. La
-// barra superior cuenta mientras flota transparente sobre la portada.
-const OSCUROS = '.hero, .proceso, .visual, .lupa, .nav:not(.compacto)'
-
 /**
  * Cursor propio: un anillo clavado en la punta del puntero que crece al pasar
  * sobre algo interactivo y puede mostrar una palabra (data-cursor="Ver").
@@ -48,12 +41,6 @@ export function Cursor() {
     }
 
     const entrarEn = (evento) => {
-      // Se decide al cruzar el borde de un elemento, no en cada movimiento:
-      // pointerover ya llega justo en esos cruces y no obliga a preguntarle al
-      // navegador qué hay debajo del puntero sesenta veces por segundo.
-      const oscuro = Boolean(evento.target.closest?.(OSCUROS))
-      anillo.current?.classList.toggle('sobre-oscuro', oscuro)
-
       const objetivo = evento.target.closest?.(INTERACTIVOS)
       if (!objetivo) return
       anillo.current?.classList.add('crecido')

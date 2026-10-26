@@ -3,15 +3,27 @@ import './Cursor.css'
 
 const INTERACTIVOS = 'a, button, [data-cursor]'
 
+// Las islas oscuras del sitio. Sobre ellas el anillo azul se pierde —es tinta
+// azul sobre fondo azul—, así que al entrar cambia a crema. Antes no hacía
+// falta porque el punto rojo se veía en cualquier fondo; al quitarlo, el
+// cursor desaparecía justo en la portada, que es lo primero que se ve. La
+// barra superior cuenta mientras flota transparente sobre la portada.
+const OSCUROS = '.hero, .proceso, .visual, .lupa, .nav:not(.compacto)'
+
 /**
- * Cursor propio: un punto que sigue al mouse al instante y un anillo que llega
- * un poco después. Al pasar sobre algo interactivo el anillo crece y puede
- * mostrar una palabra (atributo data-cursor="Ver").
+ * Cursor propio: un anillo clavado en la punta del puntero que crece al pasar
+ * sobre algo interactivo y puede mostrar una palabra (data-cursor="Ver").
+ *
+ * Antes el anillo llegaba con retraso, persiguiendo al puntero, y un punto
+ * rojo marcaba dónde estaba el puntero de verdad mientras tanto. El retraso
+ * era justo lo que se sentía raro: el cursor es lo único que está en pantalla
+ * todo el tiempo que alguien pasa en la página, y una animación que no termina
+ * nunca se lee como lentitud, no como estilo. Sin retraso, el punto sobraba.
+ *
  * Solo se activa en punteros finos; en táctil no se monta nada.
  */
 export function Cursor() {
   const anillo = useRef(null)
-  const punto = useRef(null)
   const etiqueta = useRef(null)
 
   useEffect(() => {
@@ -20,52 +32,28 @@ export function Cursor() {
 
     document.body.classList.add('cursor-propio')
 
-    const destino = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-    const suave = { ...destino }
-    let cuadro = 0
-
-    // El bucle se para solo cuando el anillo ya alcanzó al puntero, y lo
-    // reanima el siguiente movimiento del mouse. Antes corría eternamente:
-    // mantener vivo un requestAnimationFrame obliga al navegador a despertar
-    // en cada fotograma aunque no haya nada que mover.
-    function bucle() {
-      const dx = destino.x - suave.x
-      const dy = destino.y - suave.y
-      suave.x += dx * 0.16
-      suave.y += dy * 0.16
-
-      if (anillo.current) {
-        anillo.current.style.transform = `translate3d(${suave.x}px, ${suave.y}px, 0)`
-      }
-
-      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
-        cuadro = 0
-        return
-      }
-      cuadro = requestAnimationFrame(bucle)
-    }
-
-    const arrancar = () => {
-      if (!cuadro) cuadro = requestAnimationFrame(bucle)
-    }
-
+    // Directo, sin requestAnimationFrame de por medio: esperar al siguiente
+    // fotograma es justamente añadir un fotograma de retraso, y lo que se
+    // busca es que el anillo esté donde está el puntero, no un poco después.
+    // El navegador ya agrupa las escrituras de un mismo fotograma.
     const mover = (evento) => {
-      destino.x = evento.clientX
-      destino.y = evento.clientY
-      arrancar()
-      if (punto.current) {
-        punto.current.style.transform = `translate3d(${evento.clientX}px, ${evento.clientY}px, 0)`
-      }
-      anillo.current?.classList.add('dentro')
-      punto.current?.classList.add('dentro')
+      const el = anillo.current
+      if (!el) return
+      el.style.transform = `translate3d(${evento.clientX}px, ${evento.clientY}px, 0)`
+      el.classList.add('dentro')
     }
 
     const salir = () => {
       anillo.current?.classList.remove('dentro')
-      punto.current?.classList.remove('dentro')
     }
 
     const entrarEn = (evento) => {
+      // Se decide al cruzar el borde de un elemento, no en cada movimiento:
+      // pointerover ya llega justo en esos cruces y no obliga a preguntarle al
+      // navegador qué hay debajo del puntero sesenta veces por segundo.
+      const oscuro = Boolean(evento.target.closest?.(OSCUROS))
+      anillo.current?.classList.toggle('sobre-oscuro', oscuro)
+
       const objetivo = evento.target.closest?.(INTERACTIVOS)
       if (!objetivo) return
       anillo.current?.classList.add('crecido')
@@ -94,7 +82,6 @@ export function Cursor() {
     document.addEventListener('mouseleave', salir)
 
     return () => {
-      cancelAnimationFrame(cuadro)
       document.body.classList.remove('cursor-propio')
       window.removeEventListener('pointermove', mover)
       document.removeEventListener('pointerover', entrarEn)
@@ -106,12 +93,9 @@ export function Cursor() {
   }, [])
 
   return (
-    <div aria-hidden="true">
-      <div className="cursor-anillo" ref={anillo}>
-        <div className="cursor-anillo-forma" />
-        <span ref={etiqueta} />
-      </div>
-      <div className="cursor-punto" ref={punto} />
+    <div className="cursor-anillo" ref={anillo} aria-hidden="true">
+      <div className="cursor-anillo-forma" />
+      <span ref={etiqueta} />
     </div>
   )
 }

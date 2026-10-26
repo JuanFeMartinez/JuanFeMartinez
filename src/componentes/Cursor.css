@@ -1,47 +1,29 @@
 /* El anillo va en dos piezas a propósito. La de fuera solo lleva la posición,
-   que la escribe el bucle de JavaScript en cada fotograma; la de dentro lleva
+   que la escribe JavaScript con cada movimiento del mouse; la de dentro lleva
    el aspecto, que lo cambia el CSS al pasar sobre algo. Si fueran el mismo
    elemento se pelearían por la propiedad transform, y la única salida sería
    animar el ancho y el alto: dos propiedades de maquetación, recalculadas en
    cada fotograma, en el elemento que más veces cambia de estado de la página.
 
-   Las dos crías van en la misma celda de la reja, así que quedan centradas en
-   el punto del cursor sin márgenes negativos, y la palabra no se estira cuando
-   el anillo crece: solo escala el círculo. */
-.cursor-anillo,
-.cursor-punto {
+   Caja de tamaño cero: lo que se mueve es un punto, y las dos piezas de dentro
+   se cuelgan de él colocadas a mano. Centrarlas con place-items no vale:
+   cuando el hijo es más grande que su casilla —y aquí la casilla mide cero— el
+   navegador deja de centrar y lo pega a la esquina. */
+.cursor-anillo {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 9999;
+  width: 0;
+  height: 0;
   pointer-events: none;
   opacity: 0;
   will-change: transform;
-}
-
-/* Caja de tamaño cero: lo que el bucle mueve es un punto, y las dos piezas
-   de dentro se cuelgan de él. Centrarlas con place-items no vale: cuando el
-   hijo es más grande que su casilla —y aquí la casilla mide cero— el navegador
-   deja de centrar y lo pega a la esquina, que es lo que dejaba el anillo 32 px
-   abajo y a la derecha del cursor. Van colocadas a mano. */
-.cursor-anillo {
-  width: 0;
-  height: 0;
   transition: opacity 0.25s;
 }
 
-.cursor-anillo.dentro,
-.cursor-punto.dentro {
+.cursor-anillo.dentro {
   opacity: 1;
-}
-
-.cursor-punto {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 50%;
-  background: var(--acento);
-  transition: opacity 0.25s;
 }
 
 /* Dos escalas separadas: --s la marca el estado (normal, crecido, con palabra)
@@ -108,6 +90,17 @@
   --p: 0.88;
 }
 
+/* Sobre las islas oscuras, la tinta pasa a crema. Los :not son para no pisar
+   los estados que ya se ven en cualquier fondo: crecido sin borde y con
+   palabra, que va relleno de rojo. */
+.cursor-anillo.sobre-oscuro:not(.crecido) .cursor-anillo-forma {
+  border-color: rgba(246, 238, 218, 0.7);
+}
+
+.cursor-anillo.sobre-oscuro.crecido:not(.con-texto) .cursor-anillo-forma {
+  background: rgba(246, 238, 218, 0.16);
+}
+
 .cursor-anillo span {
   position: absolute;
   top: 0;
@@ -128,8 +121,7 @@
 }
 
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .cursor-anillo,
-  .cursor-punto {
+  .cursor-anillo {
     display: none;
   }
 }

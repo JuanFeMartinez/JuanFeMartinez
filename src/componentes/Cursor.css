@@ -26,22 +26,29 @@
   opacity: 1;
 }
 
-/* Dos escalas separadas: --s la marca el estado (normal, crecido, con palabra)
-   y --p la marca el dedo apretando. Separadas se pueden combinar sin tener que
-   escribir a mano el valor de cada cruce.
+/* Dos escalas separadas: --cursor-escala la marca el estado (normal,
+   crecido, con palabra) y --cursor-presion la marca el dedo apretando.
+   Separadas se pueden combinar sin tener que escribir a mano el valor de
+   cada cruce.
+
+   Los nombres son largos a propósito. Un @property vale para toda la página,
+   no solo para este archivo: cuando estas variables se llamaban --s y --p,
+   registrar --p como no heredable le quitó al manifiesto su propia --p —la
+   del avance del scroll, que el texto hereda de la sección— y todas las
+   palabras se quedaron encendidas desde el principio.
 
    El @property no es decoración: una variable sin declarar es sólo texto para
    el navegador, y una transición sobre algo calculado a partir de ella salta
    de un valor a otro sin pasar por el medio. Declararlas como números las hace
    animables, y entonces lo que se transiciona son las variables, no la escala
    que sale de ellas. */
-@property --s {
+@property --cursor-escala {
   syntax: '<number>';
   inherits: false;
   initial-value: 0.625;
 }
 
-@property --p {
+@property --cursor-presion {
   syntax: '<number>';
   inherits: false;
   initial-value: 1;
@@ -58,28 +65,28 @@
   height: 4rem;
   border: 1px solid rgba(246, 238, 218, 0.7);
   border-radius: 50%;
-  --s: 0.625;
-  --p: 1;
-  scale: calc(var(--s) * var(--p));
+  --cursor-escala: 0.625;
+  --cursor-presion: 1;
+  scale: calc(var(--cursor-escala) * var(--cursor-presion));
   /* 0.18s y no 0.4s: el cursor es el elemento que más responde de la página,
      y un acuse de recibo que tarda casi medio segundo deja de leerse como
      respuesta. */
   transition:
-    --s 0.18s var(--curva),
-    --p 0.12s var(--curva),
+    --cursor-escala 0.18s var(--curva),
+    --cursor-presion 0.12s var(--curva),
     background-color 0.18s var(--curva),
     border-color 0.18s var(--curva);
 }
 
 .cursor-anillo.crecido .cursor-anillo-forma {
-  --s: 1;
+  --cursor-escala: 1;
   border-color: transparent;
   background: rgba(246, 238, 218, 0.14);
   backdrop-filter: blur(2px);
 }
 
 .cursor-anillo.con-texto .cursor-anillo-forma {
-  --s: 1.375;
+  --cursor-escala: 1.375;
   background: var(--acento);
 }
 
@@ -87,7 +94,7 @@
    rojo del anillo con palabra no se ve. Ahora el anillo cede al pulsar, que es
    lo que hace que el clic se sienta registrado. */
 .cursor-anillo.presionado .cursor-anillo-forma {
-  --p: 0.88;
+  --cursor-presion: 0.88;
 }
 
 /* Azul sobre el relleno rojo del anillo con palabra: 4.9:1, donde el crema

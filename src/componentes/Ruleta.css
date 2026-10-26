@@ -1,10 +1,10 @@
-/* Abanico de proyectos. Un escenario de una pantalla que se queda quieto
-   mientras se baja; lo que avanza es el abanico.
+/* Rueda de proyectos. Un escenario de una pantalla que se queda quieto
+   mientras se baja; lo que avanza es la rueda.
 
-   A la izquierda el panel con la carta elegida en grande; a la derecha las
-   cartas, clavadas a una perilla en el borde del panel y abiertas en media
-   rueda hacia abajo, como un muestrario de color. La elegida es la que apunta
-   al triángulo rojo. */
+   A la izquierda el panel con la carta elegida en grande; a la derecha la
+   rueda puesta de lado, con el eje clavado en el borde del panel. La mitad de
+   atrás queda escondida detrás del panel, así que siempre se ve media rueda
+   llena. La elegida es la que apunta al triángulo rojo. */
 
 /* Animable de verdad: sin declararla, una transición sobre algo calculado
    con ella salta de golpe en vez de pasar por el medio. */
@@ -16,16 +16,16 @@
 
 .ruleta {
   --pos: 0;
-  /* Cuántos grados separan una carta de la siguiente. */
-  --paso: 30deg;
-  /* A qué altura del escenario va la perilla. */
-  --pivote-y: 34%;
-  --perilla: clamp(1.75rem, 2.6vw, 2.5rem);
-  --carta: clamp(200px, 30vw, 400px);
-  /* Distancia de la perilla al borde de cada carta. Proporcional a la carta:
-     pegadas a la perilla, la siguiente tapaba casi entera a la elegida; con
-     este hueco solo le pisa la esquina, como en el boceto. */
-  --hueco: calc(var(--perilla) + var(--carta) * 0.18);
+  /* La vuelta entera repartida entre todas las cartas. */
+  --paso: calc(360deg / var(--n, 9));
+  /* El eje va a media altura: así la media rueda llena el alto entero. */
+  --pivote-y: 50%;
+  /* Largo de cada carta y distancia del eje a donde empiezan. Las dos miran
+     también el alto de la pantalla: la carta que apunta arriba y la que
+     apunta abajo tienen que caber, y eso es hueco + carta a cada lado. */
+  --carta: clamp(150px, min(20vw, 30svh), 270px);
+  --hueco: clamp(60px, min(7.5vw, 11svh), 100px);
+  --perilla: calc(var(--hueco) - 0.75rem);
 }
 
 .ruleta-recorrido {
@@ -185,16 +185,11 @@
   transition:
     scale var(--t-presion) var(--curva),
     border-color 0.18s,
-    background-color 0.18s,
-    opacity 0.18s;
+    background-color 0.18s;
 }
 
-.ruleta-mandos button:active:not(:disabled) {
+.ruleta-mandos button:active {
   scale: 0.92;
-}
-
-.ruleta-mandos button:disabled {
-  opacity: 0.3;
 }
 
 .ruleta-mandos svg {
@@ -215,8 +210,8 @@
   user-select: none;
 }
 
-/* La perilla: un círculo del color del panel con el centro justo en su
-   borde, así que asoma como media luna. Es el eje del abanico. */
+/* El eje: un círculo del color del panel con el centro justo en su borde,
+   así que asoma como media luna. */
 .ruleta-abanico::before {
   content: '';
   position: absolute;
@@ -229,6 +224,35 @@
   background: var(--superficie);
 }
 
+.ruleta-eje {
+  position: absolute;
+  z-index: 0;
+  left: calc(var(--hueco) * -1.22);
+  top: calc(var(--pivote-y) - var(--hueco) * 1.22);
+  width: calc(var(--hueco) * 2.44);
+  height: calc(var(--hueco) * 2.44);
+  rotate: calc(var(--pos) * var(--paso) * -0.5);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ruleta-eje circle {
+  fill: none;
+  stroke: var(--texto);
+  stroke-opacity: 0.35;
+  stroke-width: 0.6;
+  stroke-dasharray: 1.6 2.4;
+}
+
+.ruleta-eje text {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 5px;
+  letter-spacing: 0.12em;
+  fill: var(--texto);
+  fill-opacity: 0.45;
+}
+
 .ruleta-cartas {
   position: absolute;
   inset: 0;
@@ -237,14 +261,13 @@
   list-style: none;
 }
 
-/* Cada carta tiene su borde izquierdo a un hueco de la perilla y gira sobre
-   ella. El ángulo sale de lo lejos que está de la elegida: la elegida
-   apunta a la derecha, las siguientes van cayendo hacia abajo y las
-   anteriores se apagan hacia arriba. */
+/* Cada carta tiene su borde izquierdo a un hueco del eje y gira sobre él,
+   como un radio. El ángulo sale de lo lejos que está de la elegida: la
+   elegida apunta a la derecha, las siguientes van cayendo hacia abajo y las
+   anteriores subiendo. El orden de encima lo pone el componente. */
 .ruleta-carta {
   --d: calc(var(--i) - var(--pos));
   position: absolute;
-  z-index: calc(var(--i) + 1);
   left: var(--hueco);
   top: var(--pivote-y);
   width: var(--carta);
@@ -252,10 +275,6 @@
   margin-top: calc(var(--carta) * -0.3125);
   transform-origin: calc(var(--hueco) * -1) 50%;
   transform: rotate(calc(var(--d) * var(--paso))) translateX(var(--empuje));
-  /* La anterior se apaga casi entera al dejar su sitio, para no competir
-     con la elegida; las siguientes se ven hasta el cuarto de vuelta, donde ya
-     se esconden detrás del panel. */
-  opacity: clamp(0, min(1 + var(--d) / 1.15, 4 - var(--d)), 1);
   transition: --empuje 0.25s var(--curva);
 }
 
@@ -288,10 +307,12 @@
   filter: none;
 }
 
-/* El triángulo rojo marca la dirección de la elegida. */
+/* El triángulo rojo marca la dirección de la elegida, justo pasada la punta
+   de la carta: pegado al borde derecho quedaba lejos y no se leía como que
+   la señalaba a ella. */
 .ruleta-indicador {
   position: absolute;
-  right: 0;
+  left: calc(var(--hueco) + var(--carta) + 1.25rem);
   top: var(--pivote-y);
   width: 0;
   height: 0;
@@ -319,7 +340,7 @@
     background: var(--acento-2);
   }
 
-  .ruleta-mandos button:hover:not(:disabled) {
+  .ruleta-mandos button:hover {
     border-color: var(--acento);
     background: var(--acento);
   }
@@ -330,10 +351,8 @@
    no cabe todo en una pantalla. */
 @media (max-width: 48rem) {
   .ruleta {
-    --pivote-y: 26%;
-    --perilla: 1.6rem;
-    --carta: min(52vw, 220px);
-    --paso: 28deg;
+    --carta: min(36vw, 22svh);
+    --hueco: min(12vw, 7svh);
   }
 
   .ruleta-escenario {

@@ -102,8 +102,8 @@ export function VisualProyecto({ proyecto }) {
     piezas.length > 0 ||
     cartas.length > 0 ||
     Boolean(proyecto.imagen) ||
-    Boolean(proyecto.embed) ||
-    Boolean(proyecto.sitio)
+    Boolean(proyecto.sitio) ||
+    Boolean(proyecto.portada && proyecto.enlace)
 
   return (
     <figure className="visual" style={{ '--c1': c1, '--c2': c2, '--c3': c3 }}>
@@ -126,18 +126,24 @@ export function VisualProyecto({ proyecto }) {
           <BarajaProyecto cartas={cartas} titulo={proyecto.titulo} />
         ) : proyecto.sitio ? (
           <SitioProyecto url={proyecto.sitio} titulo={proyecto.titulo} />
-        ) : proyecto.embed ? (
-          // loading="lazy" es lo que hace viable meter cinco de estos: el
-          // iframe no se descarga hasta que el capítulo entra en pantalla.
-          <iframe
-            className="visual-embed"
-            src={proyecto.embed}
-            title={`${proyecto.titulo} en Behance`}
-            loading="lazy"
-            allowFullScreen
-            allow="clipboard-write"
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
+        ) : proyecto.portada && proyecto.enlace ? (
+          // Antes aquí iba el incrustado de Behance. Su fondo es blanco y no
+          // se puede cambiar desde fuera, así que en el sitio oscuro era un
+          // rectángulo blanco en medio de cada capítulo. La portada a color
+          // con un botón dice lo mismo y lleva al mismo sitio.
+          <a
+            className="visual-portada"
+            href={proyecto.enlace}
+            target="_blank"
+            rel="noreferrer"
+            data-cursor="Abrir"
+          >
+            <img src={conBase(proyecto.portada)} alt={`Portada de ${proyecto.titulo}`} loading="lazy" />
+            <span className="visual-portada-boton">
+              {new URL(proyecto.enlace).hostname.endsWith('behance.net') ? 'Ver en Behance' : 'Abrir el sitio'}
+              <span aria-hidden="true">↗</span>
+            </span>
+          </a>
         ) : (
           <Forma />
         )}

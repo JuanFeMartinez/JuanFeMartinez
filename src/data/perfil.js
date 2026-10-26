@@ -65,13 +65,16 @@ export const manifiesto =
 //   imagen: '/img/archivo.jpg'         una sola imagen fija
 //   baraja: [{ src, titulo }]          capturas en abanico, ampliables al clic
 //   sitio:  'https://…'                el sitio real cargado en vivo, a escala
-//   embed:  'https://…'                un incrustado ajeno, como los de Behance
 //
 // Si no hay ninguno, se dibuja una composición con CSS según `forma`.
 //
 // Aparte, cada proyecto lleva una `portada`: la imagen que lo representa en
-// la ruleta de la portada y la que asoma al pasar el mouse por el índice. Las
+// la rueda de proyectos y la que asoma al pasar el mouse por el índice. Las
 // de Behance están bajadas de cada proyecto a /img/behance/.
+//
+// Si un proyecto no tiene nada de la lista pero sí `portada` y `enlace`, su
+// panel enseña la portada con un botón que abre el enlace: así se ven los de
+// Behance.
 export const proyectos = [
   {
     id: 'identidad-animada',
@@ -153,7 +156,6 @@ export const proyectos = [
     stack: ['Fresco', 'Photoshop', 'Blender', 'Figma'],
     metricas: [],
     enlace: 'https://www.behance.net/gallery/235668919/BASKIAT',
-    embed: 'https://www.behance.net/embed/project/235668919?ilo0=1',
     imagen: null, // ← pásame las láminas y reemplazo el dibujo generado
     paleta: ['#2d4059', '#f07b3f', '#f9f5eb'],
     forma: 'capas',
@@ -176,7 +178,6 @@ export const proyectos = [
     stack: ['Illustrator', 'Fresco'],
     metricas: [],
     enlace: 'https://www.behance.net/gallery/238872661/LA-CASA-CORALLO',
-    embed: 'https://www.behance.net/embed/project/238872661?ilo0=1',
     imagen: null, // ←
     paleta: ['#002b5b', '#ea5455', '#f9f5eb'],
     forma: 'columnas',
@@ -198,7 +199,6 @@ export const proyectos = [
     stack: ['Fresco', 'Photoshop', 'Illustrator'], // ←
     metricas: [],
     enlace: 'https://www.behance.net/gallery/235688649/LUCKYDIP-(parcialmente)',
-    embed: 'https://www.behance.net/embed/project/235688649?ilo0=1',
     imagen: null, // ←
     paleta: ['#0a3466', '#f07b3f', '#f9f5eb'],
     forma: 'reticula',
@@ -220,7 +220,6 @@ export const proyectos = [
     stack: ['Fresco', 'Photoshop'], // ←
     metricas: [],
     enlace: 'https://www.behance.net/gallery/238874059/FIND-FIH-GameJam',
-    embed: 'https://www.behance.net/embed/project/238874059?ilo0=1',
     imagen: null, // ←
     paleta: ['#2d4059', '#ea5455', '#f9f5eb'],
     forma: 'flujo',
@@ -242,7 +241,6 @@ export const proyectos = [
     stack: ['Three.js', 'JavaScript', 'HTML', 'CSS', 'Figma'],
     metricas: [],
     enlace: 'https://www.behance.net/gallery/238873761/KO-media-Sitio-Web',
-    embed: 'https://www.behance.net/embed/project/238873761?ilo0=1',
     imagen: null, // ←
     paleta: ['#002b5b', '#f07b3f', '#f9f5eb'],
     forma: 'reticula',

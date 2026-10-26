@@ -4,15 +4,22 @@ import { conBase } from '../utilidades/conBase'
 import './Ruleta.css'
 
 const N = proyectos.length
+const MITAD = Math.floor(N / 2)
 const numero = (i) => String(i + 1).padStart(2, '0')
-const limitar = (v) => Math.min(Math.max(v, 0), N - 1)
+// La rueda no tiene principio ni fin: la posición crece sin límite y la carta
+// elegida es su resto entre N. Así pasar de la última a la primera es un paso
+// más, no una vuelta entera hacia atrás.
+const enRueda = (v) => ((v % N) + N) % N
+// Cuántas cartas hay de a hasta b por el camino más corto, con signo.
+const atajo = (a, b) => ((((b - a) % N) + N + MITAD) % N) - MITAD
 
 /**
- * Abanico de proyectos: las piezas como cartas de un muestrario de color,
- * clavadas a una perilla en el borde del panel y abiertas en media rueda. La
- * que apunta al triángulo rojo es la elegida: a color, mientras las demás
- * esperan en blanco y negro. No se agranda ni se adelanta; el abanico sigue
- * siendo una carta encima de otra.
+ * Rueda de proyectos puesta de lado: las cartas, horizontales, salen como
+ * radios de un eje clavado en el borde del panel. La rueda está completa y
+ * gira sin fin; la mitad izquierda queda escondida detrás del panel, así que
+ * siempre se ve media rueda llena. La que apunta al triángulo rojo es la
+ * elegida: a color, mientras las demás esperan en blanco y negro. No se
+ * agranda ni se adelanta; sigue siendo una carta encima de otra.
  *
  * A la izquierda, el panel enseña la elegida en grande con su descripción.
  *
@@ -44,11 +51,11 @@ export function Ruleta() {
     s.cuadro = 0
     const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    const objetivo = () => limitar(s.base + s.desfase)
+    const objetivo = () => s.base + s.desfase
 
     const pintar = () => {
       el.style.setProperty('--pos', s.pos.toFixed(3))
-      const elegida = Math.round(s.pos)
+      const elegida = enRueda(Math.round(s.pos))
       setActiva((antes) => (antes === elegida ? antes : elegida))
     }
 
@@ -125,12 +132,15 @@ export function Ruleta() {
     }
 
     mandos.current.paso = (dir) => {
-      s.desfase = limitar(Math.round(objetivo()) + dir) - s.base
+      s.desfase = Math.round(objetivo()) + dir - s.base
       arrancar()
     }
 
+    // Por el camino más corto: de la octava a la primera se gira hacia
+    // adelante una carta, no ocho hacia atrás.
     mandos.current.irA = (i) => {
-      s.desfase = i - s.base
+      const actual = Math.round(objetivo())
+      s.desfase = actual + atajo(enRueda(actual), i) - s.base
       arrancar()
     }
 
@@ -171,7 +181,7 @@ export function Ruleta() {
   const elegido = proyectos[activa]
 
   return (
-    <section className="ruleta" id="portafolio" aria-label="Mis proyectos" onKeyDown={teclear}>
+    <section className="ruleta" id="portafolio" aria-label="Mis proyectos" onKeyDown={teclear} style={{ '--n': N }}>
       <div className="ruleta-recorrido" ref={recorrido}>
         <div className="ruleta-escenario">
           <div className="contenedor ruleta-reja">
@@ -202,22 +212,12 @@ export function Ruleta() {
                   Ver el proyecto <span aria-hidden="true">→</span>
                 </a>
                 <div className="ruleta-mandos">
-                  <button
-                    type="button"
-                    onClick={() => mandos.current.paso?.(-1)}
-                    disabled={activa === 0}
-                    aria-label="Proyecto anterior"
-                  >
+                  <button type="button" onClick={() => mandos.current.paso?.(-1)} aria-label="Proyecto anterior">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M6 15l6-6 6 6" />
                     </svg>
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => mandos.current.paso?.(1)}
-                    disabled={activa === N - 1}
-                    aria-label="Proyecto siguiente"
-                  >
+                  <button type="button" onClick={() => mandos.current.paso?.(1)} aria-label="Proyecto siguiente">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M6 9l6 6 6-6" />
                     </svg>
@@ -227,9 +227,30 @@ export function Ruleta() {
             </article>
 
             <div className="ruleta-abanico" ref={abanico}>
+              {/* El eje: el círculo punteado con texto gira con la rueda, a la
+                  mitad de velocidad. */}
+              <svg className="ruleta-eje" viewBox="-60 -60 120 120" aria-hidden="true">
+                <defs>
+                  <path id="ruleta-eje-circulo" d="M 0,-46 a 46,46 0 1,1 -0.01,0" />
+                </defs>
+                <circle r="46" />
+                <text>
+                  <textPath href="#ruleta-eje-circulo">
+                    PORTAFOLIO · JUAN FELIPE · PORTAFOLIO · JUAN FELIPE ·
+                  </textPath>
+                </text>
+              </svg>
+
               <ul className="ruleta-cartas">
                 {proyectos.map((p, i) => (
-                  <li key={p.id} className={`ruleta-carta ${i === activa ? 'activa' : ''}`} style={{ '--i': i }}>
+                  <li
+                    key={p.id}
+                    className={`ruleta-carta ${i === activa ? 'activa' : ''}`}
+                    // De arriba abajo, cada carta va encima de la anterior. El
+                    // corte de la vuelta cae en el lado de atrás de la rueda,
+                    // detrás del panel, donde no se ve.
+                    style={{ '--i': i, zIndex: 20 + atajo(activa, i) }}
+                  >
                     <button
                       type="button"
                       onClick={() => {

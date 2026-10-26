@@ -361,18 +361,53 @@
   pointer-events: none;
 }
 
-/* El embed de Behance se declara a 404x316, pero con esa proporción exacta su
-   contenido pedía un pixel más de alto del que le quedaba, y ese pixel bastaba
-   para sacarle una barra de scroll interna. Medido abriendo el embed suelto a
-   varios tamaños: a 5/4 sobra espacio de cero y no aparece la barra, ni en las
-   portadas apaisadas ni en las verticales. De paso el panel queda un poco más
-   grande, que era la otra mitad de la peticion. */
-.visual-embed {
+/* Portada de un proyecto que vive fuera, como los de Behance: la imagen a
+   todo el panel y un botón crema abajo a la derecha. */
+.visual-portada {
+  position: relative;
   display: block;
-  width: 100%;
-  aspect-ratio: 5 / 4;
-  border: 0;
-  background: var(--superficie);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.visual-lienzo.con-medio .visual-portada img {
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.5s var(--curva);
+}
+
+.visual-portada-boton {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.7em 1.2em;
+  border-radius: 999px;
+  background: var(--texto);
+  color: var(--fondo);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-s);
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.7);
+  transition:
+    background-color 0.2s var(--curva),
+    scale var(--t-presion) var(--curva);
+}
+
+.visual-portada:active .visual-portada-boton {
+  scale: var(--presion);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visual-portada:hover img {
+    scale: 1.03;
+  }
+
+  .visual-portada:hover .visual-portada-boton {
+    background: var(--acento-2);
+  }
 }
 
 .visual-lienzo img {

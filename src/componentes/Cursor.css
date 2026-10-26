@@ -19,9 +19,12 @@
   will-change: transform;
 }
 
+/* Caja de tamaño cero: lo que el bucle mueve es un punto, y las dos piezas
+   de dentro se cuelgan de él. Centrarlas con place-items no vale: cuando el
+   hijo es más grande que su casilla —y aquí la casilla mide cero— el navegador
+   deja de centrar y lo pega a la esquina, que es lo que dejaba el anillo 32 px
+   abajo y a la derecha del cursor. Van colocadas a mano. */
 .cursor-anillo {
-  display: grid;
-  place-items: center;
   width: 0;
   height: 0;
   transition: opacity 0.25s;
@@ -63,7 +66,12 @@
 }
 
 .cursor-anillo-forma {
-  grid-area: 1 / 1;
+  position: absolute;
+  /* La mitad de 4rem hacia arriba y hacia la izquierda: así el centro del
+     círculo cae justo en la punta del cursor, y la escala —que crece desde el
+     centro— no lo mueve de ahí. */
+  top: -2rem;
+  left: -2rem;
   width: 4rem;
   height: 4rem;
   border: 1px solid rgba(0, 43, 91, 0.55);
@@ -101,7 +109,11 @@
 }
 
 .cursor-anillo span {
-  grid-area: 1 / 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* En porcentaje de la propia palabra, que mide distinto segun cual sea. */
+  translate: -50% -50%;
   font-family: var(--mono);
   font-size: var(--t-2xs);
   letter-spacing: 0.14em;

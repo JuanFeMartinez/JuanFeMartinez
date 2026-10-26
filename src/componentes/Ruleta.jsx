@@ -215,9 +215,15 @@ export function Ruleta() {
                   <path id="ruleta-circulo" d="M 0,-50 a 50,50 0 1,1 -0.01,0" />
                 </defs>
                 <circle r="50" />
-                <text>
+                {/* textLength estira el texto justo a la vuelta entera del
+                    círculo (2π·50 = 314.16) repartiendo el sobrante entre las
+                    letras. Sin eso, el texto medía lo que medía: o se quedaba
+                    corto y dejaba un hueco, o se pasaba y se montaba sobre su
+                    propio principio. Termina en separador para que la costura
+                    caiga entre dos frases y no se note. */}
+                <text textLength="313.6" lengthAdjust="spacing">
                   <textPath href="#ruleta-circulo">
-                    PORTAFOLIO · JUAN FELIPE · PORTAFOLIO · JUAN FELIPE · PORTAFOLIO · JUAN FELIPE ·
+                    {'PORTAFOLIO · JUAN FELIPE · '.repeat(3)}
                   </textPath>
                 </text>
               </svg>

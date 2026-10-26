@@ -186,9 +186,12 @@
 
 .ruleta-anillo text {
   font-family: var(--display);
-  font-weight: 500;
-  font-size: 5.4px;
-  letter-spacing: 0.005em;
+  font-weight: 600;
+  /* A este cuerpo el texto mide casi la vuelta entera por sí solo, así que
+     textLength apenas tiene que repartir: más pequeño, el reparto abría
+     huecos entre las letras de cada palabra. */
+  font-size: 6.4px;
+  letter-spacing: 0.1em;
   fill: var(--texto);
   fill-opacity: 0.4;
 }

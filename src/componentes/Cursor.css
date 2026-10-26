@@ -97,6 +97,40 @@
   --cursor-presion: 0.88;
 }
 
+/* El punto de la punta. Crema sobre cualquier cosa; se pone rojo y crece un
+   poco al pasar sobre algo que se puede tocar, que es la señal de "aquí se
+   puede hacer clic". Con la palabra se aparta, porque la palabra ocupa el
+   centro y el disco rojo ya dice lo mismo. Los cambios son de 120 ms: es el
+   acuse de recibo más pequeño del sitio y tiene que ser instantáneo. */
+.cursor-punto {
+  position: absolute;
+  top: -2.5px;
+  left: -2.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--texto);
+  box-shadow: 0 0 0 1px rgba(0, 26, 58, 0.55);
+  transition:
+    scale 0.12s var(--curva),
+    background-color 0.12s var(--curva),
+    opacity 0.12s;
+}
+
+.cursor-anillo.crecido .cursor-punto {
+  background: var(--acento);
+  scale: 1.3;
+}
+
+.cursor-anillo.con-texto .cursor-punto {
+  opacity: 0;
+  scale: 0.4;
+}
+
+.cursor-anillo.presionado .cursor-punto {
+  scale: 0.8;
+}
+
 /* Azul sobre el relleno rojo del anillo con palabra: 4.9:1, donde el crema
    se quedaba en 3:1. */
 .cursor-anillo span {

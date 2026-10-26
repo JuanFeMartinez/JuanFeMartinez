@@ -82,6 +82,10 @@ export function Cursor() {
   return (
     <div className="cursor-anillo" ref={anillo} aria-hidden="true">
       <div className="cursor-anillo-forma" />
+      {/* La punta exacta: el anillo dice "por aquí", el punto dice "aquí". Va
+          en el mismo contenedor que el anillo, así que se mueve con él, sin
+          retraso. */}
+      <i className="cursor-punto" />
       <span ref={etiqueta} />
     </div>
   )

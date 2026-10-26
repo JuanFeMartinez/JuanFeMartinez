@@ -23,8 +23,8 @@
   /* Largo de cada carta y distancia del eje a donde empiezan. Las dos miran
      también el alto de la pantalla: la carta que apunta arriba y la que
      apunta abajo tienen que caber, y eso es hueco + carta a cada lado. */
-  --carta: clamp(150px, min(20vw, 30svh), 270px);
-  --hueco: clamp(60px, min(7.5vw, 11svh), 100px);
+  --carta: clamp(150px, min(27vw, 33svh), 360px);
+  --hueco: clamp(60px, min(8vw, 11svh), 110px);
   --perilla: calc(var(--hueco) - 0.75rem);
 }
 
@@ -46,7 +46,10 @@
 
 .ruleta-reja {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  /* La rueda crece hasta donde lo deja el alto de la pantalla, no el ancho.
+     Con dos columnas iguales le sobraba ancho y quedaba una franja muerta a la
+     derecha: ese ancho se lo queda el panel. */
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
   height: 100%;
   max-height: 46rem;
 }
@@ -58,7 +61,10 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  /* Imagen y texto van en una fila que cede: con la imagen a alto fijo, en
+     una pantalla más ancha crecía y empujaba los botones fuera de la sección,
+     cortados por la mitad. */
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: clamp(0.75rem, 1.6vh, 1.25rem);
   min-width: 0;
   padding: clamp(1.25rem, 2.6vw, 2.25rem);
@@ -87,11 +93,24 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* La imagen es 16:9 como mucho —más alta, el recorte se comía los lados de
+   las portadas apaisadas— y se encoge si no hay sitio, recortando arriba y
+   abajo. Lo que sobra queda debajo del texto, no entre la imagen y su
+   título. */
+.ruleta-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.6vh, 1.25rem);
+  min-height: 0;
+}
+
 .ruleta-vista {
+  flex: 0 1 auto;
+  aspect-ratio: 16 / 9;
   margin: 0;
+  min-height: 7rem;
   overflow: hidden;
   border-radius: clamp(10px, 1.2vw, 16px);
-  aspect-ratio: 16 / 10;
   background: var(--fondo);
   animation: ruleta-entrar 0.4s var(--curva);
 }
@@ -103,7 +122,7 @@
 }
 
 .ruleta-ficha {
-  min-height: 0;
+  flex: none;
   animation: ruleta-entrar 0.4s var(--curva) 0.04s backwards;
 }
 
@@ -312,7 +331,7 @@
    la señalaba a ella. */
 .ruleta-indicador {
   position: absolute;
-  left: calc(var(--hueco) + var(--carta) + 1.25rem);
+  left: min(calc(var(--hueco) + var(--carta) + 1.25rem), calc(100% - 1rem));
   top: var(--pivote-y);
   width: 0;
   height: 0;

@@ -195,16 +195,18 @@ export function Ruleta() {
 
               {/* La clave rehace imagen y texto en cada cambio, que es lo que
                   vuelve a disparar el desvanecido de entrada. */}
-              <figure className="ruleta-vista" key={`vista-${elegido.id}`}>
-                <img src={conBase(elegido.portada)} alt={elegido.titulo} />
-              </figure>
+              <div className="ruleta-cuerpo">
+                <figure className="ruleta-vista" key={`vista-${elegido.id}`}>
+                  <img src={conBase(elegido.portada)} alt={elegido.titulo} />
+                </figure>
 
-              <div className="ruleta-ficha" key={`ficha-${elegido.id}`}>
-                <h2 className="ruleta-titulo titulo-cartel">{elegido.titulo}</h2>
-                <p className="ruleta-meta">
-                  {elegido.disciplina} · {elegido.anio}
-                </p>
-                <p className="ruleta-resumen">{elegido.resumen}</p>
+                <div className="ruleta-ficha" key={`ficha-${elegido.id}`}>
+                  <h2 className="ruleta-titulo titulo-cartel">{elegido.titulo}</h2>
+                  <p className="ruleta-meta">
+                    {elegido.disciplina} · {elegido.anio}
+                  </p>
+                  <p className="ruleta-resumen">{elegido.resumen}</p>
+                </div>
               </div>
 
               <div className="ruleta-pie">

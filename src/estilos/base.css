@@ -200,6 +200,15 @@ img {
   line-height: 0.9;
 }
 
+/* Six Caps baja mucho más que la Outfit por debajo de la línea: la cedilla
+   de CURAÇAO y la coma de "Tres reglas, sin excepciones" se salían de la
+   máscara de la animación de entrada y quedaban cortadas en seco. Solo se
+   amplía el relleno de abajo; los márgenes los sigue poniendo cada sección. */
+.titulo-cartel.mascara,
+.titulo-cartel .mascara {
+  padding-bottom: 0.48em;
+}
+
 /* Textos display chicos: sin algo de peso extra se pierden contra el fondo. */
 .proceso-lista h3,
 .marquesina-pista span {

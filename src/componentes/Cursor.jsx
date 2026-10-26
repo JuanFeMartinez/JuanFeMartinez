@@ -108,6 +108,7 @@ export function Cursor() {
   return (
     <div aria-hidden="true">
       <div className="cursor-anillo" ref={anillo}>
+        <div className="cursor-anillo-forma" />
         <span ref={etiqueta} />
       </div>
       <div className="cursor-punto" ref={punto} />

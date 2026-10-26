@@ -28,20 +28,49 @@
   border-top: 1px solid var(--linea);
 }
 
+/* La raya va en el li y no en el enlace: así el enlace puede moverse al pasar
+   el mouse sin arrastrar consigo la línea, y la retícula del índice se queda
+   quieta. */
+.proyectos-indice li {
+  border-bottom: 1px solid var(--linea);
+}
+
 .proyectos-indice a {
   display: grid;
   grid-template-columns: 3rem 1fr auto auto;
   align-items: center;
   gap: 1rem;
   padding-block: 1.1rem;
-  border-bottom: 1px solid var(--linea);
   color: var(--texto-suave);
-  transition: color 0.35s var(--curva), padding-left 0.45s var(--curva);
+  transition: color 0.2s var(--curva);
 }
 
-.proyectos-indice a:hover {
-  color: var(--texto);
-  padding-left: 1rem;
+/* Antes el desplazamiento se hacía con padding-left, que es maquetación: el
+   navegador tenía que recalcular la fila entera en cada fotograma, ocho filas
+   disponibles y una debajo del cursor en todo momento. Con transform el
+   trabajo lo hace la tarjeta gráfica y no se toca la maquetación.
+
+   Se mueven solo el número y el título, no la fila completa: el año y la
+   disciplina están pegados al borde derecho y empujarlos los sacaría del
+   margen de la página. */
+.proyectos-indice .indice-numero,
+.proyectos-indice .indice-titulo {
+  transition: transform 0.2s var(--curva);
+}
+
+.proyectos-indice a:active {
+  color: var(--acento-texto);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .proyectos-indice a:hover {
+    color: var(--texto);
+  }
+
+  .proyectos-indice a:hover .indice-numero,
+  .proyectos-indice a:hover .indice-titulo {
+    transform: translateX(0.75rem);
+  }
 }
 
 .indice-numero,
@@ -259,11 +288,24 @@
   padding-bottom: 0.35rem;
   border-bottom: 1px solid var(--acento);
   font-size: var(--t-s);
-  transition: gap 0.35s var(--curva);
+  /* El hueco entre el texto y la flecha era lo que se animaba, y gap es
+     maquetación: cada fotograma obligaba a recolocar la fila. Ahora se mueve
+     la flecha sola, que es lo que se veía de todas formas. */
+  transition: scale var(--t-presion) var(--curva);
 }
 
-.capitulo-enlace:hover {
-  gap: 0.9rem;
+.capitulo-enlace svg {
+  transition: transform 0.2s var(--curva);
+}
+
+.capitulo-enlace:active {
+  scale: var(--presion);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .capitulo-enlace:hover svg {
+    transform: translateX(0.4rem);
+  }
 }
 
 @media (max-width: 56rem) {

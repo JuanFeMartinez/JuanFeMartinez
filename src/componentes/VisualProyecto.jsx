@@ -1,5 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+
+// Lo que tarda el visor ampliado en irse. Vive aquí y no solo en el CSS porque
+// el componente tiene que saber cuándo desmontarlo: si los dos números se
+// separan, o se corta la animación a media salida o queda un hueco muerto.
+const SALIDA_VISOR = 180
 import './VisualProyecto.css'
 
 /**
@@ -162,8 +167,38 @@ function BarajaProyecto({ cartas, titulo }) {
   const [ampliada, setAmpliada] = useState(null)
   const [direccion, setDireccion] = useState(1)
   const [cargando, setCargando] = useState(false)
+  const [cerrando, setCerrando] = useState(false)
   const lupaRef = useRef(null)
   const previoFocoRef = useRef(null)
+  const relojCierre = useRef(0)
+  // El mismo dato que `cerrando`, pero en una ref: `cerrar` tiene que ser una
+  // función estable para poder entrar en las dependencias del efecto del
+  // teclado sin relanzarlo, y leer el estado desde dentro la volvería nueva en
+  // cada render.
+  const cerrandoRef = useRef(false)
+
+  /**
+   * El visor entraba con un acercamiento y se iba de golpe, como un corte de
+   * luz. Ahora se desvanece antes de desmontarse, y más rápido de lo que
+   * entró: al abrir uno está decidiendo si mirar, al cerrar ya decidió y lo
+   * que quiere es volver a donde estaba.
+   */
+  const cerrar = useCallback(() => {
+    if (cerrandoRef.current) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setAmpliada(null)
+      return
+    }
+    cerrandoRef.current = true
+    setCerrando(true)
+    relojCierre.current = setTimeout(() => {
+      cerrandoRef.current = false
+      setCerrando(false)
+      setAmpliada(null)
+    }, SALIDA_VISOR)
+  }, [])
+
+  useEffect(() => () => clearTimeout(relojCierre.current), [])
 
   const mover = (paso) => {
     setDireccion(paso)
@@ -172,6 +207,10 @@ function BarajaProyecto({ cartas, titulo }) {
   }
 
   const abrir = (i) => {
+    // Por si se vuelve a abrir mientras el anterior aún se está desvaneciendo.
+    clearTimeout(relojCierre.current)
+    cerrandoRef.current = false
+    setCerrando(false)
     setDireccion(1)
     setCargando(true)
     setAmpliada(i)
@@ -197,7 +236,7 @@ function BarajaProyecto({ cartas, titulo }) {
     // recrea en cada render, y como dependencia del efecto lo relanzaría sin
     // parar, quitando y poniendo el listener a cada rato.
     const alTeclear = (evento) => {
-      if (evento.key === 'Escape') setAmpliada(null)
+      if (evento.key === 'Escape') cerrar()
       if (evento.key === 'ArrowRight') setAmpliada((i) => (i + 1) % cartas.length)
       if (evento.key === 'ArrowLeft') setAmpliada((i) => (i - 1 + cartas.length) % cartas.length)
 
@@ -228,7 +267,7 @@ function BarajaProyecto({ cartas, titulo }) {
       document.body.style.overflow = desbordePrevio
       document.removeEventListener('keydown', alTeclear)
     }
-  }, [ampliada, cartas.length])
+  }, [ampliada, cartas.length, cerrar])
 
   // Foco al abrir y al cerrar, no en cada salto de imagen: por eso la
   // dependencia es un booleano y no `ampliada` directamente, que cambia con
@@ -268,13 +307,13 @@ function BarajaProyecto({ cartas, titulo }) {
           // referencia de todo lo que tenga position: fixed: el visor habría
           // quedado encerrado dentro del panel en vez de cubrir la pantalla.
           <div
-            className="lupa"
+            className={`lupa ${cerrando ? 'cerrando' : ''}`}
             ref={lupaRef}
             role="dialog"
             aria-modal="true"
             aria-label={`${titulo}, ampliada`}
           >
-            <button className="lupa-fondo" type="button" onClick={() => setAmpliada(null)}>
+            <button className="lupa-fondo" type="button" onClick={cerrar}>
               <span className="solo-lectores">Cerrar</span>
             </button>
 
@@ -308,7 +347,7 @@ function BarajaProyecto({ cartas, titulo }) {
               <span className="solo-lectores">Siguiente</span>
               <Icono nombre="siguiente" />
             </button>
-            <button className="lupa-boton lupa-cerrar" type="button" onClick={() => setAmpliada(null)}>
+            <button className="lupa-boton lupa-cerrar" type="button" onClick={cerrar}>
               <span className="solo-lectores">Cerrar</span>
               <Icono nombre="cerrar" />
             </button>

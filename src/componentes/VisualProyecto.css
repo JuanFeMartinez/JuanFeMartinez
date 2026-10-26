@@ -21,9 +21,11 @@
   transition: transform 0.6s var(--curva), border-color 0.6s var(--curva);
 }
 
-.capitulo:hover .visual {
-  transform: translateY(-6px);
-  border-color: rgba(249, 245, 235, 0.24);
+@media (hover: hover) and (pointer: fine) {
+  .capitulo:hover .visual {
+    transform: translateY(-6px);
+    border-color: rgba(249, 245, 235, 0.24);
+  }
 }
 
 .visual-barra {
@@ -113,11 +115,20 @@
   background-size: cover;
   background-position: center;
   opacity: 0.45;
-  transition: opacity 0.35s var(--curva), border-color 0.35s var(--curva);
+  transition:
+    opacity 0.18s var(--curva),
+    border-color 0.18s var(--curva),
+    scale var(--t-presion) var(--curva);
 }
 
-.visual-piezas button:hover {
-  opacity: 0.8;
+.visual-piezas button:active {
+  scale: 0.94;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visual-piezas button:hover {
+    opacity: 0.8;
+  }
 }
 
 .visual-piezas button.activa {
@@ -165,7 +176,10 @@
   border: 1px solid var(--linea);
   border-radius: 999px;
   opacity: 0;
-  transition: opacity 0.35s var(--curva), border-color 0.35s;
+  transition:
+    opacity 0.2s var(--curva),
+    border-color 0.2s,
+    scale var(--t-presion) var(--curva);
 }
 
 .capitulo:hover .visual-sonido,
@@ -173,8 +187,14 @@
   opacity: 1;
 }
 
-.visual-sonido:hover {
-  border-color: var(--acento);
+.visual-sonido:active {
+  scale: 0.94;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visual-sonido:hover {
+    border-color: var(--acento);
+  }
 }
 
 /* Sin hover (táctil) el botón no puede aparecer al pasar el mouse. */
@@ -245,14 +265,25 @@
   border: 0;
   background: none;
   border-radius: 8px;
-  transition: transform 0.4s var(--curva);
+  transition:
+    transform 0.2s var(--curva),
+    scale var(--t-presion) var(--curva);
 }
 
 /* Solo la carta de delante se levanta al pasar el mouse: las de atras estan
    tapadas y moverlas seria movimiento que nadie pidio. */
-.baraja-carta button:hover,
 .baraja-carta button:focus-visible {
   transform: translateY(-6px);
+}
+
+.baraja-carta button:active {
+  scale: var(--presion);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .baraja-carta button:hover {
+    transform: translateY(-6px);
+  }
 }
 
 .baraja-carta img {
@@ -283,10 +314,12 @@
   opacity: var(--avance);
 }
 
-.capitulo:hover .baraja {
-  --abanico: calc(10deg / var(--huecos));
-  --paso-x: calc(33% / var(--huecos));
-  --paso-y: calc(120% / var(--huecos));
+@media (hover: hover) and (pointer: fine) {
+  .capitulo:hover .baraja {
+    --abanico: calc(10deg / var(--huecos));
+    --paso-x: calc(33% / var(--huecos));
+    --paso-y: calc(120% / var(--huecos));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -447,8 +480,10 @@
   transition: transform 0.7s var(--curva);
 }
 
-.capitulo:hover .capas span {
-  transform: translate(calc(var(--n) * 16%), calc(var(--n) * -13%)) scale(calc(1 - var(--n) * 0.04));
+@media (hover: hover) and (pointer: fine) {
+  .capitulo:hover .capas span {
+    transform: translate(calc(var(--n) * 16%), calc(var(--n) * -13%)) scale(calc(1 - var(--n) * 0.04));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -533,17 +568,49 @@
   border: 1px solid rgba(249, 245, 235, 0.24);
   border-radius: 50%;
   backdrop-filter: blur(4px);
-  transition: background-color 0.3s, border-color 0.3s;
+  transition:
+    background-color 0.18s,
+    border-color 0.18s,
+    scale var(--t-presion) var(--curva);
 }
 
-.lupa-boton:hover {
-  background: var(--acento);
-  border-color: var(--acento);
+.lupa-boton:active {
+  scale: 0.92;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lupa-boton:hover {
+    background: var(--acento);
+    border-color: var(--acento);
+  }
 }
 
 .lupa-anterior { left: clamp(0.5rem, 2vw, 2rem); top: 50%; translate: 0 -50%; }
 .lupa-siguiente { right: clamp(0.5rem, 2vw, 2rem); top: 50%; translate: 0 -50%; }
 .lupa-cerrar { top: clamp(0.5rem, 2vw, 2rem); right: clamp(0.5rem, 2vw, 2rem); }
+
+/* La salida. Dura 180 ms contra los 400 de la entrada: al abrir uno está
+   decidiendo si mirar y el acercamiento acompaña esa decisión; al cerrar ya
+   decidió, y lo único que queda por hacer es quitarse de en medio.
+
+   Estas dos reglas ganan a las animaciones de entrada por especificidad, que
+   es lo que hace que el visor se vaya desde donde esté en ese momento en vez
+   de volver al principio. */
+.lupa.cerrando {
+  animation: desvanecer 0.18s var(--curva-suave) forwards;
+}
+
+.lupa.cerrando .lupa-marco {
+  animation: alejar 0.18s var(--curva-suave) forwards;
+}
+
+@keyframes desvanecer {
+  to { opacity: 0; }
+}
+
+@keyframes alejar {
+  to { transform: scale(0.97); opacity: 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .lupa,
@@ -620,13 +687,26 @@
   background: transparent;
   border: 1px solid var(--linea);
   border-radius: 999px;
-  transition: border-color 0.35s, color 0.35s;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    scale var(--t-presion) var(--curva);
 }
 
-.visual-fallo button:hover,
 .visual-fallo button:focus-visible {
   border-color: var(--acento);
   color: var(--acento-texto);
+}
+
+.visual-fallo button:active {
+  scale: var(--presion);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visual-fallo button:hover {
+    border-color: var(--acento);
+    color: var(--acento-texto);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -695,8 +775,8 @@
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   font-size: 1.5rem;
   line-height: 1;
   color: var(--texto);
@@ -708,9 +788,14 @@
      que hay que descubrir no lo usa nadie. El hover solo las resalta. */
   opacity: 0.55;
   transition:
-    opacity 0.35s var(--curva),
-    background-color 0.3s,
-    border-color 0.3s;
+    opacity 0.18s var(--curva),
+    background-color 0.18s,
+    border-color 0.18s,
+    scale var(--t-presion) var(--curva);
+}
+
+.visual-flecha:active {
+  scale: 0.92;
 }
 
 .visual-flecha-anterior { left: 0.6rem; }
@@ -722,9 +807,11 @@
   opacity: 1;
 }
 
-.visual-flecha:hover {
-  background: var(--acento);
-  border-color: var(--acento);
+@media (hover: hover) and (pointer: fine) {
+  .visual-flecha:hover {
+    background: var(--acento);
+    border-color: var(--acento);
+  }
 }
 
 @media (hover: none) {

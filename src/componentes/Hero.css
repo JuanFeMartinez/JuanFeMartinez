@@ -264,7 +264,14 @@
   white-space: nowrap;
   position: relative;
   overflow: hidden;
-  transition: color 0.4s var(--curva), border-color 0.4s var(--curva);
+  transition:
+    color 0.2s var(--curva),
+    border-color 0.2s var(--curva),
+    scale var(--t-presion) var(--curva);
+}
+
+.hero-cta:active {
+  scale: var(--presion);
 }
 
 .hero-cta::before {
@@ -273,25 +280,30 @@
   inset: 0;
   background: var(--texto);
   transform: translateY(101%);
-  transition: transform 0.5s var(--curva);
+  transition: transform 0.3s var(--curva);
   z-index: -1;
 }
 
-.hero-cta:hover {
-  color: var(--fondo);
-  border-color: var(--texto);
-}
-
-.hero-cta:hover::before {
-  transform: none;
-}
-
 .hero-cta svg {
-  transition: transform 0.4s var(--curva);
+  transition: transform 0.2s var(--curva);
 }
 
-.hero-cta:hover svg {
-  transform: translateX(4px);
+/* El relleno que sube y la flecha que avanza solo tienen sentido con un mouse
+   de verdad. En táctil, el :hover se queda pegado tras el toque y el botón se
+   quedaría relleno para siempre. */
+@media (hover: hover) and (pointer: fine) {
+  .hero-cta:hover {
+    color: var(--fondo);
+    border-color: var(--texto);
+  }
+
+  .hero-cta:hover::before {
+    transform: none;
+  }
+
+  .hero-cta:hover svg {
+    transform: translateX(4px);
+  }
 }
 
 @media (max-width: 48rem) {

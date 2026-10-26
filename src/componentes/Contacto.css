@@ -19,11 +19,22 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  /* Aquí no se transiciona transform: lo escribe el imán en cada fotograma y
+     ya viene suavizado desde JavaScript. Ponerle encima una transición de
+     medio segundo sería amortiguar dos veces lo mismo, y el botón se quedaría
+     arrastrándose detrás del cursor.
+
+     El apretón va en la propiedad scale y no dentro de transform justamente
+     por eso: así las dos cosas conviven sin pisarse. */
   transition:
-    transform 0.5s var(--curva),
-    color 0.45s var(--curva),
-    border-color 0.45s var(--curva);
+    scale var(--t-presion) var(--curva),
+    color 0.2s var(--curva),
+    border-color 0.2s var(--curva);
   word-break: break-word;
+}
+
+.contacto-boton:active {
+  scale: var(--presion);
 }
 
 .contacto-boton::before {
@@ -33,15 +44,20 @@
   z-index: -1;
   background: var(--acento);
   transform: translateY(101%);
-  transition: transform 0.55s var(--curva);
+  transition: transform 0.3s var(--curva);
 }
 
-.contacto-boton:hover {
-  border-color: var(--acento);
-}
+/* Detrás de la guarda de hover: en una pantalla táctil el :hover se queda
+   pegado después de tocar, y el botón se quedaría relleno de rojo para
+   siempre, como si estuviera activado. */
+@media (hover: hover) and (pointer: fine) {
+  .contacto-boton:hover {
+    border-color: var(--acento);
+  }
 
-.contacto-boton:hover::before {
-  transform: none;
+  .contacto-boton:hover::before {
+    transform: none;
+  }
 }
 
 .contacto-redes {
@@ -61,12 +77,18 @@
   color: var(--texto-suave);
   padding-bottom: 0.3rem;
   border-bottom: 1px solid transparent;
-  transition: color 0.35s, border-color 0.35s;
+  transition: color 0.2s, border-color 0.2s;
 }
 
-.contacto-redes a:hover {
-  color: var(--texto);
-  border-bottom-color: var(--acento);
+.contacto-redes a:active {
+  color: var(--acento-texto);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contacto-redes a:hover {
+    color: var(--texto);
+    border-bottom-color: var(--acento);
+  }
 }
 
 .pie {

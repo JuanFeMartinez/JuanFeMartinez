@@ -1,3 +1,13 @@
+/* El anillo va en dos piezas a propósito. La de fuera solo lleva la posición,
+   que la escribe el bucle de JavaScript en cada fotograma; la de dentro lleva
+   el aspecto, que lo cambia el CSS al pasar sobre algo. Si fueran el mismo
+   elemento se pelearían por la propiedad transform, y la única salida sería
+   animar el ancho y el alto: dos propiedades de maquetación, recalculadas en
+   cada fotograma, en el elemento que más veces cambia de estado de la página.
+
+   Las dos crías van en la misma celda de la reja, así que quedan centradas en
+   el punto del cursor sin márgenes negativos, y la palabra no se estira cuando
+   el anillo crece: solo escala el círculo. */
 .cursor-anillo,
 .cursor-punto {
   position: fixed;
@@ -7,6 +17,14 @@
   pointer-events: none;
   opacity: 0;
   will-change: transform;
+}
+
+.cursor-anillo {
+  display: grid;
+  place-items: center;
+  width: 0;
+  height: 0;
+  transition: opacity 0.25s;
 }
 
 .cursor-anillo.dentro,
@@ -20,54 +38,77 @@
   margin: -3px 0 0 -3px;
   border-radius: 50%;
   background: var(--acento);
-  transition: opacity 0.3s;
+  transition: opacity 0.25s;
 }
 
-.cursor-anillo {
-  width: 2.5rem;
-  height: 2.5rem;
-  margin: -1.25rem 0 0 -1.25rem;
-  border: 1px solid rgba(0, 43, 91, 0.55);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  transition:
-    width 0.4s var(--curva),
-    height 0.4s var(--curva),
-    margin 0.4s var(--curva),
-    background-color 0.4s var(--curva),
-    border-color 0.4s var(--curva),
-    opacity 0.3s;
+/* Dos escalas separadas: --s la marca el estado (normal, crecido, con palabra)
+   y --p la marca el dedo apretando. Separadas se pueden combinar sin tener que
+   escribir a mano el valor de cada cruce.
+
+   El @property no es decoración: una variable sin declarar es sólo texto para
+   el navegador, y una transición sobre algo calculado a partir de ella salta
+   de un valor a otro sin pasar por el medio. Declararlas como números las hace
+   animables, y entonces lo que se transiciona son las variables, no la escala
+   que sale de ellas. */
+@property --s {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.625;
 }
 
-.cursor-anillo.crecido {
+@property --p {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+.cursor-anillo-forma {
+  grid-area: 1 / 1;
   width: 4rem;
   height: 4rem;
-  margin: -2rem 0 0 -2rem;
+  border: 1px solid rgba(0, 43, 91, 0.55);
+  border-radius: 50%;
+  --s: 0.625;
+  --p: 1;
+  scale: calc(var(--s) * var(--p));
+  /* 0.18s y no 0.4s: el cursor es el elemento que más responde de la página,
+     y un acuse de recibo que tarda casi medio segundo deja de leerse como
+     respuesta. */
+  transition:
+    --s 0.18s var(--curva),
+    --p 0.12s var(--curva),
+    background-color 0.18s var(--curva),
+    border-color 0.18s var(--curva);
+}
+
+.cursor-anillo.crecido .cursor-anillo-forma {
+  --s: 1;
   border-color: transparent;
   background: rgba(0, 43, 91, 0.1);
   backdrop-filter: blur(2px);
 }
 
-.cursor-anillo.con-texto {
-  width: 5.5rem;
-  height: 5.5rem;
-  margin: -2.75rem 0 0 -2.75rem;
+.cursor-anillo.con-texto .cursor-anillo-forma {
+  --s: 1.375;
   background: var(--acento);
 }
 
-.cursor-anillo.presionado {
-  transform-origin: center;
-  border-color: var(--acento);
+/* Antes este estado solo cambiaba el color del borde, que sobre el relleno
+   rojo del anillo con palabra no se ve. Ahora el anillo cede al pulsar, que es
+   lo que hace que el clic se sienta registrado. */
+.cursor-anillo.presionado .cursor-anillo-forma {
+  --p: 0.88;
 }
 
 .cursor-anillo span {
+  grid-area: 1 / 1;
   font-family: var(--mono);
   font-size: var(--t-2xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.25s;
+  transition: opacity 0.18s;
 }
 
 .cursor-anillo.con-texto span {

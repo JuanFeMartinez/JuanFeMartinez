@@ -21,11 +21,13 @@
   box-shadow: 0 0 0 1px var(--linea);
   background: var(--superficie);
   padding: clamp(1.75rem, 3vw, 2.5rem);
-  transition: background-color 0.5s var(--curva);
+  transition: background-color 0.25s var(--curva);
 }
 
-.proceso-lista li:hover {
-  background: var(--superficie-2);
+@media (hover: hover) and (pointer: fine) {
+  .proceso-lista li:hover {
+    background: var(--superficie-2);
+  }
 }
 
 .proceso-numero {

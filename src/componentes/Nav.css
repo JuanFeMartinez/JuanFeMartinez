@@ -40,7 +40,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  transition: padding 0.5s var(--curva-suave);
+  /* Esta sí anima maquetación, y es la única del sitio que lo hace. Se queda:
+     la barra tiene dos hijos, el cambio son seis píxeles de alto y sólo ocurre
+     al cruzar el centinela, no en cada fotograma de un hover. Hacerlo con
+     transform deformaría el texto. */
+  transition: padding 0.35s var(--curva-suave);
 }
 
 .nav.compacto .nav-interior {
@@ -84,7 +88,7 @@
 .nav-lista a {
   position: relative;
   color: var(--texto-suave);
-  transition: color 0.3s;
+  transition: color 0.2s;
 }
 
 .nav-lista a::after {
@@ -97,21 +101,44 @@
   background: var(--acento);
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.45s var(--curva);
+  transition: transform 0.25s var(--curva);
 }
 
-.nav-lista a:hover {
-  color: var(--texto);
+.nav-lista a:active {
+  color: var(--acento-texto);
 }
 
-.nav-lista a:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+@media (hover: hover) and (pointer: fine) {
+  .nav-lista a:hover {
+    color: var(--texto);
+  }
+
+  .nav-lista a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 }
 
 @media (max-width: 34rem) {
-  .nav-lista li:not(:last-child) {
+  /* Antes aquí se escondía todo menos el último enlace, y en un teléfono la
+     barra se quedaba con "Contacto" y nada más: las dos secciones que de
+     verdad se van a buscar —el trabajo y el proceso— no tenían forma de
+     alcanzarse salvo deslizando a ciegas.
+
+     No caben las tres con el nombre completo delante, así que se cede la del
+     medio, que es la que menos se busca, y se aprieta el resto hasta que las
+     otras dos entran. */
+  .nav-lista li:nth-child(2) {
     display: none;
+  }
+
+  .nav-lista {
+    font-size: var(--t-xs);
+    gap: 0.625rem;
+  }
+
+  .nav-interior {
+    gap: 0.5rem;
   }
 
   /* El nombre completo con este espaciado no cabe y partía en dos líneas,
@@ -119,7 +146,15 @@
      importa más que el espaciado. */
   .nav-nombre {
     font-size: var(--t-2xs);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.055em;
     white-space: nowrap;
+  }
+}
+
+/* Por debajo de esto ya no entra ni el nombre con dos enlaces. Se queda el
+   contacto, que es el único destino al que no se llega simplemente bajando. */
+@media (max-width: 21.5rem) {
+  .nav-lista li:not(:last-child) {
+    display: none;
   }
 }

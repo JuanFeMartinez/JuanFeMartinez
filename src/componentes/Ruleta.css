@@ -11,14 +11,16 @@
   --giro: 0deg;
 }
 
+/* Una pantalla y nada más: antes la sección medía dos pantallas y media y
+   se quedaba clavada mientras la rueda daba la vuelta, así que el scroll se
+   sentía secuestrado. Ahora se pasa de largo, y la rueda se recorre
+   tocándola. */
 .ruleta-recorrido {
   position: relative;
-  height: 260vh;
 }
 
 .ruleta-escenario {
-  position: sticky;
-  top: 0;
+  position: relative;
   min-height: 100svh;
   display: grid;
   grid-template-rows: 1fr;
@@ -85,6 +87,7 @@
 /* El escalado va en la cara y no en la carta: la carta ya tiene un transform
    que la coloca en el círculo, y escalarla a ella movería también su sitio. */
 .ruleta-cara {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
@@ -118,6 +121,28 @@
 
 .ruleta-carta.activa .ruleta-cara img {
   filter: none;
+}
+
+/* Detrás, la imagen a sangre y desenfocada; delante, entera. Se amplía un
+   poco el fondo para que el desenfoque no deje un borde claro en las
+   orillas. */
+.ruleta-cara .ruleta-fondo,
+.ruleta-cara .ruleta-foto {
+  position: absolute;
+  inset: 0;
+}
+
+.ruleta-cara .ruleta-fondo {
+  scale: 1.25;
+  filter: blur(14px) grayscale(1) brightness(0.45);
+}
+
+.ruleta-carta.activa .ruleta-cara .ruleta-fondo {
+  filter: blur(14px) brightness(0.55);
+}
+
+.ruleta-cara .ruleta-foto {
+  object-fit: contain;
 }
 
 .ruleta-cara.roja {
@@ -229,6 +254,14 @@
   line-height: 0.9;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+
+.ruleta-pista {
+  margin-top: 0.15rem;
+  font-family: var(--display);
+  font-size: var(--t-xs);
+  color: var(--texto-suave);
+  opacity: 0.75;
 }
 
 .ruleta-que {

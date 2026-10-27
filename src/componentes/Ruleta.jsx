@@ -85,12 +85,16 @@ export function Ruleta() {
       arrancar()
     }
 
-    // Recorrer la sección de punta a punta da una vuelta casi entera.
+    // El scroll ya no recorre la rueda entera: la página no se queda clavada
+    // aquí. Mientras la sección cruza la pantalla, la rueda gira dos cartas,
+    // lo justo para que se note que se mueve; para verla entera está la
+    // propia rueda, que se arrastra. p va de 0 (asoma por abajo) a 1 (se va
+    // por arriba), y el giro queda en cero con la sección centrada.
     const alScroll = () => {
       const r = el.getBoundingClientRect()
-      const total = r.height - window.innerHeight
-      const p = total > 0 ? Math.min(Math.max(-r.top / total, 0), 1) : 0
-      s.base = -p * PASO * (N - 1)
+      const alto = window.innerHeight
+      const p = Math.min(Math.max((alto - r.top) / (alto + r.height), 0), 1)
+      s.base = -(p - 0.5) * 2 * PASO
       arrancar()
     }
 
@@ -152,6 +156,19 @@ export function Ruleta() {
 
     mandos.current.movido = () => s.movido
 
+    // Deslizar de lado en el trackpad gira la rueda. Solo de lado: si el gesto
+    // es vertical se deja pasar entero, y la página sigue bajando sin
+    // tropezar con la rueda.
+    const deslizar = (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return
+      e.preventDefault()
+      s.desfase -= (e.deltaX / ancho()) * PASO
+      arrancar()
+      clearTimeout(reloj)
+      reloj = setTimeout(acomodar, 160)
+    }
+    caja.addEventListener('wheel', deslizar, { passive: false })
+
     caja.addEventListener('pointerdown', bajar)
     window.addEventListener('pointermove', mover)
     window.addEventListener('pointerup', soltar)
@@ -168,6 +185,7 @@ export function Ruleta() {
       s.cuadro = 0
       clearTimeout(reloj)
       caja.removeEventListener('pointerdown', bajar)
+      caja.removeEventListener('wheel', deslizar)
       window.removeEventListener('pointermove', mover)
       window.removeEventListener('pointerup', soltar)
       window.removeEventListener('pointercancel', soltar)
@@ -240,7 +258,12 @@ export function Ruleta() {
                     >
                       {c.tipo === 'imagen' && (
                         <span className="ruleta-cara">
-                          <img src={conBase(c.imagen)} alt="" loading="lazy" draggable="false" />
+                          {/* La misma imagen dos veces: detrás, desenfocada y
+                              a sangre, rellena la carta; delante va entera.
+                              Recortada a lo alto, las portadas apaisadas
+                              perdían su título por los lados. */}
+                          <img className="ruleta-fondo" src={conBase(c.imagen)} alt="" loading="lazy" draggable="false" />
+                          <img className="ruleta-foto" src={conBase(c.imagen)} alt="" loading="lazy" draggable="false" />
                         </span>
                       )}
                       {c.tipo === 'yo' && (
@@ -277,6 +300,7 @@ export function Ruleta() {
                     </svg>
                   </button>
                 </div>
+                <span className="ruleta-pista">Arrastra o desliza la rueda para ver más</span>
               </div>
             </div>
           </div>

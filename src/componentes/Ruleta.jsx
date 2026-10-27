@@ -13,6 +13,7 @@ const CARTAS = [
   ...proyectos.map((p) => ({
     tipo: 'imagen',
     imagen: p.portada,
+    tarjeta: p.tarjeta,
     titulo: p.titulo,
     que: `${p.disciplina} · ${p.anio}`,
     destino: `#${p.id}`,
@@ -256,7 +257,13 @@ export function Ruleta() {
                       data-cursor={i === activa ? 'Ver' : 'Girar'}
                       aria-label={c.titulo}
                     >
-                      {c.tipo === 'imagen' && (
+                      {c.tipo === 'imagen' && c.tarjeta && (
+                        // Diseñada a la medida de la carta: va tal cual.
+                        <span className="ruleta-cara">
+                          <img src={conBase(c.tarjeta)} alt="" loading="lazy" draggable="false" />
+                        </span>
+                      )}
+                      {c.tipo === 'imagen' && !c.tarjeta && (
                         <span className="ruleta-cara">
                           {/* La misma imagen dos veces: detrás, desenfocada y
                               a sangre, rellena la carta; delante va entera.

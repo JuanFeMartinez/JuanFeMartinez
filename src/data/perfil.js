@@ -72,6 +72,10 @@ export const manifiesto =
 // la rueda de proyectos y la que asoma al pasar el mouse por el índice. Las
 // de Behance están bajadas de cada proyecto a /img/behance/.
 //
+// `tarjeta` es la imagen diseñada para la carta de la rueda: 900x1200, 3:4
+// vertical, que es la forma exacta de la carta. Si un proyecto no la tiene,
+// la rueda usa la portada entera sobre un fondo desenfocado de sí misma.
+//
 // Si un proyecto no tiene nada de la lista pero sí `portada` y `enlace`, su
 // panel enseña la portada con un botón que abre el enlace: así se ven los de
 // Behance.
@@ -142,6 +146,7 @@ export const proyectos = [
   {
     id: 'baskiat',
     portada: '/img/behance/baskiat.jpg',
+    tarjeta: '/img/tarjetas/baskiat.jpg',
     titulo: 'BASKIAT',
     subtitulo: 'Diseño de personaje',
     disciplina: 'Videojuegos y personajes',
@@ -163,6 +168,7 @@ export const proyectos = [
   {
     id: 'casa-corallo',
     portada: '/img/behance/corallo.jpg',
+    tarjeta: '/img/tarjetas/casa-corallo.jpg',
     titulo: 'La Casa Corallo',
     subtitulo: 'Cómic · K.O Media',
     disciplina: 'Videojuegos y personajes',
@@ -185,6 +191,7 @@ export const proyectos = [
   {
     id: 'luckydip',
     portada: '/img/behance/lucky.jpg',
+    tarjeta: '/img/tarjetas/luckydip.jpg',
     titulo: 'Lucky Dip',
     subtitulo: 'Videojuego · K.O Media',
     disciplina: 'Videojuegos y personajes',
@@ -206,6 +213,7 @@ export const proyectos = [
   {
     id: 'find-fih',
     portada: '/img/behance/findfih.jpg',
+    tarjeta: '/img/tarjetas/find-fih.jpg',
     titulo: 'FIND FIH',
     subtitulo: 'Game jam',
     disciplina: 'Videojuegos y personajes',
@@ -227,6 +235,7 @@ export const proyectos = [
   {
     id: 'ko-media',
     portada: '/img/behance/komedia.jpg',
+    tarjeta: '/img/tarjetas/ko-media.jpg',
     titulo: 'K.O Media',
     subtitulo: 'Sitio web del estudio',
     disciplina: 'UX y UI',
@@ -248,6 +257,7 @@ export const proyectos = [
   {
     id: 'curacao-sitio',
     portada: '/img/curacao/home.jpg',
+    tarjeta: '/img/tarjetas/curacao-sitio.jpg',
     titulo: 'La Curaçao',
     subtitulo: 'Sitio corporativo',
     disciplina: 'UX y UI',
@@ -283,6 +293,7 @@ export const proyectos = [
   {
     id: 'dr-fabricio',
     portada: '/img/fabricio/portada.jpg',
+    tarjeta: '/img/tarjetas/dr-fabricio.jpg',
     titulo: 'Dr. Fabricio Martínez',
     subtitulo: 'Sitio de medicina alternativa',
     disciplina: 'UX y UI',

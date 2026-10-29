@@ -8,7 +8,6 @@
      con todo el alto y las cartas pueden ser más grandes. */
   --carta: clamp(110px, min(18vw, 27svh), 300px);
   --radio: calc(var(--carta) * 1.75);
-  --giro: 0deg;
 }
 
 /* Una pantalla y nada más: antes la sección medía dos pantallas y media y
@@ -57,7 +56,10 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  rotate: var(--giro);
+  /* Capa propia en la tarjeta gráfica: las cartas, con sus filtros de blanco
+     y negro, se pintan una vez y después solo se giran. Sin esto el
+     navegador podía volver a pintarlas en cada fotograma del giro. */
+  will-change: rotate;
 }
 
 .ruleta-carta {
@@ -196,7 +198,7 @@
   top: calc(var(--radio) * -0.62);
   width: calc(var(--radio) * 1.24);
   height: calc(var(--radio) * 1.24);
-  rotate: calc(var(--giro) * -0.5);
+  will-change: rotate;
   overflow: visible;
   pointer-events: none;
 }
@@ -339,6 +341,15 @@
     bottom: 10.5rem;
   }
 
+}
+
+/* En pantallas táctiles, sin el fondo desenfocado de las cartas que no
+   tienen tarjeta: el desenfoque es de lo más caro que se le puede pedir a un
+   celular modesto, y a ese tamaño casi no se nota que falta. */
+@media (hover: none) {
+  .ruleta-cara .ruleta-fondo {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

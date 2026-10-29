@@ -6,7 +6,7 @@ export function Marquesina() {
   const tanda = [...capacidades, ...capacidades]
 
   return (
-    <div className="marquesina" aria-hidden="true">
+    <div className="marquesina" data-progreso aria-hidden="true">
       <div className="marquesina-pista">
         {tanda.map((capacidad, i) => (
           <span key={`${capacidad}-${i}`}>

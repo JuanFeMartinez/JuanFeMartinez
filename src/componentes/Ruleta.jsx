@@ -30,8 +30,8 @@ const PASO = 360 / N
  * sola en la carta más cercana. La carta de arriba es la activa: a color y
  * un poco más grande; las demás esperan en blanco y negro, como en Noche.
  *
- * El giro se pinta en CSS con --giro; React solo se entera de qué carta está
- * arriba, que cambia pocas veces, y no de cada grado del giro.
+ * El giro se escribe directo en la rueda y el anillo; React solo se entera de
+ * qué carta está arriba, que cambia pocas veces, y no de cada grado del giro.
  */
 export function Ruleta() {
   const recorrido = useRef(null)
@@ -55,8 +55,15 @@ export function Ruleta() {
 
     const objetivo = () => s.base + s.desfase
 
+    // El giro se escribe directo en las dos piezas que giran. Puesto como
+    // variable en el contenedor, cada fotograma obligaba a recalcular el
+    // estilo de las once cartas con sus imágenes, aunque solo cambiara el
+    // ángulo de dos elementos.
+    const rueda = el.querySelector('.ruleta-rueda')
+    const anillo = el.querySelector('.ruleta-anillo')
     const pintar = () => {
-      el.style.setProperty('--giro', `${s.giro.toFixed(2)}deg`)
+      if (rueda) rueda.style.rotate = `${s.giro.toFixed(2)}deg`
+      if (anillo) anillo.style.rotate = `${(s.giro * -0.5).toFixed(2)}deg`
       const arriba = ((Math.round(-s.giro / PASO) % N) + N) % N
       setActiva((antes) => (antes === arriba ? antes : arriba))
     }

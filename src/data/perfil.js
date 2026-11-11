@@ -322,6 +322,41 @@ export const proyectos = [
     paleta: ['#2b2140', '#c084fc', '#f9f5eb'],
     forma: 'columnas',
   },
+  {
+    id: 'recorrido-udb',
+    portada: '/img/recorrido/aerea.jpg',
+    titulo: 'Recorrido UdB 360°',
+    subtitulo: 'Trabajo de grado · Universidad de Boyacá',
+    disciplina: 'UX y UI',
+    anio: '2026',
+    rol: 'Coautor · diseño y desarrollo', // ←
+    resumen:
+      'Quien llega por primera vez a una universidad no sabe dónde queda nada. Mi trabajo de grado, hecho con Nicolás Bonilla, es un recorrido en 360° del campus de la Universidad de Boyacá: 52 espacios que se recorren desde el navegador del celular, sin instalar nada, para conocer el campus antes de pisarlo.',
+    detalles: [
+      '66 panorámicas tomadas con un dron DJI Mini 5 Pro, también en interiores: volando bajo y quieto, a la altura de los ojos de quien camina.',
+      'Tres formas de moverse: botones hacia los espacios vecinos, un punto por edificio en la vista aérea y un menú con todos los lugares.',
+      'Fichas con servicios y horarios, y un guía con 24 preguntas ya escritas. El contenido vive en un catálogo aparte: la universidad corrige un horario sin tocar el programa.',
+      'Hecho para el celular, que es donde lo iba a usar nueve de cada diez encuestados: cada panorámica se descarga solo cuando hace falta, y las vecinas se adelantan.',
+      'Probado con estudiantes de primer semestre: 75,5 puntos en la escala de usabilidad SUS con 15 participantes, por encima de la referencia de 68.',
+    ],
+    stack: ['Unity', 'C#', 'WebGL', 'Dron DJI Mini 5 Pro', 'Apps Script'],
+    metricas: [
+      { valor: '52', etiqueta: 'espacios' },
+      { valor: '75,5', etiqueta: 'puntaje SUS' },
+    ],
+    enlace: 'https://nicolasbonilla03.github.io/RecorridovirtualWeb/',
+    // Capturas del recorrido publicado. La primera es la que queda al frente.
+    baraja: [
+      { src: '/img/recorrido/aerea.jpg', titulo: 'Vista aérea de inicio' },
+      { src: '/img/recorrido/espacio.jpg', titulo: 'Dentro de un espacio' },
+      { src: '/img/recorrido/ficha.jpg', titulo: 'Ficha de información' },
+      { src: '/img/recorrido/guia.jpg', titulo: 'Guía virtual' },
+      { src: '/img/recorrido/menu.jpg', titulo: 'Menú de lugares' },
+    ],
+    imagen: null,
+    paleta: ['#2a1416', '#d63a2f', '#f9f5eb'],
+    forma: 'reticula',
+  },
 ]
 
 // Marquesina inferior: se mueve sola y acelera con el scroll.
@@ -341,6 +376,7 @@ export const capacidades = [
   'IA en el flujo de trabajo',
   'Automatización de procesos',
   'Three.js',
+  'Unity',
   'Diseño web',
 ]
 

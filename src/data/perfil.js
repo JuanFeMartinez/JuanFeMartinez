@@ -325,6 +325,7 @@ export const proyectos = [
   {
     id: 'recorrido-udb',
     portada: '/img/recorrido/aerea.jpg',
+    tarjeta: '/img/tarjetas/recorrido-udb.jpg',
     titulo: 'Recorrido UdB 360°',
     subtitulo: 'Trabajo de grado · Universidad de Boyacá',
     disciplina: 'UX y UI',
